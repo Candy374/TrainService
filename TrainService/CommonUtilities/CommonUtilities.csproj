@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6A4353DA-2B3C-493C-A371-D492D591F16E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CommonUtilities</RootNamespace>
+    <AssemblyName>CommonUtilities</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>$(SolutionDir)\Nebula.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="StackExchange.Redis, Version=1.0.316.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\ResourceManagement\packages\StackExchange.Redis.1.0.481\lib\net45\StackExchange.Redis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActivityAttribute.cs" />
+    <Compile Include="AppConfigHelper.cs" />
+    <Compile Include="ConvertExtentions.cs" />
+    <Compile Include="DirectoryHelper.cs" />
+    <Compile Include="EncryptHelper.cs" />
+    <Compile Include="EventArgExtensions.cs" />
+    <Compile Include="Exception.cs" />
+    <Compile Include="IDictionaryExtentions.cs" />
+    <Compile Include="IEnumerableExtentions.cs" />
+    <Compile Include="IOHelper.cs" />
+    <Compile Include="JunctionPoint.cs" />
+    <Compile Include="NavigateMethods.cs" />
+    <Compile Include="NetworkHelper.cs" />
+    <Compile Include="NumberHelper.cs" />
+    <Compile Include="PerformanceCounterHelper.cs" />
+    <Compile Include="PerformanceRelated\CounterBase.cs" />
+    <Compile Include="PerformanceRelated\CPU\CpuCounter.cs" />
+    <Compile Include="PerformanceRelated\Disk\DiskCounter.cs" />
+    <Compile Include="PerformanceRelated\Disk\VolumeCounter.cs" />
+    <Compile Include="PerformanceRelated\Disk\DiskSmartInfo.cs" />
+    <Compile Include="PerformanceRelated\Disk\SmartInfo.cs" />
+    <Compile Include="PerformanceRelated\Network\NicCounter.cs" />
+    <Compile Include="PerformanceRelated\RAM\RamCounter.cs" />
+    <Compile Include="ProcessHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\ListType.cs" />
+    <Compile Include="Reflection\ReflectionHelper.cs" />
+    <Compile Include="EmailHelper.cs" />
+    <Compile Include="RegistryHelper.cs" />
+    <Compile Include="SerializationHelper.cs" />
+    <Compile Include="ServicesHelper.cs" />
+    <Compile Include="StringHelper.cs" />
+    <Compile Include="TestDataHelper.cs" />
+    <Compile Include="VisualStudioHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainService", "TrainServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainService.Tests", "TrainService.Tests\TrainService.Tests.csproj", "{E9413693-47E9-4877-845F-549B1A3C3C20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonUtilities", "CommonUtilities\CommonUtilities.csproj", "{6A4353DA-2B3C-493C-A371-D492D591F16E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{E9413693-47E9-4877-845F-549B1A3C3C20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9413693-47E9-4877-845F-549B1A3C3C20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9413693-47E9-4877-845F-549B1A3C3C20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A4353DA-2B3C-493C-A371-D492D591F16E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A4353DA-2B3C-493C-A371-D492D591F16E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A4353DA-2B3C-493C-A371-D492D591F16E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A4353DA-2B3C-493C-A371-D492D591F16E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
