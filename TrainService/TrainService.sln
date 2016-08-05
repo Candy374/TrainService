@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainService.Tests", "Train
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonUtilities", "CommonUtilities\CommonUtilities.csproj", "{6A4353DA-2B3C-493C-A371-D492D591F16E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{E958F57D-D8CE-4E2D-B9A2-CB5C56E2D001}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6A4353DA-2B3C-493C-A371-D492D591F16E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A4353DA-2B3C-493C-A371-D492D591F16E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A4353DA-2B3C-493C-A371-D492D591F16E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E958F57D-D8CE-4E2D-B9A2-CB5C56E2D001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E958F57D-D8CE-4E2D-B9A2-CB5C56E2D001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E958F57D-D8CE-4E2D-B9A2-CB5C56E2D001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E958F57D-D8CE-4E2D-B9A2-CB5C56E2D001}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
