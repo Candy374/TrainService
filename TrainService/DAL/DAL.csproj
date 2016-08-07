@@ -39,6 +39,9 @@
     <Reference Include="Arch.Data.MySqlProvider">
       <HintPath>RefDlls\Arch.Data.MySqlProvider.dll</HintPath>
     </Reference>
+    <Reference Include="Framework.Logging.V2.API">
+      <HintPath>RefDlls\Framework.Logging.V2.API.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>RefDlls\MySql.Data.dll</HintPath>

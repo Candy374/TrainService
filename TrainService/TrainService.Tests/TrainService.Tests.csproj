@@ -82,6 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DALTests\GoodsTests.cs" />
     <Compile Include="DALTests\ProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
@@ -93,6 +94,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{E958F57D-D8CE-4E2D-B9A2-CB5C56E2D001}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TrainService\TrainService.csproj">
       <Project>{2EC468EF-C3F8-4BCF-8307-7B464FC63F7B}</Project>
       <Name>TrainService</Name>
