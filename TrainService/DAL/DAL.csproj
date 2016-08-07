@@ -54,6 +54,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DalFactory.cs" />
+    <Compile Include="DAO\GoodsDao.cs" />
+    <Compile Include="DAO\AccountDao.cs" />
+    <Compile Include="Entity\AccountEntity.cs" />
+    <Compile Include="Entity\GoodsEntity.cs" />
     <Compile Include="Entity\ProviderEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DAO\ProviderDao.cs" />
