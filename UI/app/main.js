@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-//import OrderPage from './components/order.js';
+import OrderPage from './js/components/Order';
 
-ReactDOM.render(<div>test</div>, 
+ReactDOM.render(<OrderPage></OrderPage>, 
     document.getElementById('content'))
