@@ -3,11 +3,11 @@ import Button from './Button.js';
 
 export default class Header extends Component {
     render() {
-        const {children, back, menu} = this.props;
+        const {children, back, onBack} = this.props;
 
         const buttonLeft = {
             label: 'back',
-            onClick: () => console.log('back'),
+            onClick: onBack,
             img: '< '
         };
 

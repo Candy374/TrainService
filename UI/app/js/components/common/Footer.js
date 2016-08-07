@@ -8,7 +8,7 @@ export default class Footer extends Component {
         return (
             <div className='footer'>
                 {total != null && <div className='total'>
-                    total: ${total}
+                    共计: ${total}
                 </div>}
                 <Button {...button}></Button>
             </div>
