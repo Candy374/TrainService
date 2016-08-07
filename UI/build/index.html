@@ -5,26 +5,35 @@
     <meta charset="UTF-8">
     <title>Train Service</title>
     <style>
+#content > div {
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.button {
+    border: 1px solid #fff;
+    width: 60px;
+    line-height: 25px;
+    padding: 2px;
+    text-align: center;
+    cursor: pointer;
+}
 
 .header {
     background: #000;
     display: flex;
     padding: 3px;
     color: #fff;
+    height: 30px;
 }
 
 .header .button {
-    border: 1px solid #fff;
-    border-radius: 5px;
     width: 60px;
-    height: 30px;
-    line-height: 25px;
-    padding: 2px;
-    text-align: center;
-}
-
-.header .button .img {
-    
+    border-radius: 5px;
 }
 
 .header .title {
@@ -34,7 +43,81 @@
     justify-content: center;
 }
 
+.footer {
+    background: #000;
+    color: #fff;
+    height: 30px;
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.footer .total {
+    flex: 1;
+    text-align: center;
+    line-height: 26px;
+}
+
+.footer .button{
+    background: #E91E63;
+    flex: 1;
+}
+
+.order-content {
+    display: flex;
+    margin: 2px 0;
+    flex: 1;
+}
+
+.order-content .type {
+    width: 50px;
+    margin-right: 2px;
+    border-right: 1px solid;
+}
+
+.order-content .type .active {
+    background: green;
+}
+
+.order-content .detail {
+    flex: 1;
+}
+
+.order-content .img {
+    width: 50px;
+    height: 50px;
+    background: blue;
+}
+
+.order-content .list {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.order-content .list .item {
+    display: flex;
+    margin-bottom: 2px;
+}
+
+.order-content .list .item .descriptions {
+    flex: 1;
+}
+
+.order-content .list .item .descriptions .name {
+    font-size: 27px;
+}
+
+.order-content .list .item input {
+    width: 20px;
+    height: 20px;
+}
+   
+
         </style>
+        <link href='./css/index.css' rel='stylesheet' type='text/css' />
 </head>
 
 <body>
