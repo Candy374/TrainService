@@ -2,6 +2,8 @@
 var webpack = require('webpack');
 //var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
 var path = require('path');
+//require('./css/index.scss');
+
 console.log(__dirname);
 
 module.exports = {
@@ -56,5 +58,5 @@ module.exports = {
         },
         modulesDirectories: ['node_modules', 'src/js', 'src/scss']
     },
-    devServer: { inline: true, port: 7777 },
+    devServer: { inline: true, port: 80 },
 };
