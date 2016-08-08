@@ -18,11 +18,7 @@ export default class TrainInfo extends Component {
                     餐车车厢号：<input type='number' />
                 </div>
                 <div className='line2'>
-                    列车是否晚点：
-                        <select>
-                        <option>是</option>
-                        <option>否</option>
-                        </select>
+                    <input type='checkbox' />列车已晚点
                 </div>
                 <div>
                 <p>
