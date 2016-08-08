@@ -16,27 +16,27 @@ namespace DAL.Entity
         /// <summary>
 		/// Provider's name
         /// </summary>
-        [Column(Name = "name", ColumnType = DbType.AnsiString, Length = 50)]
+        [Column(Name = "name", ColumnType = DbType.String, Length = 50)]
         public string Name { get; set; }
         /// <summary>
 		/// telphone number
         /// </summary>
-        [Column(Name = "tel", ColumnType = DbType.AnsiString, Length = 128)]
+        [Column(Name = "tel", ColumnType = DbType.String, Length = 128)]
         public string TelphoneNumber { get; set; }
         /// <summary>
 		/// the owner of the store
         /// </summary>
-        [Column(Name = "owner", ColumnType = DbType.AnsiString, Length = 12)]
+        [Column(Name = "owner", ColumnType = DbType.String, Length = 12)]
         public string Owner { get; set; }
         /// <summary>
 		/// the url of store's picture
         /// </summary>
-        [Column(Name = "pic_url", ColumnType = DbType.AnsiString, Length = 128)]
+        [Column(Name = "pic_url", ColumnType = DbType.String, Length = 128)]
         public string PictureUrl { get; set; }
         /// <summary>
 		/// the location description of the store
         /// </summary>
-        [Column(Name = "location", ColumnType = DbType.AnsiString, Length = 128)]
+        [Column(Name = "location", ColumnType = DbType.String, Length = 128)]
         public string Location { get; set; }
         /// <summary>
 		/// bank account type
