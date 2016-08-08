@@ -51,6 +51,7 @@ export default class Orders extends Component {
             total += chart[key].count * chart[key].price
         })
         this.props.updateTotal(total);
+        this.props.updateChart(chart);
     }
 
     render() {
