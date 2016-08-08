@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Header from './common/Header.js';
 import Footer from './common/Footer.js';
 import FoodList from './FoodList.js';
 import TrainInfo from './TrainInfo.js';
@@ -7,7 +6,8 @@ import TrainInfo from './TrainInfo.js';
 export default class OrderPage extends Component {
     componentWillMount() {
         this.state = {
-            page: 'step1'
+            page: 'step1',
+            total: 0
         };
     }
 
@@ -17,20 +17,27 @@ export default class OrderPage extends Component {
         });
     }
 
+    updateTotal(total) {
+        this.setState({
+            total
+        });
+    }
+
     render() {
         const children  = this.props.children;        
 
         let content, onBack, footer;
         switch(this.state.page){
             case 'step1':
-                content = <FoodList>{children}</FoodList>;
+                content = <FoodList total={this.state.total} 
+                    updateTotal={this.updateTotal.bind(this)}>{children}</FoodList>;
                 onBack = () => console.log('close the page');
                 footer = {
                     button: {
                         label: '选好了',
                         onClick: () => this.setState({page:'step2'})
                     },
-                    total: 0
+                    total: this.state.total,
                 };
                 break;
             case 'step2':
@@ -47,7 +54,6 @@ export default class OrderPage extends Component {
 
         return (
             <div>
-                <Header onBack={onBack}>Order</Header>
                 {content}
                 <Footer {...footer}/>
             </div>

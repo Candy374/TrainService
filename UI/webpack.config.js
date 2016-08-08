@@ -2,7 +2,7 @@
 var webpack = require('webpack');
 //var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
 var path = require('path');
-//require('./css/index.scss');
+//require('./css/index.css');
 
 console.log(__dirname);
 
@@ -17,7 +17,6 @@ module.exports = {
         'webpack/hot/dev-server',
         path.resolve(__dirname, 'app/main.js')
     ],
-    mainScss: 'app/index.scss',
     //入口文件输出配置
     //output: {path: __dirname+'_build_', filename: '[name].js'}
     output: {
@@ -58,5 +57,5 @@ module.exports = {
         },
         modulesDirectories: ['node_modules', 'src/js', 'src/scss']
     },
-    devServer: { inline: true, port: 80 },
+    devServer: { inline: true, port: 7777 },
 };

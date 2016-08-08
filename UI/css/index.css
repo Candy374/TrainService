@@ -1,6 +1,7 @@
 body {
     font-size: 50px;
 }
+
 #content > div {
     display: flex;
     flex-direction: column;
@@ -10,6 +11,7 @@ body {
     right: 0;
     bottom: 0;
 }
+
 .button {
     border: 1px solid #fff;
     line-height: 70px;
@@ -55,7 +57,7 @@ body {
     line-height: 70px;
 }
 
-.footer .button{
+.footer .button {
     background: #E91E63;
     flex: 1;
 }
@@ -109,4 +111,3 @@ body {
     width: 50px;
     height: 50px;
 }
-   
