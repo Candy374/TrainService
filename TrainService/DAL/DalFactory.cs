@@ -12,7 +12,7 @@ namespace DAL
     {
         public static readonly ProviderDao Provider = new ProviderDao();
         public static readonly GoodsDao Goods = new GoodsDao();
-
+        public static readonly TagsDao Tags = new TagsDao();
         public static readonly AccountDao Account = new AccountDao();
 
     }
