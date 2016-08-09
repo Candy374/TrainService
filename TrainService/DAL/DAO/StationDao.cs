@@ -12,12 +12,11 @@ using System.Data;
 
 namespace DAL.DAO
 {
-    public class AccountDao : CacheBase<AccountEntity>
+    public class StationDao:CacheBase<StationEntity>
     {
-        //public IList<AccountEntity> GetAccount(string openId)
-        //{
-        //    return base.Get("")
-        //}
-
+        public IEnumerable<StationEntity> Get()
+        {
+            return base.Get("SELECT * FROM stations");
+        }
     }
 }

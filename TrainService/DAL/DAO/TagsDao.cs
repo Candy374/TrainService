@@ -12,18 +12,11 @@ using System.Data;
 
 namespace DAL.DAO
 {
-    public class TagsDao
+    public class TagsDao : CacheBase<TagEntity>
     {
-        readonly BaseDao _baseDao = BaseDaoFactory.CreateBaseDao("userdb");
-
         public IEnumerable<TagEntity> GetTags()
         {
-            return _baseDao.SelectList<TagEntity>("SELECT * FROM tags");
-        }
-
-        public int AddTage(TagEntity entity)
-        {
-            return (int)_baseDao.Insert(entity);
+            return base.Get("SELECT * FROM tags");
         }
     }
 }
