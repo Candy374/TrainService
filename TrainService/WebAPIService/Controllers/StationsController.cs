@@ -15,7 +15,13 @@ namespace WebAPIService.Controllers
         [Route("Stations")]
         public IEnumerable<object> Get()
         {
+            return _Get();
+        }
+
+        public static IEnumerable<object> _Get()
+        {
             return DAL.DalFactory.Stations.CachedTable;
         }
+
     }
 }

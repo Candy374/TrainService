@@ -18,6 +18,11 @@ namespace WebAPIService.Controllers
         [Route("{stationCode}/{type}")]
         public IEnumerable<object> Get(string stationCode, int type)
         {
+            return _Get(stationCode, type);
+        }
+
+        public static IEnumerable<object> _Get(string stationCode, int type)
+        {
             var list = DalFactory.Goods.GetGoodsListByGoodsType(stationCode, type);
 
             var ret = new List<UIGoodsEntity>();
@@ -40,7 +45,7 @@ namespace WebAPIService.Controllers
             return ret;
         }
 
-        private int[] GetTages(string tags)
+        private static int[] GetTages(string tags)
         {
             var parts = tags.Split(new[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
             List<int> nums = new List<int>();

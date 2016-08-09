@@ -12,7 +12,7 @@ using System.Text;
 namespace WebAPIService.Controllers
 {
     [EnableCors("*", "*", "*")]
-    [RoutePrefix("api/Goods")]
+    [RoutePrefix("api/Orders")]
     public class OrdersController : ApiController
     {
         [Route("Add")]

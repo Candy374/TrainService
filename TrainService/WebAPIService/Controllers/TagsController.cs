@@ -15,6 +15,11 @@ namespace WebAPIService.Controllers
         [Route("Tags")]
         public IEnumerable<object> Get()
         {
+            return _Get();
+        }
+
+        public static IEnumerable<object> _Get()
+        {
             return DAL.DalFactory.Tags.GetTags();
         }
     }

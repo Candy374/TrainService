@@ -1,0 +1,148 @@
+﻿
+@{
+    Layout = null;
+    var tags = ViewBag.Tags as IList<DAL.Entity.TagEntity>;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DishBook</title>
+    <link rel="stylesheet" href="~/Content/DishList.css" />
+    <script type="text/javascript" src="~/Scripts/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/underscore.js"></script>
+    <script id='goodsListTemp' type='text/template'>
+        <% _.each(obj, function (item) { %>
+        <div class="item" goodsId="<%=item.GoodsId%>">
+            <img src="<%=item.PictureUrl%>" class="img">
+            <div class="descriptions">
+                <label class="name">
+                    <%=item.Name%>
+                </label>
+                <div class="detail">
+                    ￥<%=item.SellPrice%>
+                    月售<%=item.OrderCount%>
+                    好评率<%=item.Rating%>%
+                </div>
+
+            </div>
+
+            <div class="number-input">
+                <button class="jianhao hidden">
+                    -
+                </button>
+                <label price="<%=item.SellPrice%>" goodsId="<%=item.GoodsId%>">
+                    0
+                </label>
+                <button class="jiahao">
+                    +
+                </button>
+            </div>
+        </div>
+        <% }); %>
+    </script>
+</head>
+<body>
+    <div id="content">
+        <div data-reactroot="">
+            <div class="order-content">
+                <div class="type">
+                    @foreach (var tag in tags)
+                    {
+                        <div class="tag" tagId="@tag.ID">@tag.DisplayName</div>
+                    }
+                </div>
+                <div class="list" id="goods-list">
+
+                </div>
+            </div>
+            <div class="footer">
+                <div class="total">
+
+                    共计: ￥<span id="total-price"></span>
+                </div>
+                <div class="button">
+                    <span>
+                        选好了
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var rawData = null;
+        var buyList = new Array();
+        $.getJSON("../api/goods/@ViewBag.Station/0", null, function (data) {
+            rawData = data;
+            buildDishList(data);
+        });
+
+        function buildDishList(data) {
+            var t = _.template($("#goodsListTemp").text());
+            $("#goods-list").empty();
+            $("#goods-list").html(t(data));
+            $("#goods-list > div > div.number-input > label").each(function () {
+                var label = $(this);
+                var buyCount = buyList[parseInt(label.attr("goodsId"))];
+                if (buyCount != undefined && buyCount!=null && buyCount.Count > 0) {
+                    label.text(buyCount.Count);
+                }
+            });
+            bindEvent();
+        }
+
+        $("div.tag").click(function () {
+            $("div.tag").each(function (i, e) {
+                $(e).removeClass("active");
+            });
+            $(this).addClass("active");
+            var tagId = $(this).attr("tagId");
+            buildDishList(rawData.filter(function (d) { return d.Tags.some(function (g) { return g.toString() == tagId; }); }));
+        });
+
+        function bindEvent() {
+            $("#goods-list button").click(function () {
+                var me = $(this);
+                var label = me.parent().find("label")[0];
+                var val = parseInt(label.innerText);
+                if (me.hasClass("jiahao")) {
+                    label.innerText = ++val;
+                } else {
+                    if (val < 1) {
+                        val = 1;
+                    }
+                    label.innerText = --val;
+                }
+
+                if (val > 0) {
+                    me.parent().find(".jianhao").removeClass("hidden");
+                } else {
+                    me.parent().find(".jianhao").addClass("hidden");
+                }
+                updateBuyList();
+                sumPrice();
+            });
+        }
+
+        function updateBuyList() {
+            $("#goods-list > div > div.number-input > label").each(function () {
+                var label = $(this);
+                buyList[parseInt(label.attr("goodsId"))] = { Count: parseInt(label.text()), Price: parseFloat(label.attr("price")) };
+            });
+        }
+
+        function sumPrice() {
+            var price = 0.0;
+            for (var index in buyList) {
+                var p = buyList[index];
+                if (p!=undefined && p!=null && p.Count>0) {
+                    price += p.Count * p.Price;
+                }
+            }
+            $("#total-price").text(price);
+        }
+    </script>
+</body>
+</html>

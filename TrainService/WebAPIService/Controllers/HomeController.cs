@@ -11,7 +11,14 @@ namespace WebAPIService.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Home Page";
+            ViewBag.StationList = StationsController._Get();
+            return View();
+        }
 
+        public ActionResult DishBook(string station)
+        {
+            ViewBag.Tags = TagsController._Get();
+            ViewBag.Station = station;
             return View();
         }
     }
