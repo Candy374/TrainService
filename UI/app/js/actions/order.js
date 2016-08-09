@@ -16,17 +16,21 @@ export const getOrders = () => {
 //         resolve(xmlhttp.responseText)
 //   });
 
-$.ajax({
-    url: basicUrl + 'goods/郑州东/0',
-    method: 'GET',
-    dataType: 'JSONP',
-    success: function(data){
-        console.log(data)
-    },
-    error: function(err, b, c) {
-        console.log(err)
-    }
-})
+// $.ajax({
+//     url: basicUrl + 'goods/郑州东/0',
+//     method: 'GET',
+//     dataType: 'JSONP',
+//     success: function(data){
+//         console.log(data)
+//     },
+//     error: function(err, b, c) {
+//         console.log(err)
+//     }
+// })
+
+ $.get(basicUrl + 'goods/郑州东/0',{}, function(data) {
+     console.log(data)
+ } , 'json')
 }
 
 export const getTypes = () => {

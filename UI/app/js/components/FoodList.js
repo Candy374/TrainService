@@ -69,7 +69,7 @@ export default class FoodList extends Component {
                         return (
                             <div key={type.ID}
                                 onClick={this.chooseType.bind(this, type)}
-                                className={this.state.activeType == type.ID ? 'active' : ''}>
+                                className={this.state.activeType == type.ID ? 'active item' : 'item'}>
                             {type.DisplayName}
                             </div>
                         )
@@ -85,10 +85,11 @@ export default class FoodList extends Component {
                                 <div className='descriptions'>
                                     <label className='name'>{food.Name}</label>
                                     <div className='detail'>
-                                        {`￥${food.SellPrice}     `.substr(0, 5)}
+                                        
                                         {`月售${food.OrderCount}     `.substr(0, 5)}
                                         {`好评率${food.Rating}%`}
-                                </div>
+                                    </div>
+                                    <label className='price'>{`￥${food.SellPrice}`}</label>
                                 </div>
                                 <NumberInput count={food.count} updateCount={(count) => this.add(food, count)}/>
                             </div>

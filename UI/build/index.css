@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Train Service</title>
-    <script src='./jquery.min.js' ></script>
-    <style>
 body {
-    font-size: 3em;
-    font-family: monospace;
+    font-size: 50px;
 }
 #content > div {
     display: flex;
@@ -21,16 +12,36 @@ body {
 }
 .button {
     border: 1px solid #fff;
-    line-height: 2em;
-    padding: 0 1em;
+    line-height: 70px;
+    padding: 5px;
     text-align: center;
     cursor: pointer;
 }
 
-.footer {
-    background: rgba(0, 0, 0, 0.77);
+.header {
+    background: #000;
+    display: flex;
+    padding: 3px;
     color: #fff;
-    height: 2em;
+    height: 90px;
+}
+
+.header .button {
+    width: 200px;
+    border-radius: 5px;
+}
+
+.header .title {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer {
+    background: #000;
+    color: #fff;
+    height: 90px;
 }
 
 .order-page .footer {
@@ -40,7 +51,7 @@ body {
 .footer .total {
     flex: 1;
     text-align: center;
-    line-height: 2em;
+    line-height: 70px;
 }
 
 .footer .button{
@@ -50,27 +61,19 @@ body {
 
 .order-content {
     display: flex;
-    margin: 0.2em 0;
+    margin: 2px 0;
     flex: 1;
 }
 
 .order-content .type {
-    width: 5em;
-    margin-right: 0.1em;
+    width: 200px;
+    margin-right: 2px;
+    border-right: 1px solid;
     overflow-y: auto;
-    background: #ddd;
-}
-
-.order-content .type .item {
-    text-align: center;
-    border-bottom: 0.1em solid #eee;
-    padding: 0.3em;
 }
 
 .order-content .type .active {
-    background: #fff;
-    color: pink;
-    border-left: 0.3em solid pink;    
+    background: green;
 }
 
 .order-content .detail {
@@ -78,10 +81,9 @@ body {
 }
 
 .order-content .img {
-    width: 3em;
-    height: 3em;
-    background: pink;
-    margin-right: 0.5em;
+    width: 140px;
+    height: 140px;
+    background: blue;
 }
 
 .order-content .list {
@@ -89,57 +91,46 @@ body {
     flex-direction: column;
     flex: 1;
     overflow-y: auto;
-    padding: 0 0.3em 0 0.5em;
 }
 
 .order-content .list .item {
     display: flex;
-    padding: 0.3em;
+    margin-bottom: 2px;
     flex-shrink: 0;
-    border-bottom: 1px solid #eee;
-}
-
-.order-content .list .item:first-child {
-    padding-top: 0;
-}
-
-.order-content .list .item:last-child {
-    border-bottom: none;
 }
 
 .order-content .list .item .descriptions {
     flex: 1;
 }
 
-.order-content .list .item .descriptions .detail {
-    font-size: 0.5em;
-    color: #aaa;
+.order-content .list .item .descriptions .detail{
+    font-size: 25px;
 }
 
-.order-content .list .item .descriptions .price {
-    font-size: 0.8em;
-    color: red;
+.order-content .list .item .descriptions .name {
+    font-size: 30px;
+}
+
+.order-content .list .item input {
+    width: 50px;
+    height: 50px;
 }
 
 .number-input {
     display: flex;
-    align-self: flex-end;
 }
    
 .number-input button {
+    background: pink;
     border-radius: 50%;
-    width: 1em;
-    height: 1em;
-    font-size: 1.5em;
-    background: #fff;
-    color: rgba(255, 0, 0, 0.66);
-    border: solid #ddd 1px;
-    line-height: 1em;
+    width: 50px;
+    height: 50px;
+    border: none;
+    font-size: 45px;
 }
 
 .number-input label {
-    margin: 0 0.5em;
-    align-self: center;
+    margin: 0 10px;
 }
 
 .train-info {
@@ -178,11 +169,4 @@ input[type="checkbox"] {
     height: 400px;
     margin: 0 10px;
 }
-        </style>
-</head>
-
-<body>
-    <div id="content"></div>
-    <script src="bundle.js"></script>
-</body>
-</html>
+        
