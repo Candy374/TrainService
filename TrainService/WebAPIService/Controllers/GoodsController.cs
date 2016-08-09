@@ -11,7 +11,7 @@ using WebAPIService.Entity;
 namespace WebAPIService.Controllers
 {
 
-    [EnableCors("*", "*", "GET")]
+    [EnableCors("*", "*", "*")]
     [RoutePrefix("api/Goods")]
     public class GoodsController : ApiController
     {

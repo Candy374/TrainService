@@ -14,6 +14,7 @@ namespace DAL
         public static readonly GoodsDao Goods = new GoodsDao();
         public static readonly TagsDao Tags = new TagsDao();
         public static readonly AccountDao Account = new AccountDao();
-
+        public static readonly OrderDao Orders = new OrderDao();
+        public static readonly StationDao Stations = new StationDao();
     }
 }

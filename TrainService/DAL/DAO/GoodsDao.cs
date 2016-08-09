@@ -1,29 +1,25 @@
-﻿using Arch.Data;
-using DAL.Entity;
-using System;
+﻿using DAL.Entity;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Arch.CFX;
-using Arch.CFramework;
-using Arch.Data.DbEngine;
 using System.Data;
+using System.Linq;
+using System;
 
 namespace DAL.DAO
 {
     public class GoodsDao : CacheBase<GoodsEntity>
     {
-        public IList<GoodsEntity> GetGoodsListByGoodsType(string stationCode, int goodsType)
-        {
-            var sql = "SELECT * FROM goods WHERE station_code=@StCode AND goods_type=@GoodsType AND is_obsolete=0 AND is_available=1";
-            var parameters = new StatementParameterCollection();
-            parameters.Add(new StatementParameter { Name = "@GoodsType", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = goodsType });
-            parameters.Add(new StatementParameter { Name = "@StCode", Direction = ParameterDirection.Input, DbType = DbType.String, Value = stationCode.ToUpper() });
+        public GoodsDao() : base(new System.TimeSpan(0, 5, 0)) { }
 
-            var list = base.Get(sql, parameters);
+        public IEnumerable<GoodsEntity> GetGoodsListByGoodsType(string stationCode, int goodsType)
+        {
+            var list = base.CachedTable.Where(d => d.StationCode == stationCode && d.GoodsType == goodsType && d.IsAvailable == true && d.IsObsolete == false);
 
             return list;
+        }
+
+        public GoodsEntity GetGoods(uint id)
+        {
+            return base.CachedTable.Where(d => d.GoodsId == id).FirstOrDefault();
         }
     }
 }

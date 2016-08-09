@@ -10,12 +10,12 @@ namespace WebAPIService.Controllers
 {
     [EnableCors("*", "*", "*")]
     [RoutePrefix("api")]
-    public class TagsController : ApiController
+    public class StationsController : ApiController
     {
-        [Route("Tags")]
+        [Route("Stations")]
         public IEnumerable<object> Get()
         {
-            return DAL.DalFactory.Tags.GetTags();
+            return DAL.DalFactory.Stations.CachedTable;
         }
     }
 }

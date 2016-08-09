@@ -7,7 +7,7 @@ namespace DAL.Entity
 {
     [Serializable]
     [DataContract]
-    [Table(Name = "provider")]
+    [Table(Name = "stations")]
     public class StationEntity
     {
      
@@ -25,6 +25,6 @@ namespace DAL.Entity
 
         [DataMember]
         [Column(Name = "min_price", ColumnType = DbType.Int32)]
-        public string MinPrice { get; set; }
+        public int MinPrice { get; set; }
     }
 }

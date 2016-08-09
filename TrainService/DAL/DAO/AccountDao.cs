@@ -14,6 +14,8 @@ namespace DAL.DAO
 {
     public class AccountDao : CacheBase<AccountEntity>
     {
+        public AccountDao() : base(new TimeSpan(0, 0, 30)) { }
+
         //public IList<AccountEntity> GetAccount(string openId)
         //{
         //    return base.Get("")

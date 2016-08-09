@@ -49,6 +49,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,10 +60,13 @@
   <ItemGroup>
     <Compile Include="DalFactory.cs" />
     <Compile Include="DAO\CacheBase.cs" />
+    <Compile Include="DAO\OrderDao.cs" />
     <Compile Include="DAO\StationDao.cs" />
     <Compile Include="DAO\GoodsDao.cs" />
     <Compile Include="DAO\AccountDao.cs" />
     <Compile Include="DAO\TagsDao.cs" />
+    <Compile Include="Entity\OrderDetailEntity.cs" />
+    <Compile Include="Entity\OrderEntity.cs" />
     <Compile Include="Entity\StationEntity.cs" />
     <Compile Include="Entity\TagEntity.cs" />
     <Compile Include="Entity\AccountEntity.cs" />
