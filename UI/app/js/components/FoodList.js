@@ -49,12 +49,12 @@ export default class FoodList extends Component {
 
     add(food, count){
         const chart = this.chart;
-        food.OrderCount = count;
+        food.count = count;
         chart[food.GoodsId] = food;
-        //this.foodMap[this.state.activeType].list[food.index].OrderCount = count;
+        //this.foodMap[this.state.activeType].list[food.index].count = count;
         let total = 0;
         Object.keys(chart).map(key => {
-            total += chart[key].OrderCount * chart[key].PurchasePrice
+            total += chart[key].count * chart[key].PurchasePrice
         })
         this.props.updateTotal(total);
         this.props.updateChart(chart);
@@ -76,8 +76,7 @@ export default class FoodList extends Component {
                 </div>
                 <div className='list'>
                     {this.state.foodList.map((food, index) => {
-                        this.chart[food.GoodsId] = this.chart[food.GoodsId] || food;
-                        food.count = this.chart[food.GoodsId].count = (food.count || 0);
+                        food.count = food.count || 0;
                         food.index = index;
                         return (
                             <div key={food.GoodsId} className='item'>
@@ -86,11 +85,11 @@ export default class FoodList extends Component {
                                     <label className='name'>{food.Name}</label>
                                     <div className='detail'>
                                         {`￥${food.SellPrice}     `.substr(0, 5)}
-                                        {`月售${food.sale}     `.substr(0, 5)}
+                                        {`月售${food.OrderCount}     `.substr(0, 5)}
                                         {`好评率${food.Rating}%`}
                                 </div>
                                 </div>
-                                <NumberInput count={food.OrderCount} updateCount={(OrderCount) => this.add(food, OrderCount)}/>
+                                <NumberInput count={food.count} updateCount={(count) => this.add(food, count)}/>
                             </div>
                         )
                     })} 
