@@ -47,7 +47,61 @@ export const getOrders = () => {
 }
 
 export const getTypes = () => {
-
+    return new Promise(resolve => {
+        const types = [
+                {
+                    "ID": 1,
+                    "Code": "hotdish",
+                    "DisplayName": "热销菜品"
+                },
+                {
+                    "ID": 2,
+                    "Code": "xfdish",
+                    "DisplayName": "下饭菜"
+                },
+                {
+                    "ID": 3,
+                    "Code": "vag",
+                    "DisplayName": "素菜"
+                },
+                {
+                    "ID": 4,
+                    "Code": "meat",
+                    "DisplayName": "荤菜"
+                },
+                {
+                    "ID": 5,
+                    "Code": "spicy",
+                    "DisplayName": "辣的"
+                },
+                {
+                    "ID": 6,
+                    "Code": "nonspicy",
+                    "DisplayName": "不辣的"
+                },
+                {
+                    "ID": 7,
+                    "Code": "smalldish",
+                    "DisplayName": "小吃"
+                },
+                {
+                    "ID": 8,
+                    "Code": "mainfood",
+                    "DisplayName": "主食"
+                },
+                {
+                    "ID": 9,
+                    "Code": "hot",
+                    "DisplayName": "热菜"
+                },
+                {
+                    "ID": 10,
+                    "Code": "cold",
+                    "DisplayName": "凉菜"
+                }
+            ];
+            resolve(types);
+        });
 }
 
 export const getGoodsList = (type) => {
