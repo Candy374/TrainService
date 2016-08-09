@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null;
+
+    var stationList = ViewBag.StationList as IList<DAL.Entity.StationEntity>;
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Home</title>
+</head>
+<body>
+    <h1>请选择提供服务的车站</h1>
+    @foreach (var item in stationList)
+    {
+        <a class="station-list" href="/TrainService/home/DishBook?station=@item.Name">@item.Name</a>
+    }
+</body>
+</html>

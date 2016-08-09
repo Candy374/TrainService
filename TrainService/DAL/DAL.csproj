@@ -39,12 +39,17 @@
     <Reference Include="Arch.Data.MySqlProvider">
       <HintPath>RefDlls\Arch.Data.MySqlProvider.dll</HintPath>
     </Reference>
+    <Reference Include="Framework.Logging.V2.API">
+      <HintPath>RefDlls\Framework.Logging.V2.API.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>RefDlls\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +59,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DalFactory.cs" />
+    <Compile Include="DAO\CacheBase.cs" />
+    <Compile Include="DAO\OrderDao.cs" />
+    <Compile Include="DAO\StationDao.cs" />
+    <Compile Include="DAO\GoodsDao.cs" />
+    <Compile Include="DAO\AccountDao.cs" />
+    <Compile Include="DAO\TagsDao.cs" />
+    <Compile Include="Entity\OrderDetailEntity.cs" />
+    <Compile Include="Entity\OrderEntity.cs" />
+    <Compile Include="Entity\StationEntity.cs" />
+    <Compile Include="Entity\TagEntity.cs" />
+    <Compile Include="Entity\AccountEntity.cs" />
+    <Compile Include="Entity\GoodsEntity.cs" />
     <Compile Include="Entity\ProviderEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DAO\ProviderDao.cs" />
