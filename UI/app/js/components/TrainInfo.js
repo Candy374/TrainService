@@ -16,10 +16,12 @@ export default class TrainInfo extends Component {
                 <div  className='train-info'>
                     <div className='line'>
                         车次：<input type='text' />
+                    </div>
+                    <div className='line'>
                         餐车车厢号：<input type='number' />
                     </div>
                     <div className='line'>
-                        <input type='checkbox' />列车已晚点
+                        列车晚点<input type='checkbox' />
                     </div>
                     <div>
                     <p>
