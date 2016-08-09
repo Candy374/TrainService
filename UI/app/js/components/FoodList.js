@@ -16,9 +16,7 @@ export default class FoodList extends Component {
     }
 
     componentWillMount() {
-        actions.getOrders().then(result => {
-       console.log(result)
-        });
+        actions.getOrders();
         actions.getTypes().then(types => {      
             this.types = types;
             this.setState({

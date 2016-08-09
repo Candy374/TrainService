@@ -3,15 +3,30 @@ import request from 'superagent';
 
 const basicUrl = 'http://123.207.164.202:8080/transervice/api/'
 export const getOrders = () => {
-   return request.get(basicUrl + 'goods/郑州东/0')
-   .set('Access-Control-Allow-Credentials', true)
-   .set('API-Key', 'foobar')
-   .set('Accept', 'application/json')
-   .set('candy','ss')
-   .withCredentials()
-    .then((result) =>{
-       return result;
-   })
+//   return new Promise(resolve => {
+//         let xmlhttp;
+//         if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+//             xmlhttp = new XMLHttpRequest();
+//         }
+//         else {// code for IE6, IE5
+//             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+//         }
+//         xmlhttp.open("GET", basicUrl + 'goods/郑州东/0', false);
+//         xmlhttp.send();
+//         resolve(xmlhttp.responseText)
+//   });
+
+$.ajax({
+    url: basicUrl + 'goods/郑州东/0',
+    method: 'GET',
+    dataType: 'JSONP',
+    success: function(data){
+        console.log(data)
+    },
+    error: function(err, b, c) {
+        console.log(err)
+    }
+})
 }
 
 export const getTypes = () => {

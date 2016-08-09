@@ -1,8 +1,4 @@
 import React, {Component} from 'react';
-import Footer from './common/Footer.js';
-import FoodList from './FoodList.js';
-import TrainInfo from './TrainInfo.js';
-
 export default class OrderPage extends Component {
     render() {
         const {nextPage, updateChart, updateTotal, total}  = this.props;        
