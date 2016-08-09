@@ -16,6 +16,9 @@ export default class FoodList extends Component {
     }
 
     componentWillMount() {
+        actions.getOrders().then(result => {
+       console.log(result)
+        });
         actions.getTypes().then(types => {      
             this.types = types;
             this.setState({
@@ -54,7 +57,7 @@ export default class FoodList extends Component {
         //this.foodMap[this.state.activeType].list[food.index].count = count;
         let total = 0;
         Object.keys(chart).map(key => {
-            total += chart[key].count * chart[key].PurchasePrice
+            total += chart[key].count * chart[key].SellPrice
         })
         this.props.updateTotal(total);
         this.props.updateChart(chart);
