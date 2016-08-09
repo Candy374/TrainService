@@ -1,6 +1,6 @@
 ﻿
 body {
-    font-size: 50px;
+    font-size: 20px;
 }
 
 #content > div {
@@ -70,7 +70,7 @@ body {
 }
 
     .order-content .type {
-        width: 200px;
+        width: 60px;
         margin-right: 2px;
         border-right: 1px solid;
     }
@@ -84,8 +84,8 @@ body {
     }
 
     .order-content .img {
-        width: 140px;
-        height: 140px;
+        width: 64px;
+        height: 64px;
         background: blue;
     }
 
@@ -105,16 +105,16 @@ body {
             }
 
                 .order-content .list .item .descriptions .detail {
-                    font-size: 25px;
+                    font-size: 10px;
                 }
 
                 .order-content .list .item .descriptions .name {
-                    font-size: 30px;
+                    font-size: 18px;
                 }
 
             .order-content .list .item input {
-                width: 50px;
-                height: 50px;
+                width: 20px;
+                height: 20px;
             }
 
 .number-input {
@@ -124,10 +124,10 @@ body {
     .number-input button {
         background: pink;
         border-radius: 50%;
-        width: 50px;
-        height: 50px;
+        width: 30px;
+        height: 30px;
         border: none;
-        font-size: 45px;
+        font-size:15px;
     }
 
     .number-input label {
