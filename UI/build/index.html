@@ -147,18 +147,25 @@ body {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+    flex: 1;
+}
+
+.train-info .line {
+    line-height: 1.5em;
 }
 
 .train-info input {
-    height: 40px;
-    bottom: 12px;
+    height: 2em;
+}
+
+.train-info input[type="text"], .train-info input[type="number"] {
+    bottom: 0.3em;
     position: relative;
-    margin-right: 40px;
+    margin-right: 2em;
 }
 
 input[type="checkbox"] {
-    width: 40px;
-    bottom: 0;
+    width: 2em;
 }
 
 .train-info select {
