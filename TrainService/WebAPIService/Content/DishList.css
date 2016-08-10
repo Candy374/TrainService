@@ -1,9 +1,8 @@
-﻿
-body {
-    font-size: 20px;
+﻿body {
+    font-size: 1em;
+    font-family: monospace;
 }
-
-#content > div {
+.order-page {
     display: flex;
     flex-direction: column;
     top: 0;
@@ -12,144 +11,153 @@ body {
     right: 0;
     bottom: 0;
 }
-
 .button {
     border: 1px solid #fff;
-    line-height: 70px;
-    padding: 5px;
+    line-height: 2em;
+    padding: 0 1em;
     text-align: center;
     cursor: pointer;
 }
 
-.header {
-    background: #000;
-    display: flex;
-    padding: 3px;
-    color: #fff;
-    height: 90px;
-}
-
-    .header .button {
-        width: 200px;
-        border-radius: 5px;
-    }
-
-    .header .title {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
 .footer {
-    background: #000;
+    background: rgba(0, 0, 0, 0.77);
     color: #fff;
-    height: 90px;
-    display: flex;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    height: 2em;
 }
 
-    .footer .total {
-        flex: 1;
-        text-align: center;
-        line-height: 70px;
-    }
-
-    .footer .button {
-        background: #E91E63;
-        flex: 1;
-    }
-
-.order-content {
+.order-page .footer {
     display: flex;
-    margin: 2px 0;
+}
+
+.footer .total {
+    flex: 1;
+    text-align: center;
+    line-height: 2em;
+}
+
+.footer .button{
+    background: #E91E63;
     flex: 1;
 }
 
-    .order-content .type {
-        width: 60px;
-        margin-right: 2px;
-        border-right: 1px solid;
-    }
+.order-content {
+    display: flex;
+    margin: 0.2em 0;
+    flex: 1;
+}
 
-        .order-content .type .active {
-            background: green;
-        }
+.order-content .type {
+    width: 5em;
+    margin-right: 0.1em;
+    overflow-y: auto;
+    background: #ddd;
+}
 
-    .order-content .detail {
-        flex: 1;
-    }
+.order-content .type .tag {
+    text-align: center;
+    border-bottom: 0.1em solid #eee;
+    padding: 0.3em;
+}
 
-    .order-content .img {
-        width: 64px;
-        height: 64px;
-        background: blue;
-    }
+.order-content .type .active {
+    background: #fff;
+    color: pink;
+    border-left: 0.3em solid pink;    
+}
 
-    .order-content .list {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-    }
+.order-content .detail {
+    flex: 1;
+}
 
-        .order-content .list .item {
-            display: flex;
-            margin-bottom: 2px;
-        }
+.order-content .img {
+    width: 3em;
+    height: 3em;
+    background: pink;
+    margin-right: 0.5em;
+}
 
-            .order-content .list .item .descriptions {
-                flex: 1;
-            }
+.order-content .list {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 0.3em 0 0.5em;
+}
 
-                .order-content .list .item .descriptions .detail {
-                    font-size: 10px;
-                }
+.order-content .list .item {
+    display: flex;
+    padding: 0.3em;
+    flex-shrink: 0;
+    border-bottom: 1px solid #eee;
+}
 
-                .order-content .list .item .descriptions .name {
-                    font-size: 18px;
-                }
+.order-content .list .item:first-child {
+    padding-top: 0;
+}
 
-            .order-content .list .item input {
-                width: 20px;
-                height: 20px;
-            }
+.order-content .list .item:last-child {
+    border-bottom: none;
+}
+
+.order-content .list .item .descriptions {
+    flex: 1;
+}
+
+.order-content .list .item .descriptions .detail {
+    font-size: 0.5em;
+    color: #aaa;
+}
+
+.order-content .list .item .descriptions .price {
+    font-size: 0.8em;
+    color: red;
+}
 
 .number-input {
     display: flex;
+    align-self: flex-end;
+}
+   
+.number-input button {
+    border-radius: 50%;
+    width: 1em;
+    height: 1em;
+    font-size: 1.5em;
+    background: #fff;
+    color: rgba(255, 0, 0, 0.66);
+    border: solid #ddd 1px;
+    line-height: 1em;
 }
 
-    .number-input button {
-        background: pink;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        border: none;
-        font-size:15px;
-    }
-
-    .number-input label {
-        margin: 0 10px;
-    }
+.number-input label {
+    margin: 0 0.5em;
+    align-self: center;
+}
 
 .train-info {
     margin: 10px 10px;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    flex: 1;
 }
 
-    .train-info input {
-        height: 40px;
-        bottom: 12px;
-        position: relative;
-        margin-right: 40px;
-    }
+.train-info .line {
+    line-height: 1.5em;
+}
+
+.train-info input {
+    height: 2em;
+}
+
+.train-info input[type="text"], .train-info input[type="number"] {
+    bottom: 0.3em;
+    position: relative;
+    margin-right: 2em;
+}
 
 input[type="checkbox"] {
-    width: 40px;
-    bottom: 0;
+    width: 2em;
 }
 
 .train-info select {
@@ -168,8 +176,4 @@ input[type="checkbox"] {
     width: 80%;
     height: 400px;
     margin: 0 10px;
-}
-
-.hidden {
-    display: none !important;
 }
