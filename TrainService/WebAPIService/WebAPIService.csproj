@@ -242,11 +242,11 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\GoodsController.cs" />
+    <Compile Include="Controllers\API\GoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\OrdersController.cs" />
-    <Compile Include="Controllers\StationsController.cs" />
-    <Compile Include="Controllers\TagsController.cs" />
+    <Compile Include="Controllers\API\OrdersController.cs" />
+    <Compile Include="Controllers\API\StationsController.cs" />
+    <Compile Include="Controllers\API\TagsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Entity\UIGoodsEntity.cs" />
     <Compile Include="Global.asax.cs">

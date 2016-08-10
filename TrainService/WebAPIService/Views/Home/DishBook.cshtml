@@ -45,6 +45,7 @@
         <div data-reactroot="">
             <div class="order-content">
                 <div class="type">
+                    <div class="tag" tagId="-1">已选</div>
                     @foreach (var tag in tags)
                     {
                         <div class="tag" tagId="@tag.ID">@tag.DisplayName</div>
@@ -82,8 +83,9 @@
             $("#goods-list > div > div.number-input > label").each(function () {
                 var label = $(this);
                 var buyCount = buyList[parseInt(label.attr("goodsId"))];
-                if (buyCount != undefined && buyCount!=null && buyCount.Count > 0) {
+                if (buyCount != undefined && buyCount != null && buyCount.Count > 0) {
                     label.text(buyCount.Count);
+                    label.parent().find(".jianhao").removeClass("hidden");
                 }
             });
             bindEvent();
@@ -95,7 +97,12 @@
             });
             $(this).addClass("active");
             var tagId = $(this).attr("tagId");
-            buildDishList(rawData.filter(function (d) { return d.Tags.some(function (g) { return g.toString() == tagId; }); }));
+            if (tagId == "-1") {
+                //show all selected goods
+                buildDishList(rawData.filter(function (d) { return buyList[d.GoodsId] != undefined && buyList[d.GoodsId] != null && buyList[d.GoodsId].Count > 0 }));
+            } else {
+                buildDishList(rawData.filter(function (d) { return d.Tags.some(function (g) { return g.toString() == tagId; }); }));
+            }
         });
 
         function bindEvent() {
@@ -133,7 +140,7 @@
             var price = 0.0;
             for (var index in buyList) {
                 var p = buyList[index];
-                if (p!=undefined && p!=null && p.Count>0) {
+                if (p != undefined && p != null && p.Count > 0) {
                     price += p.Count * p.Price;
                 }
             }
