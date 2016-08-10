@@ -4,11 +4,12 @@
     var tags = ViewBag.Tags as IList<DAL.Entity.TagEntity>;
 }
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+  
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
     <title>DishBook</title>
     <link rel="stylesheet" href="~/Content/DishList.css" />
     <script type="text/javascript" src="~/Scripts/jquery-3.1.0.min.js"></script>
@@ -22,20 +23,22 @@
                     <%=item.Name%>
                 </label>
                 <div class="detail">
-                    月售<%=item.OrderCount%>
-                    好评率<%=item.Rating%>%
-                </div>
-                <div class="price">
-                    ￥<%=item.SellPrice%>
-                </div>
-            </div>
+                    <div class="left">
+                        月售<%=item.OrderCount%>
+                        好评率<%=item.Rating%>%
+                        <div class="price">
+                            ￥<%=item.SellPrice%>
+                        </div>
+                    </div>
 
-            <div class="number-input">
-                <button class="jianhao hidden">-</button>
-                <label price="<%=item.SellPrice%>" goodsId="<%=item.GoodsId%>">
-                    0
-                </label>
-                <button class="jiahao">+</button>
+                    <div class="number-input">
+                        <button class="jianhao hidden">-</button>
+                        <label price="<%=item.SellPrice%>" goodsId="<%=item.GoodsId%>">
+                            0
+                        </label>
+                        <button class="jiahao">+</button>
+                    </div>
+                </div>
             </div>
         </div>
         <% }); %>
@@ -49,7 +52,7 @@
                     <div class="tag" tagId="-1">已选</div>
                     @foreach (var tag in tags)
                     {
-                        <div class="tag" tagId="@tag.ID">@tag.DisplayName</div>
+                        <div class=“tag” tagId="@tag.ID">@tag.DisplayName</div>
                     }
                 </div>
                 <div class="list" id="goods-list">

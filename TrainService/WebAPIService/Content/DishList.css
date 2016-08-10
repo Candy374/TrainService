@@ -110,12 +110,20 @@
 }
 
 .order-content .list .item .descriptions {
+    display: flex;
+    flex-direction: column;
     flex: 1;
 }
 
 .order-content .list .item .descriptions .detail {
+    display: flex;
+    flex: 1;
+}
+
+.order-content .list .item .descriptions .left {
     font-size: 0.8em;
     color: #aaa;
+    flex: 1;
 }
 
 .order-content .list .item .descriptions .price {
