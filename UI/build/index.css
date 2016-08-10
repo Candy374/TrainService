@@ -1,0 +1,172 @@
+body {
+    font-size: 50px;
+}
+#content > div {
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.button {
+    border: 1px solid #fff;
+    line-height: 70px;
+    padding: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.header {
+    background: #000;
+    display: flex;
+    padding: 3px;
+    color: #fff;
+    height: 90px;
+}
+
+.header .button {
+    width: 200px;
+    border-radius: 5px;
+}
+
+.header .title {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer {
+    background: #000;
+    color: #fff;
+    height: 90px;
+}
+
+.order-page .footer {
+    display: flex;
+}
+
+.footer .total {
+    flex: 1;
+    text-align: center;
+    line-height: 70px;
+}
+
+.footer .button{
+    background: #E91E63;
+    flex: 1;
+}
+
+.order-content {
+    display: flex;
+    margin: 2px 0;
+    flex: 1;
+}
+
+.order-content .type {
+    width: 200px;
+    margin-right: 2px;
+    border-right: 1px solid;
+    overflow-y: auto;
+}
+
+.order-content .type .active {
+    background: green;
+}
+
+.order-content .detail {
+    flex: 1;
+}
+
+.order-content .img {
+    width: 140px;
+    height: 140px;
+    background: blue;
+}
+
+.order-content .list {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.order-content .list .item {
+    display: flex;
+    margin-bottom: 2px;
+    flex-shrink: 0;
+}
+
+.order-content .list .item .descriptions {
+    flex: 1;
+}
+
+.order-content .list .item .descriptions .detail{
+    font-size: 25px;
+}
+
+.order-content .list .item .descriptions .name {
+    font-size: 30px;
+}
+
+.order-content .list .item input {
+    width: 50px;
+    height: 50px;
+}
+
+.number-input {
+    display: flex;
+}
+   
+.number-input button {
+    background: pink;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    border: none;
+    font-size: 45px;
+}
+
+.number-input label {
+    margin: 0 10px;
+}
+
+.train-info {
+    margin: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.train-info input {
+    height: 40px;
+    bottom: 12px;
+    position: relative;
+    margin-right: 40px;
+}
+
+input[type="checkbox"] {
+    width: 40px;
+    bottom: 0;
+}
+
+.train-info select {
+    height: 43px;
+    bottom: 5px;
+    position: relative;
+    width: 60px;
+    font-size: 30px;
+}
+
+.train-info select {
+    font-size: 10px;
+}
+
+.train-info textarea {
+    width: 80%;
+    height: 400px;
+    margin: 0 10px;
+}
+        
