@@ -25,5 +25,11 @@ namespace WebAPIService.Controllers.Tests
             dynamic obj = serializer.Deserialize(json, typeof(object));
             controller.Add(obj);
         }
+
+        [TestMethod]
+        public void GetOrderListByOpenId()
+        {
+            var list = (new OrdersController()).Get("dsfsadfsdfasdfasdfasdf");
+        }
     }
 }

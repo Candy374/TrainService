@@ -1,7 +1,9 @@
 ﻿using Arch.Data;
+using Arch.Data.DbEngine;
 using DAL.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +35,14 @@ namespace DAL.DAO
 
                 return orderId;
             }
+        }
+
+        public IList<OrderEntity> GetOrderByOpenId(string openId)
+        {
+            var para = new StatementParameterCollection();
+            para.Add(new StatementParameter { Name = "@OpenId", Direction = ParameterDirection.Input, DbType = DbType.String, Value = openId });
+
+            return _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE user_openid=@OpenId", para);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace WebAPIService.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "选择车站";
             ViewBag.StationList = StationsController._Get();
             return View();
         }
@@ -20,6 +20,12 @@ namespace WebAPIService.Controllers
             ViewBag.Tags = TagsController._Get();
             ViewBag.Station = station;
             return View();
+        }
+
+        public ActionResult MyOrders(string openId)
+        {
+            var model = DAL.DalFactory.Orders.GetOrderByOpenId(openId);
+            return View(model);
         }
     }
 }

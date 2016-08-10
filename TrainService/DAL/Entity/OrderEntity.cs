@@ -105,6 +105,49 @@ namespace DAL.Entity
         [DataMember]
         [Column(Name = "is_delay", ColumnType = DbType.Boolean)]
         public bool IsDelay { get; set; }
+
+        public string GetOrderTypeDisplayName()
+        {
+            switch (this.OrderType)
+            {
+                case 0:
+                    return "外卖";
+                case 1:
+                    return "商品";
+                case 2:
+                    return "服务";
+                default:
+                    return "未知";
+            }
+        }
+
+        public string GetOrderStatusDisplayName()
+        {
+            switch (this.OrderStatus)
+            {
+                case 0:
+                    return "待付款";
+                case 1:
+                    return "已付款";
+                case 2:
+                    return "商家已接单";
+                case 3:
+                    return "商家已配货";
+                case 4:
+                    return "快递已取货";
+                case 5:
+                    return "已送到指定地点";
+                case 6:
+                    return "已完成";
+                case 7:
+                    return "订单取消";
+                case 8:
+                    return "订单异常";
+
+                default:
+                    return "未知";
+            }
+        }
     }
 
 }

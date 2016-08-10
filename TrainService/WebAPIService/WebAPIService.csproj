@@ -249,6 +249,7 @@
     <Compile Include="Controllers\API\TagsController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Entity\UIGoodsEntity.cs" />
+    <Compile Include="Entity\UIOrderDetailEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -329,6 +330,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\DishBook.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
+    <Content Include="Views\Home\MyOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

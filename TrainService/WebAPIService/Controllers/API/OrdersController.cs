@@ -18,15 +18,15 @@ namespace WebAPIService.Controllers
         [Route("Add")]
         public int Add([FromBody]dynamic data)
         {
-            var openId = data.OpenId as string;
-            var trainNumber = data.TrainNumber as string;
-            var carriageNumber = data.CarriageNumber as string;
+            string openId = data.OpenId;
+            string trainNumber = data.TrainNumber ;
+            string carriageNumber = data.CarriageNumber;
             bool isDelay = data.IsDelay;
             int orderType = data.OrderType;
             int payWay = data.PayWay;
-            var comment = data.Comment as string;
-            var contact = data.Contact as string;
-            var contactTel = data.ContactTel as string;
+            string comment = data.Comment;
+            string contact = data.Contact;
+            string contactTel = data.ContactTel;
             IEnumerable<dynamic> goodsList = data.List;
             decimal totalPriceFromUI = data.TotalPrice;
             decimal totalPriceVerify = 0;
@@ -78,6 +78,17 @@ namespace WebAPIService.Controllers
             }, orderDetailList);
 
             return (int)orderId;
+        }
+
+        [Route("Query/{openId}")]
+        public IEnumerable<object> Get(string openId)
+        {
+            return DalFactory.Orders.GetOrderByOpenId(openId);
+        }
+
+        [Route("Detail/{orderId}")]
+        public object GetOrderDetail(string orderId)
+        {
         }
     }
 }

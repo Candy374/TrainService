@@ -1,0 +1,30 @@
+﻿@model IList<DAL.Entity.OrderEntity>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>我的订单</title>
+</head>
+<body>
+    <div>
+        @foreach (var item in Model)
+        {
+            <div>
+                <div>
+                    订单类型：<span> @item.GetOrderTypeDisplayName()</span>
+                </div>
+                <div>订单金额:￥<span>@item.Amount</span></div>
+                <div>订单时间:<span>@item.OrderCreateTime.ToString("G")</span></div>
+                <div>状态:<span>@item.GetOrderStatusDisplayName()</span></div>
+            </div>
+
+        }
+    </div>
+</body>
+</html>
