@@ -49,7 +49,7 @@ namespace WebAPIService.Controllers
                 });
 
                 sb.AppendLine(goods.Name + "×" + item.Count);
-                totalPriceVerify += goods.SellPrice * item.Count;
+                totalPriceVerify += goods.SellPrice * (int)item.Count;
             }
 
             if (totalPriceFromUI != totalPriceVerify)
