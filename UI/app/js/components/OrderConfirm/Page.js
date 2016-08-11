@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Footer from '../common/Footer.js';
+import Page from '../common/Page.js';
 import OrderDetail from './Detail.js';
 import OrderList from './List.js';
 import Comments from './Comments.js';
@@ -14,13 +14,14 @@ export default class OrderConfirmPage extends Component {
                 };
 
         return (
-            <div className='order-confirm'>
-                <OrderStatus />
-                <OrderDetail />
-                <OrderList />
-                <Comments />
-                <Footer {...footer} />
-            </div>
+            <Page footer={footer}>
+                <div className='order-confirm'>
+                    <OrderStatus />
+                    <OrderDetail />
+                    <OrderList />
+                    <Comments />
+                </div>
+            </Page>
         );
     }
 }

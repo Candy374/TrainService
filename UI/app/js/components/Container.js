@@ -6,7 +6,7 @@ import OrderConfirmPage from './OrderConfirm/Page.js';
 export default class Container extends Component {
     componentWillMount() {
         this.state = {
-            page: 1,
+            page: 3,
             chart: {},
             total: 0
         };
@@ -33,21 +33,21 @@ export default class Container extends Component {
     }
 
     pay() {
-        console.log(this.state.chart);
-        console.log(this.state.total)
+       this.nextPage();
     }
 
     render() {
         switch(this.state.page){
             case 1:
-                return <OrderConfirmPage />
-                // return (
-                //     <OrderPage  total={this.state.total}
-                //                 updateTotal={this.updateTotal}
-                //                 updateChart={this.updateChart.bind(this)}
-                //                 nextPage={this.nextPage} />);
+                return (
+                    <OrderPage  total={this.state.total}
+                                updateTotal={this.updateTotal}
+                                updateChart={this.updateChart.bind(this)}
+                                nextPage={this.nextPage} />);
             case 2:
                 return <TrainInfo nextPage={this.nextPage} pay={this.pay.bind(this)}/>;
+           case 3:
+                return <OrderConfirmPage />;
         }
     }
 }

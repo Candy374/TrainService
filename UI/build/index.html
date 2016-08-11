@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
 <html lang="en">
 
 <head>
@@ -7,19 +7,21 @@
     <script src='./jquery.min.js' ></script>
     <style>
 body {
-    font-size: 1em;
+    font-size: 1.2em;
     font-family: monospace;
     margin:0;
 }
-.order-page {
-    display: flex;
+.container {
+   display: flex;
     flex-direction: column;
-    top: 0;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    height: 100vh;
 }
+
+.page {
+    flex: 1;
+    overflow: auto;
+}
+
 .button {
     border: 1px solid #fff;
     line-height: 2em;
@@ -32,9 +34,6 @@ body {
     background: rgba(0, 0, 0, 0.77);
     color: #fff;
     height: 2em;
-}
-
-.order-page .footer {
     display: flex;
 }
 
@@ -52,7 +51,6 @@ body {
 .order-content {
     display: flex;
     margin: 0.2em 0;
-    flex: 1;
 }
 
 .order-content .type {
@@ -109,16 +107,24 @@ body {
 }
 
 .order-content .list .item .descriptions {
+    display: flex;
+    flex-direction: column;
     flex: 1;
 }
 
 .order-content .list .item .descriptions .detail {
-    font-size: 0.5em;
+    display: flex;
+    flex: 1;
+}
+
+.order-content .list .item .descriptions .left {
+    font-size: 0.8em;
     color: #aaa;
+    flex: 1;
 }
 
 .order-content .list .item .descriptions .price {
-    font-size: 0.8em;
+    font-size: 1em;
     color: red;
 }
 
@@ -128,14 +134,14 @@ body {
 }
    
 .number-input button {
-    border-radius: 50%;
-    width: 1em;
-    height: 1em;
-    font-size: 1.5em;
+   border-radius: 50%;
+    width: 1.8em;
+    height: 1.8em;
+    font-size: 15px;
     background: #fff;
     color: rgba(255, 0, 0, 0.66);
     border: solid #ddd 1px;
-    line-height: 1em;
+    padding: 0;
 }
 
 .number-input label {
@@ -143,16 +149,9 @@ body {
     align-self: center;
 }
 
-.train-info {
-    margin: 10px 10px;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    flex: 1;
-}
-
-.train-info .line {
+.line {
     line-height: 1.5em;
+    margin: 0.3em 0;
 }
 
 .train-info input {
@@ -183,7 +182,7 @@ input[type="checkbox"] {
 
 .train-info textarea {
     width: 80%;
-    height: 400px;
+    height: 8em;
     margin: 0 10px;
 }
 
@@ -194,14 +193,13 @@ input[type="checkbox"] {
 }
 
 .order-confirm .section {
-    padding: 1em;
-    margin: 1em 0;
+    padding: 0.5em 1em;
+    margin: 0.5em 0;
     background: #fff;
 }
 
 .order-confirm .line{
      display: flex;
-     line-height: 1.5em;
 }
 .order-confirm .title{
      flex: 1;
@@ -217,6 +215,100 @@ input[type="checkbox"] {
 .order-confirm .section .label{
     width: 7em;
 }
+
+.order-confirm .section .fee{
+    flex-direction: row-reverse;
+}
+
+.order-confirm .section .fee .label{
+    width: 8em;
+}
+
+.order-confirm .section .goods-list .label{
+    flex: 1;
+}
+
+.order-confirm .section .goods-list .price, .order-confirm .section .goods-list .number{
+    width: 4em;
+}
+.order-confirm .section .goods-list .price {
+    color: #E91E63;
+}
+
+.order-confirm .section .status {
+    display: flex;
+    justify-content: space-around;
+}
+
+.order-confirm .section .block {
+    display: flex;
+    flex-direction: column;
+}
+
+.order-confirm .status.img {
+    margin-bottom: 1em;
+}
+
+.order-confirm .status .img {
+    border-bottom: 1px solid;
+    margin-bottom: 1em;
+    padding: 1em;
+
+}
+
+.img .start {
+    background: #000;
+    border: 1px solid #000;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    position: relative;
+    color: #eee;
+}
+.img .start:after {
+    content: "______";
+    position: absolute;
+    left: 10px;
+    top: -10px;
+    color: #eee;
+}
+
+
+.img .line {
+    background: #eee;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    position: relative;
+    top: -5px;
+    color: #eee;
+}
+.img .line:after {
+    content: "____________";
+    position: absolute;
+    color: #eee;
+    left: -35px;
+    top: -14px;
+}
+
+.img .end {
+    background: #eee;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    position: relative;
+    color: #eee;
+}
+.img .end:after {
+    content: "______";
+    position: absolute;
+    color: #eee;
+    left: -49px;
+    top: -11px;
+}
+
         </style>
 </head>
 
