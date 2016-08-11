@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Footer from './common/Footer.js';
 import FoodList from './FoodList.js';
 import TrainInfo from './TrainInfo.js';
-
+import Page from './common/Page.js';
 export default class OrderPage extends Component {
     render() {
         const {nextPage, updateChart, updateTotal, total}  = this.props;        
@@ -16,12 +16,11 @@ export default class OrderPage extends Component {
                 };
 
         return (
-            <div className='order-page'>
+            <Page footer={footer}>
                 <FoodList total={total} 
                     updateChart={updateChart}
                     updateTotal={updateTotal}></FoodList>
-                <Footer {...footer}/>
-            </div>
+            </Page>
         );
     }
 }

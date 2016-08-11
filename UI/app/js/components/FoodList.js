@@ -82,16 +82,24 @@ export default class FoodList extends Component {
                         return (
                             <div key={food.GoodsId} className='item'>
                                 <img src= {food.PictureUrl}  className='img'/>
-                                <div className='descriptions'>
-                                    <label className='name'>{food.Name}</label>
-                                    <div className='detail'>
-                                        
-                                        {`月售${food.OrderCount}     `.substr(0, 5)}
-                                        {`好评率${food.Rating}%`}
-                                    </div>
-                                    <label className='price'>{`￥${food.SellPrice}`}</label>
-                                </div>
-                                <NumberInput count={food.count} updateCount={(count) => this.add(food, count)}/>
+                                <div className="descriptions">
+                                    <label class="name">
+                                        {food.Name}
+                                    </label>
+                                    <div className="detail">
+                                        <div className="left">
+                                            {`月售${food.OrderCount}`}
+                                            {`好评率${food.Rating}%`}
+                                            <div className="price">
+                                                {`￥${food.SellPrice}`}
+                                            </div>
+                                        </div>
+
+                                        <div className="number-input">
+                                            <NumberInput count={food.count} updateCount={(count) => this.add(food, count)}/>
+                                        </div>
+                                    </div>    
+                                </div>                           
                             </div>
                         )
                     })} 
