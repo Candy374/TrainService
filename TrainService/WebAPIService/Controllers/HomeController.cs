@@ -27,5 +27,6 @@ namespace WebAPIService.Controllers
             var model = DAL.DalFactory.Orders.GetOrderByOpenId(openId);
             return View(model);
         }
+
     }
 }

@@ -12,13 +12,17 @@ namespace WebAPIService.Entity
     {
         [DataMember]
         public int OrderId { get; set; }
-
+        [DataMember]
         public string OrderStatus { get; set; }
+        [DataMember]
         public string Contact { get; set; }
+        [DataMember]
         public string ContactTel { get; set; }
+        [DataMember]
         public string OrderDetail { get; set; }
+        [DataMember]
         public decimal Amount { get; set; }
+        [DataMember]
         public string TrainNumber { get; set; }
-        public 
     }
 }

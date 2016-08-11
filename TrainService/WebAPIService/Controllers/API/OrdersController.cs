@@ -86,9 +86,10 @@ namespace WebAPIService.Controllers
             return DalFactory.Orders.GetOrderByOpenId(openId);
         }
 
-        [Route("Detail/{orderId}")]
-        public object GetOrderDetail(string orderId)
-        {
-        }
+        //[Route("Detail/{orderId}")]
+        //public object GetOrderDetail(string orderId)
+        //{
+        //    var order=DalFactory.Orders.g
+        //}
     }
 }

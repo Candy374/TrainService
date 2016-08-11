@@ -247,6 +247,7 @@
     <Compile Include="Controllers\API\OrdersController.cs" />
     <Compile Include="Controllers\API\StationsController.cs" />
     <Compile Include="Controllers\API\TagsController.cs" />
+    <Compile Include="Controllers\TokenVerifyController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Entity\UIGoodsEntity.cs" />
     <Compile Include="Entity\UIOrderDetailEntity.cs" />
@@ -334,6 +335,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\TokenVerify\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
