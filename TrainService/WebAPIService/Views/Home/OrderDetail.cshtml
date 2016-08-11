@@ -13,22 +13,23 @@
     <link type="text/css" rel="stylesheet" href="~/Content/OrderDetail.css" />
 </head>
 <body>
-    <div id="content">
-        <div data-reactroot="" class="order-confirm">
+    <div id="content" class='container'>
+        <div class="order-confirm page">
             <div class="section">
                 <div class="line">订单状态</div>
-                @{ var statusArray = Model.GetOrderStatus();
-                    for (int i = 0; i < statusArray.Length; i++)
-                    {
-                        var status = statusArray[i];
-                        <span class="status-text@(status.StatusCode)">@status.DisplayName</span>
-                        if (i<statusArray.Length-1)
+                <div class='status'>
+                    @{ var statusArray = Model.GetOrderStatus();
+                        for (int i = 0; i < statusArray.Length; i++)
                         {
-                            var len = (25 / statusArray.Length)-(statusArray[i+1].DisplayName.Length/2);
-                            <span class="progress-line">@("".PadRight(len,'-'))</span>
+                            var status = statusArray[i];
+                            <span class="step@(status.StatusCode)">@status.DisplayName</span>
+                            if (i < statusArray.Length - 1)
+                            {
+                                <span> > </span>
+                            }
                         }
                     }
-                }
+                </div>
             </div>
             <div class="section">
                 <div class="head line">
@@ -73,9 +74,9 @@
                                         <!-- /react-text -->
                                     </label>
                                     <label class="price">
-                                        <!-- react-text: 28 -->￥
+                                        <!-- react-text: 28 -->
                                         <!-- /react-text -->
-                                        <!-- react-text: 29 -->@item.SellPrice
+                                        <!-- react-text: 29 -->￥@(item.SellPrice*item.Count)
                                         <!-- /react-text -->
                                     </label>
                                 </div>
@@ -84,24 +85,26 @@
 
                     }
 
+                    <div class="line">
+                        <label class="label">配送费</label>
+                        <label class="number"> </label>
+                        <label class="price">
+                            <!-- react-text: 42 -->
+                            <!-- /react-text -->
+                            <!-- react-text: 43 -->￥0
+                            <!-- /react-text -->
+                        </label>
+                    </div>
 
                 </div>
-                <div class="line">
-                    <label class="name">配送费</label>
-                    <label class="number"> </label>
-                    <label class="price">
-                        <!-- react-text: 42 -->￥
+
+                <div class="line fee">
+                    <label class="label">
+                        <!-- react-text: 45 -->@(Model.UserPayFee<Model.Amount?"待支付":"总价") 
                         <!-- /react-text -->
-                        <!-- react-text: 43 -->0
+                        <label class="price">￥@Model.Amount</label>
                         <!-- /react-text -->
                     </label>
-                </div>
-
-                <div class="line">
-                    <!-- react-text: 45 -->待支付 ￥
-                    <!-- /react-text -->
-                    <!-- react-text: 46 -->@Model.Amount
-                    <!-- /react-text -->
                 </div>
             </div>
             <div class="section">
@@ -111,19 +114,20 @@
                 </div>
                 <div class="comments line">
                     <div class="label">订单备注：</div>
-                    <div>@Model.OrderMsg</div>
+                    <div readonly="true">@Model.OrderMsg</div>
                 </div>
             </div>
-            <div class="footer">
-                @if (Model.UserPayFee < Model.Amount)
-                {
-                    <div class="button pay-button"><span>立即支付</span></div>
-                }
-                else
-                {
-                    <a href="tel:18981940918"><div class="button call-button"><span>联系客服</span></div></a>
-                }
-            </div>
+        </div>
+
+        <div class="footer">
+            @if (Model.UserPayFee < Model.Amount)
+            {
+                <div class="button pay-button"><span>立即支付</span></div>
+            }
+            else
+            {
+                <a href="tel:18981940918"><div class="button call-button"><span>联系客服</span></div></a>
+            }
         </div>
     </div>
     <script src="bundle.js"></script>
