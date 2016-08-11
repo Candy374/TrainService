@@ -235,6 +235,79 @@ input[type="checkbox"] {
     color: #E91E63;
 }
 
+.order-confirm .section .status {
+    display: flex;
+    justify-content: space-around;
+}
+
+.order-confirm .section .block {
+    display: flex;
+    flex-direction: column;
+}
+
+.order-confirm .status.img {
+    margin-bottom: 1em;
+}
+
+.order-confirm .status .img {
+    border-bottom: 1px solid;
+    margin-bottom: 1em;
+    padding: 1em;
+
+}
+
+.img .start {
+    background: #000;
+    border: 1px solid #000;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    position: relative;
+    color: #eee;
+}
+.img .start:after {
+    content: "______";
+    position: absolute;
+    left: 10px;
+    top: -10px;
+    color: #eee;
+}
+
+
+.img .line {
+    background: #eee;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    position: relative;
+    top: -5px;
+    color: #eee;
+}
+.img .line:after {
+    content: "____________";
+    position: absolute;
+    color: #eee;
+    left: -35px;
+    top: -14px;
+}
+
+.img .end {
+    background: #eee;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    position: relative;
+    color: #eee;
+}
+.img .end:after {
+    content: "______";
+    position: absolute;
+    color: #eee;
+    left: -49px;
+    top: -11px;
+}
 
         </style>
 </head>

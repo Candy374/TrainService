@@ -6,7 +6,7 @@ import OrderConfirmPage from './OrderConfirm/Page.js';
 export default class Container extends Component {
     componentWillMount() {
         this.state = {
-            page: 1,
+            page: 3,
             chart: {},
             total: 0
         };
