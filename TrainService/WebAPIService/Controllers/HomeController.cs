@@ -28,5 +28,12 @@ namespace WebAPIService.Controllers
             return View(model);
         }
 
+
+        public ActionResult OrderDetail(string orderId)
+        {
+            var model = DAL.DalFactory.Orders.GetOrderByOrderId(orderId);
+            ViewBag.SubOrders = DAL.DalFactory.Orders.GetSubOrders(orderId);
+            return View(model);
+        }
     }
 }

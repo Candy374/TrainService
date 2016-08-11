@@ -91,6 +91,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAO\OrderDaoTests.cs" />
     <Compile Include="DynamicJsonConverter.cs" />
     <Compile Include="Controllers\OrdersControllerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,6 +105,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{E958F57D-D8CE-4E2D-B9A2-CB5C56E2D001}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WebAPIService\WebAPIService.csproj">
       <Project>{07B2F43B-E2B9-4422-8B62-1E7340F11B86}</Project>
       <Name>WebAPIService</Name>

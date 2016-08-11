@@ -67,6 +67,7 @@
     <Compile Include="DAO\TagsDao.cs" />
     <Compile Include="Entity\OrderDetailEntity.cs" />
     <Compile Include="Entity\OrderEntity.cs" />
+    <Compile Include="Entity\OrderStatus.cs" />
     <Compile Include="Entity\StationEntity.cs" />
     <Compile Include="Entity\TagEntity.cs" />
     <Compile Include="Entity\AccountEntity.cs" />

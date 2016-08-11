@@ -8,8 +8,8 @@
 
 <html>
 <head>
-  
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
     <title>DishBook</title>
     <link rel="stylesheet" href="~/Content/DishList.css" />
     <script type="text/javascript" src="~/Scripts/jquery-3.1.0.min.js"></script>
@@ -64,7 +64,7 @@
 
                     共计: ￥<span id="total-price">0</span>
                 </div>
-                <div class="button">
+                <div class="button" id="submit-order">
                     <span>
                         选好了
                     </span>
@@ -75,6 +75,8 @@
     <script type="text/javascript">
         var rawData = null;
         var buyList = new Array();
+        var openId = "test_Open_Id";
+        var totalPrice = 0.0;
         $.getJSON("../api/goods/@ViewBag.Station/0", null, function (data) {
             rawData = data;
             buildDishList(data);
@@ -136,7 +138,8 @@
         function updateBuyList() {
             $("#goods-list > div.item > div.descriptions > div.detail > div.number-input > label").each(function () {
                 var label = $(this);
-                buyList[parseInt(label.attr("goodsId"))] = { Count: parseInt(label.text()), Price: parseFloat(label.attr("price")) };
+                var goodsId = parseInt(label.attr("goodsId"));
+                buyList[goodsId] = { Id: goodsId, Count: parseInt(label.text()), Price: parseFloat(label.attr("price")) };
             });
         }
 
@@ -148,7 +151,54 @@
                     price += p.Count * p.Price;
                 }
             }
+            totalPrice = price;
             $("#total-price").text(price);
+        }
+
+        $("#submit-order").click(function () {
+            var data = BuildPostData();
+            if (data == null) { return;}
+            $.ajax({
+                type: "POST",
+                url: "/trainservice/api/Orders/add",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(),
+                success: function (orderId) {
+                    window.location.href = "/trainservice/Home/OrderDetail?orderId=" + orderId;
+                }
+            });
+        });
+
+        function BuildPostData() {
+            var lst = [];
+            for (var index in buyList) {
+                var p = buyList[index];
+                if (p != undefined && p != null && p.Count > 0) {
+                    lst.push({ Count: p.Count, Id: p.Id })
+                }
+            }
+
+            if (lst.length==0) {
+                return null;
+            }
+
+            var d = {
+                "OpenId": openId,
+                "TrainNumber": "G0123",
+                "CarriageNumber": "6",
+                "PayWay": 0,
+                "IsDelay": false,
+                "OrderType": 0,
+                "Comment": "测试-用户备注内容\n-----------------第一行---------------\n----------------第二行------------------",
+                "Contact": "测试——姓名",
+                "ContactTel": "13913913913",
+                "TotalPrice": totalPrice,
+                "ManCount": "3",
+                "List": lst
+            }
+
+            return d;
         }
     </script>
 </body>

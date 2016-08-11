@@ -37,12 +37,28 @@ namespace DAL.DAO
             }
         }
 
+        public IList<OrderDetailEntity> GetSubOrders(string orderId)
+        {
+            var para = new StatementParameterCollection();
+            para.Add(new StatementParameter { Name = "@OId", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = Convert.ToInt32(orderId) });
+
+            return _baseDao.SelectList<OrderDetailEntity>("SELECT * FROM order_details WHERE order_id=@OId", para);
+        }
+
         public IList<OrderEntity> GetOrderByOpenId(string openId)
         {
             var para = new StatementParameterCollection();
             para.Add(new StatementParameter { Name = "@OpenId", Direction = ParameterDirection.Input, DbType = DbType.String, Value = openId });
 
             return _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE user_openid=@OpenId", para);
+        }
+
+        public OrderEntity GetOrderByOrderId(string orderId)
+        {
+            var para = new StatementParameterCollection();
+            para.Add(new StatementParameter { Name = "@OId", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = Convert.ToUInt32(orderId) });
+
+            return _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id=@OId limit 1", para).FirstOrDefault();
         }
     }
 }

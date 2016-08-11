@@ -1,0 +1,132 @@
+﻿@model DAL.Entity.OrderEntity
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>OrderDetail</title>
+    <link type="text/css" rel="stylesheet" href="~/Content/OrderDetail.css" />
+</head>
+<body>
+    <div id="content">
+        <div data-reactroot="" class="order-confirm">
+            <div class="section">
+                <div class="line">订单状态</div>
+                @{ var statusArray = Model.GetOrderStatus();
+                    for (int i = 0; i < statusArray.Length; i++)
+                    {
+                        var status = statusArray[i];
+                        <span class="status-text@(status.StatusCode)">@status.DisplayName</span>
+                        if (i<statusArray.Length-1)
+                        {
+                            var len = (30 / statusArray.Length)-(statusArray[i+1].DisplayName.Length/2);
+                            <span class="progress-line">@("".PadRight(len,'-'))</span>
+                        }
+                    }
+                }
+            </div>
+            <div class="section">
+                <div class="head line">
+                    <div class="title">订单详情：</div>
+                    <div class="order-no">编号：@("DC" + Model.OrderId.ToString().PadLeft(8, '0'))</div>
+                </div>
+                <div class="user-info">
+                    <div class="line">
+                        <span class="label">联系人：</span>
+                        <!-- react-text: 11 -->@Model.Contacts
+                        <!-- /react-text -->
+                    </div>
+                    <div class="line">
+                        <span class="label">联系方式：</span>
+                        <!-- react-text: 14 -->@Model.ContactNumber
+                        <!-- /react-text -->
+                    </div>
+                    <div class="line">
+                        <span class="label">收货地址：</span>
+                        <!-- react-text: 17 -->@Model.TrainNumber  @Model.CarriageNumber 号餐车
+                        <!-- /react-text -->
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="head line">
+                    <div class="title">已点菜品：</div>
+                </div>
+                <div class="goods-list">
+                    @{
+                        var subOrders = ViewBag.SubOrders as IEnumerable<DAL.Entity.OrderDetailEntity>;
+                        if (subOrders != null)
+                        {
+                            foreach (var item in subOrders)
+                            {
+                                <div class="line">
+                                    <label class="label">@item.DisplayName</label>
+                                    <label class="number">
+                                        <!-- react-text: 25 -->X
+                                        <!-- /react-text -->
+                                        <!-- react-text: 26 -->@item.Count
+                                        <!-- /react-text -->
+                                    </label>
+                                    <label class="price">
+                                        <!-- react-text: 28 -->￥
+                                        <!-- /react-text -->
+                                        <!-- react-text: 29 -->@item.SellPrice
+                                        <!-- /react-text -->
+                                    </label>
+                                </div>
+                            }
+                        }
+
+                    }
+
+
+                </div>
+                <div class="line">
+                    <label class="name">配送费</label>
+                    <label class="number"> </label>
+                    <label class="price">
+                        <!-- react-text: 42 -->￥
+                        <!-- /react-text -->
+                        <!-- react-text: 43 -->0
+                        <!-- /react-text -->
+                    </label>
+                </div>
+
+                <div class="line">
+                    <!-- react-text: 45 -->待支付 ￥
+                    <!-- /react-text -->
+                    <!-- react-text: 46 -->@Model.Amount
+                    <!-- /react-text -->
+                </div>
+            </div>
+            <div class="section">
+                <div class="head line">
+                    <div class="title">用餐人数</div>
+                    <div>2</div>
+                </div>
+                <div class="comments line">
+                    <div class="label">订单备注：</div>
+                    <div>@Model.OrderMsg</div>
+                </div>
+            </div>
+            <div class="footer">
+                @if (Model.UserPayFee < Model.Amount)
+                {
+                    <div class="button pay-button"><span>立即支付</span></div>
+                }
+                else
+                {
+                    <a href="tel:18981940918"><div class="button call-button"><span>联系客服</span></div></a>
+                }
+            </div>
+        </div>
+    </div>
+    <script src="bundle.js"></script>
+</body>
+
+</html>

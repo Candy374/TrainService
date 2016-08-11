@@ -37,6 +37,18 @@ namespace DAL.Entity
         [DataMember]
         [Column(Name = "provider_id", ColumnType = DbType.Int32)]
         public int ProviderId { get; set; }
+
+        [DataMember]
+        [Column(Name = "buy_count",ColumnType =DbType.Int32)]
+        public int Count { get; set; }
+
+        [DataMember]
+        [Column(Name = "refund_count", ColumnType = DbType.Int32)]
+        public int RefundCount { get; set; }
+
+        [DataMember]
+        [Column(Name = "display_name", ColumnType = DbType.String, Length = 128)]
+        public string DisplayName { get; set; }
     }
 
 }

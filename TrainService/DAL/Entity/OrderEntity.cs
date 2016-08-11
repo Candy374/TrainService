@@ -105,6 +105,9 @@ namespace DAL.Entity
         [DataMember]
         [Column(Name = "is_delay", ColumnType = DbType.Boolean)]
         public bool IsDelay { get; set; }
+        [DataMember]
+        [Column(Name = "man_count", ColumnType = DbType.Int32)]
+        public int ManCount { get; set; }
 
         public string GetOrderTypeDisplayName()
         {
@@ -148,6 +151,36 @@ namespace DAL.Entity
                     return "未知";
             }
         }
+
+        public OrderStatus[] GetOrderStatus()
+        {
+            switch (this.OrderStatus)
+            {
+                case 0:
+                    return new[] { new Entity.OrderStatus("等待用户支付", 1), new Entity.OrderStatus("商家接单", 2), new Entity.OrderStatus("配送", 2), new Entity.OrderStatus("完成", 2) };
+                case 1:
+                    return new[] { new Entity.OrderStatus("已支付", 0), new Entity.OrderStatus("等待商家接单", 1), new Entity.OrderStatus("配送", 2), new Entity.OrderStatus("完成", 2) };
+                case 2:
+                    return new[] { new Entity.OrderStatus("已支付", 0), new Entity.OrderStatus("商家已接单", 1), new Entity.OrderStatus("配送", 2), new Entity.OrderStatus("完成", 2) };
+                case 3:
+                    return new[] { new Entity.OrderStatus("已支付", 0), new Entity.OrderStatus("商家已配货", 1), new Entity.OrderStatus("配送", 2), new Entity.OrderStatus("完成", 2) };
+                case 4:
+                    return new[] { new Entity.OrderStatus("已支付", 0), new Entity.OrderStatus("商家已配货", 0), new Entity.OrderStatus("快递小哥已取货", 1), new Entity.OrderStatus("完成", 2) };
+                case 5:
+                    return new[] { new Entity.OrderStatus("已支付", 0), new Entity.OrderStatus("商家已配货", 0), new Entity.OrderStatus("商品到达站台", 1), new Entity.OrderStatus("完成", 2) };
+                case 6:
+                    return new[] { new Entity.OrderStatus("已支付", 0), new Entity.OrderStatus("商家已配货", 0), new Entity.OrderStatus("商品到达站台", 0), new Entity.OrderStatus("已送达", 1) };
+                case 7:
+                    return new[] { new Entity.OrderStatus("等待用户支付", 0), new Entity.OrderStatus("订单取消", 1) };
+                case 8:
+                    return new[] { new Entity.OrderStatus("订单异常", 1) };
+
+                default:
+                    return new[] { new Entity.OrderStatus("未知状态，请联系客服", 1) }; ;
+            }
+        }
+
+
     }
 
 }

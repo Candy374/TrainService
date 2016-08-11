@@ -19,11 +19,12 @@ namespace WebAPIService.Controllers
         public int Add([FromBody]dynamic data)
         {
             string openId = data.OpenId;
-            string trainNumber = data.TrainNumber ;
+            string trainNumber = data.TrainNumber;
             string carriageNumber = data.CarriageNumber;
             bool isDelay = data.IsDelay;
             int orderType = data.OrderType;
             int payWay = data.PayWay;
+            int manCount = data.ManCount;
             string comment = data.Comment;
             string contact = data.Contact;
             string contactTel = data.ContactTel;
@@ -45,11 +46,15 @@ namespace WebAPIService.Controllers
                     GoodsId = (uint)item.Id,
                     ProviderId = goods.ProviderId,
                     PurchasePrice = goods.PurchasePrice,
-                    SellPrice = goods.SellPrice
+                    SellPrice = goods.SellPrice,
+                    Count = item.Count,
+                    RefundCount = 0,
+                    DisplayName=goods.Name
                 });
 
-                sb.AppendLine(goods.Name + "×" + item.Count);
-                totalPriceVerify += goods.SellPrice * (int)item.Count;
+                var price = goods.SellPrice * (int)item.Count;
+                sb.AppendLine(goods.Name + "×" + item.Count + "=" + price);
+                totalPriceVerify += price;
             }
 
             if (totalPriceFromUI != totalPriceVerify)
@@ -74,10 +79,11 @@ namespace WebAPIService.Controllers
                 TrainNumber = trainNumber,
                 UserOpenid = openId,
                 UserPayFee = 0,
-                Refund = 0
+                Refund = 0,
+                ManCount = manCount
             }, orderDetailList);
 
-            return (int)orderId;
+            return Convert.ToInt32(orderId);
         }
 
         [Route("Query/{openId}")]
