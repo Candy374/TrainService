@@ -156,14 +156,14 @@
         }
 
         $("#submit-order").click(function () {
-            var data = BuildPostData();
-            if (data == null) { return;}
+            var d = BuildPostData();
+            if (d == null) { return;}
             $.ajax({
                 type: "POST",
                 url: "/trainservice/api/Orders/add",
                 contentType: "application/json",
                 dataType: "json",
-                data: JSON.stringify(),
+                data: JSON.stringify(d),
                 success: function (orderId) {
                     window.location.href = "/trainservice/Home/OrderDetail?orderId=" + orderId;
                 }

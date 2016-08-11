@@ -24,7 +24,7 @@
                         <span class="status-text@(status.StatusCode)">@status.DisplayName</span>
                         if (i<statusArray.Length-1)
                         {
-                            var len = (30 / statusArray.Length)-(statusArray[i+1].DisplayName.Length/2);
+                            var len = (25 / statusArray.Length)-(statusArray[i+1].DisplayName.Length/2);
                             <span class="progress-line">@("".PadRight(len,'-'))</span>
                         }
                     }
