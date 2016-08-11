@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Footer from './common/Footer.js';
 import OrderPage from './OrderPage';
 import TrainInfo from './TrainInfo.js';
-
+import OrderConfirmPage from './OrderConfirm/Page.js';
 export default class Container extends Component {
     componentWillMount() {
         this.state = {
@@ -40,11 +40,12 @@ export default class Container extends Component {
     render() {
         switch(this.state.page){
             case 1:
-                return (
-                    <OrderPage  total={this.state.total}
-                                updateTotal={this.updateTotal}
-                                updateChart={this.updateChart.bind(this)}
-                                nextPage={this.nextPage} />);
+                return <OrderConfirmPage />
+                // return (
+                //     <OrderPage  total={this.state.total}
+                //                 updateTotal={this.updateTotal}
+                //                 updateChart={this.updateChart.bind(this)}
+                //                 nextPage={this.nextPage} />);
             case 2:
                 return <TrainInfo nextPage={this.nextPage} pay={this.pay.bind(this)}/>;
         }

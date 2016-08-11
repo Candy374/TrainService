@@ -1,0 +1,32 @@
+    
+    .order-confirm {
+        display: flex;
+        flex-direction: column;
+        background: #eee;
+    }
+    
+    .order-confirm .section {
+        padding: 1em;
+        margin: 1em 0;
+        background: #fff;
+    }
+    
+    .order-confirm .line {
+        display: flex;
+        line-height: 1.5em;
+    }
+    
+    .order-confirm .title {
+        flex: 1;
+        font-weight: bold
+    }
+    
+    .order-confirm .head {
+        border-bottom: 1px solid #eee;
+        padding: 0.2em 0;
+        margin-bottom: 0.4em;
+    }
+    
+    .order-confirm .section .label {
+        width: 7em;
+    }

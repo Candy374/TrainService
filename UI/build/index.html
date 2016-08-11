@@ -7,8 +7,9 @@
     <script src='./jquery.min.js' ></script>
     <style>
 body {
-    font-size: 3em;
+    font-size: 1em;
     font-family: monospace;
+    margin:0;
 }
 .order-page {
     display: flex;
@@ -184,6 +185,37 @@ input[type="checkbox"] {
     width: 80%;
     height: 400px;
     margin: 0 10px;
+}
+
+.order-confirm {
+    display: flex;
+    flex-direction: column;
+    background: #eee;
+}
+
+.order-confirm .section {
+    padding: 1em;
+    margin: 1em 0;
+    background: #fff;
+}
+
+.order-confirm .line{
+     display: flex;
+     line-height: 1.5em;
+}
+.order-confirm .title{
+     flex: 1;
+     font-weight: bold
+}
+
+.order-confirm .head{
+    border-bottom: 1px solid #eee;
+    padding: 0.2em 0;
+    margin-bottom: 0.4em;
+}
+
+.order-confirm .section .label{
+    width: 7em;
 }
         </style>
 </head>
