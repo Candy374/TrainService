@@ -10,7 +10,7 @@ export default class Page extends Component {
                 <div className='page'>
                 {children}
                 </div>
-                <Footer {...footer} />
+                {footer && <Footer {...footer} />}
             </div>
         );
     }

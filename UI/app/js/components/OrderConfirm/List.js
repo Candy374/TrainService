@@ -10,6 +10,23 @@ export default class OrderList extends Component {
             name:'皮蛋豆腐',
             num: 1,
             price: 9
+        },{
+            name:'水煮鱼',
+            num: 1,
+            price: 25
+        },{
+            name:'皮蛋豆腐',
+            num: 1,
+            price: 9
+        },
+        {
+            name:'水煮鱼',
+            num: 1,
+            price: 25
+        },{
+            name:'皮蛋豆腐',
+            num: 1,
+            price: 9
         }];
         const fee = {
             name:'配送费',
@@ -18,10 +35,10 @@ export default class OrderList extends Component {
             startPrice: 20
         };
         let total = 0.0;
-        const goodList = orderList.map((food) => {
+        const goodList = orderList.map((food, index) => {
                             const price = food.price * food.num;
                             total += price;
-                            return (<div className='line' key={food.name}>
+                            return (<div className='line' key={index}>
                                 <label className='label'>{food.name}</label>
                                 <label className='number'>X{food.num}</label>
                                 <label className='price'>￥{price}</label>
