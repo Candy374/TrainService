@@ -49,7 +49,7 @@ namespace WebAPIService.Controllers
                     SellPrice = goods.SellPrice,
                     Count = item.Count,
                     RefundCount = 0,
-                    DisplayName=goods.Name
+                    DisplayName = goods.Name
                 });
 
                 var price = goods.SellPrice * (int)item.Count;
@@ -89,7 +89,21 @@ namespace WebAPIService.Controllers
         [Route("Query/{openId}")]
         public IEnumerable<object> Get(string openId)
         {
-            return DalFactory.Orders.GetOrderByOpenId(openId);
+            var list = DalFactory.Orders.GetOrderByOpenId(openId);
+            var ret = new List<Entity.UIMyOrderEntity>();
+            foreach (var item in list)
+            {
+                ret.Add(new Entity.UIMyOrderEntity
+                {
+                    Amount = item.Amount,
+                    OrderStatus = item.GetOrderStatusDisplayName(),
+                    OrderTime = item.OrderCreateTime,
+                    OrderType = item.GetOrderTypeDisplayName(),
+                    OrderId=item.OrderId
+                });
+            }
+
+            return ret;
         }
 
         //[Route("Detail/{orderId}")]

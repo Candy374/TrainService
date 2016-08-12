@@ -1,5 +1,4 @@
-﻿@model IList<DAL.Entity.OrderEntity>
-
+﻿
 @{
     Layout = null;
 }
@@ -10,21 +9,40 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>我的订单</title>
-</head>
-<body>
-    <div>
-        @foreach (var item in Model)
-        {
+    <script type="text/javascript" src="~/Scripts/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/underscore.js"></script>
+    <script id='ordersListTemp' type='text/template'>
+        <% _.each(obj, function (item) { %>
+        <a href="/trainservice/Home/OrderDetail?orderId=<%= item.OrderId %>">
             <div>
                 <div>
-                    订单类型：<span> @item.GetOrderTypeDisplayName()</span>
+                    订单类型：<span> <%= item.OrderType %></span>
                 </div>
-                <div>订单金额:￥<span>@item.Amount</span></div>
-                <div>订单时间:<span>@item.OrderCreateTime.ToString("G")</span></div>
-                <div>状态:<span>@item.GetOrderStatusDisplayName()</span></div>
+                <div>订单金额:￥<span><%= item.Amount %></span></div>
+                <div>订单时间:<span><%= item.OrderTime %></span></div>
+                <div>状态:<span><%= item.OrderStatus %></span></div>
             </div>
+        </a>
+        <% }); %>
+    </script>
+</head>
+<body>
+    <div id="order-list">
 
-        }
     </div>
+    <script type="text/javascript">
+        var rawData = new Object();
+        var openId = "test_Open_Id";
+        function buildOrderList(data) {
+            var t = _.template($("#ordersListTemp").text());
+            $("#order-list").empty();
+            $("#order-list").html(t(data));
+        }
+
+        $.getJSON("/TrainService/api/Orders/Query/" + openId, null, function (data) {
+            rawData = data;
+            buildOrderList(data);
+        });
+    </script>
 </body>
 </html>

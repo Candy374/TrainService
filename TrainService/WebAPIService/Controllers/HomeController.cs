@@ -22,10 +22,9 @@ namespace WebAPIService.Controllers
             return View();
         }
 
-        public ActionResult MyOrders(string openId)
+        public ActionResult MyOrders()
         {
-            var model = DAL.DalFactory.Orders.GetOrderByOpenId(openId);
-            return View(model);
+            return View();
         }
 
 
