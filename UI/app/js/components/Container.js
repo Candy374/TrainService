@@ -12,18 +12,11 @@ export default class Container extends Component {
             total: 0
         };
         this.nextPage = this.nextPage.bind(this);
-        this.updateTotal = this.updateTotal.bind(this);
     }
 
     nextPage() {
         this.setState({
             page: this.state.page + 1
-        });
-    }
-
-    updateTotal(total) {
-        this.setState({
-            total
         });
     }
 

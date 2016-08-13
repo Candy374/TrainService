@@ -6,44 +6,48 @@ export default class FoodList extends Component {
     constructor() {
         super();
         this.state = {
-            foodTypes: [],
-            foodList: [],
-            activeType: '',
+            goodsTypes: [],
+            goodsList: [],
+            activeType: 1,
                  
         };
         this.chart = {};
         this.foodMap = {};
+        this.promiseList = [];
     }
 
     componentWillMount() {
-        actions.getOrders();
         actions.getTypes().then(types => {      
             this.types = types;
             this.setState({
-                activeType: types[0].ID,
-                foodTypes: this.types
+                goodsTypes: this.types
             });
 
             types.map(type => {
                 this.foodMap[type.ID] = type;
-                actions.getGoodsList(type.ID).then(foodList => {
-                    this.foodMap[type.ID].list = foodList;
-                });
+                this.foodMap[type.ID].list = [];
             });
-            return types;
-        }).then((types) => {
-            actions.getGoodsList(types[0]).then(foodList => {
-                this.foodMap[types[0].ID].list = foodList;
+        }).then(() => {
+            actions.getGoodsList().then(goodsList => {
+                goodsList.map(goods => {
+                    goods.Tags.forEach(tagId => {
+                        if (tagId)
+                         this.foodMap[tagId].list.push(goods)
+                     })
+                });
+            }).then(() => {
                 this.setState({
-                    foodList
-                });
-            });
-        });
+                    goodsList: this.foodMap[this.state.activeType].list
+                })
+            })
+        })
+
+        
     }
 
     chooseType(type) {
         this.setState({
-            foodList: this.foodMap[type.ID].list,
+            goodsList: this.foodMap[type.ID].list,
             activeType: type.ID
         });
     }
@@ -65,7 +69,7 @@ export default class FoodList extends Component {
         return (
             <div className='order-content'>
                 <div className='type'>
-                    {this.state.foodTypes.map(type => {
+                    {this.state.goodsTypes.map(type => {
                         return (
                             <div key={type.ID}
                                 onClick={this.chooseType.bind(this, type)}
@@ -76,14 +80,14 @@ export default class FoodList extends Component {
                     })}
                 </div>
                 <div className='list'>
-                    {this.state.foodList.map((food, index) => {
+                    {this.state.goodsList.map((food, index) => {
                         food.count = food.count || 0;
                         food.index = index;
                         return (
                             <div key={food.GoodsId} className='item'>
                                 <img src= {food.PictureUrl}  className='img'/>
                                 <div className="descriptions">
-                                    <label className="label">
+                                    <label className="name">
                                         {food.Name}
                                     </label>
                                     <div className="detail">
