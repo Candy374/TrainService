@@ -2,7 +2,6 @@
 var webpack = require('webpack');
 //var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
 var path = require('path');
-//require('./css/index.css');
 
 console.log(__dirname);
 

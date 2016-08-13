@@ -83,7 +83,7 @@ export default class FoodList extends Component {
                             <div key={food.GoodsId} className='item'>
                                 <img src= {food.PictureUrl}  className='img'/>
                                 <div className="descriptions">
-                                    <label class="name">
+                                    <label className="label">
                                         {food.Name}
                                     </label>
                                     <div className="detail">
