@@ -160,7 +160,7 @@
                 userInfo.Comment = $("#comment").val();
                 buildDishSelectPage();
             });
-            $("#pay-order").click(submitOrder());
+            $("#pay-order").click(function () { submitOrder(); });
         }
 
         function buildMainDiv(templateId) {
