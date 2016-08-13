@@ -26,6 +26,9 @@
                     <input type="number" min="1" max="16" id="carriage-number">
                 </div>
                 <div class="line">
+                    用餐人数:<input type="number" value="2" id="man-count" />
+                </div>
+                <div class="line">
                     列车当前是否晚点
                     <input type="checkbox" value="off" id="is-delay">
                 </div>
@@ -61,7 +64,7 @@
                     <div class="tag" tagId="-1">已选</div>
                     @foreach (var tag in tags)
                     {
-                    <div class='tag @(tag.ID==1?"active":"")' tagId="@tag.ID">@tag.DisplayName</div>
+                        <div class='tag @(tag.ID==1?"active":"")' tagId="@tag.ID">@tag.DisplayName</div>
                     }
                 </div>
                 <div class="list" id="goods-list">
@@ -128,6 +131,7 @@
         userInfo.Contact = "";
         userInfo.ContactNumber = "";
         userInfo.Comment = "";
+        userInfo.ManCount=2;
 
         $.getJSON("../api/goods/@ViewBag.Station/0", null, function (data) {
             rawData = data;
@@ -151,22 +155,29 @@
             $("#contact").val(userInfo.Contact);
             $("#contact-number").val(userInfo.ContactNumber);
             $("#comment").val(userInfo.Comment);
+            $("#man-count").val(userInfo.ManCount);
             $("#back-to-dishlist-button").click(function () {
-                userInfo.TrainNumber = $("#train-number").val();
-                userInfo.CarriageNumber = $("#carriage-number").val();
-                userInfo.IsDelay = $("#is-delay")[0].checked;
-                userInfo.Contact = $("#contact").val();
-                userInfo.ContactNumber = $("#contact-number").val();
-                userInfo.Comment = $("#comment").val();
+                updateUserInfo();
                 buildDishSelectPage();
             });
             $("#pay-order").click(function () { submitOrder(); });
         }
 
+        function updateUserInfo()
+        {
+            userInfo.TrainNumber = $("#train-number").val();
+            userInfo.CarriageNumber = $("#carriage-number").val();
+            userInfo.IsDelay = $("#is-delay")[0].checked;
+            userInfo.Contact = $("#contact").val();
+            userInfo.ContactNumber = $("#contact-number").val();
+            userInfo.Comment = $("#comment").val();
+            userInfo.ManCount=$("#man-count").val();
+        }
+
         function buildMainDiv(templateId) {
             var t = _.template($("#" + templateId).text());
             $("#content").html(t());
-            
+
         }
 
         function buildDishList(data) {
@@ -264,6 +275,7 @@
         }
 
         function BuildPostData() {
+            updateUserInfo();
             var lst = [];
             for (var index in buyList) {
                 var p = buyList[index];
@@ -278,16 +290,16 @@
 
             var d = {
                 "OpenId": openId,
-                "TrainNumber": "G0123",
-                "CarriageNumber": "6",
+                "TrainNumber": userInfo.TrainNumber,
+                "CarriageNumber": userInfo.CarriageNumber,
                 "PayWay": 0,
-                "IsDelay": false,
+                "IsDelay": userInfo.IsDelay,
                 "OrderType": 0,
-                "Comment": "测试-用户备注内容\n-----------------第一行---------------\n----------------第二行------------------",
-                "Contact": "测试——姓名",
-                "ContactTel": "13913913913",
+                "Comment":userInfo.Comment,
+                "Contact": userInfo.Contact,
+                "ContactTel": userInfo.ContactNumber,
                 "TotalPrice": totalPrice,
-                "ManCount": "3",
+                "ManCount":userInfo.ManCount,
                 "List": lst
             }
 
