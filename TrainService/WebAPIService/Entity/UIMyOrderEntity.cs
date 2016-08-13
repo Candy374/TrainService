@@ -24,5 +24,8 @@ namespace WebAPIService.Entity
 
         [DataMember]
         public uint OrderId { get; set; }
+
+        [DataMember]
+        public string TrainNumber { get; set; }
     }
 }

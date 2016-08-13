@@ -99,7 +99,8 @@ namespace WebAPIService.Controllers
                     OrderStatus = item.GetOrderStatusDisplayName(),
                     OrderTime = item.OrderCreateTime,
                     OrderType = item.GetOrderTypeDisplayName(),
-                    OrderId=item.OrderId
+                    OrderId=item.OrderId,
+                    TrainNumber=item.TrainNumber
                 });
             }
 
