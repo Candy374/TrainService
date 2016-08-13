@@ -59,10 +59,11 @@ export default class OrderInfo extends Component {
                     </div>
                     <div className='line'>
                         <label className='width-medium'>列车已晚点</label>
-                        <input  checked={this.props.chart.info.IsDelay} 
+                        <input  value={this.props.chart.info.IsDelay} 
+                                checked={this.props.chart.info.IsDelay}
                                 ref={node=> this.IsDelay = node}
                                 onChange={() => {
-                                    info.IsDelay = this.IsDelay.value;
+                                    info.IsDelay = this.IsDelay.checked;
                                     this.props.updateChart({info});
                                 }}
                                 type='checkbox' />

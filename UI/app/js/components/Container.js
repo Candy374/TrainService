@@ -12,12 +12,12 @@ export default class Container extends Component {
                 goods: {},
                 total: 0,
                 info: {
-                    trainNo: '',
-                    carriageNo: '',
-                    isLate: false,
-                    userName: '',
-                    userNumber: '',
-                    comments: ''
+                    TrainNumber: '',
+                    CarriageNumber: '',
+                    IsDelay: false,
+                    Contact: '',
+                    ContactTel: '',
+                    Comment: ''
                 }
             }
         };

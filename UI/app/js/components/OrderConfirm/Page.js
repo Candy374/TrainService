@@ -5,16 +5,24 @@ import OrderList from './List.js';
 import Comments from './Comments.js';
 import Button from '../common/Button';
 import OrderStatus from '../common/OrderStatus.js';
-import actions from '../../actions/order.js';
+import * as actions from '../../actions/order.js';
 export default class OrderConfirmPage extends Component {
+    componentWillMount() {
+        this.state = {
+            submitting: false
+        }
+    }
     submmitOrder() {
-        const info = this.props.chart.info;
-        const list = this.props.chart.goods.map(item => ({Id: item.Id, Count: item.count}));
+        const {info, goods} = this.props.chart;
+        const list = Object.keys(goods).map(key => {
+            
+            return {Id: goods[key].GoodsId, Count: goods[key].count};
+        });
         const data = {
-            "OpenId": "这个ID通过调用微信JS-SDK来获取",
+            OpenId: 124123,
             TrainNumber: info.TrainNumber,
             CarriageNumber: '' + info.CarriageNumber,
-            IsDelay: info.IsDelay,
+            IsDelay: info.IsDelay == 'on',
             OrderType: 0, //订单类型，0是餐饮订单
             PayWay: 0, //支付途径，0是微信支付
             Comment: info.Comment,
@@ -30,7 +38,7 @@ export default class OrderConfirmPage extends Component {
          const footer = {
                     button: {
                         label: '立即支付',
-                        onClick: () => console.log('pay'),
+                        onClick: this.submmitOrder.bind(this),
                         disabled: false
                     },
                      left: (<Button label='返回修改'

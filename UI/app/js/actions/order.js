@@ -26,7 +26,10 @@ export const getGoodsList = (type) => {
 }
 
 export const submmitOrder = (data) => {
-    return request.post(basicUrl + orderURL, data).then((result) => {
-        console.log('order committed!');
-    });
+    return request.post(basicUrl + orderURL, data)
+        .then((result) => {
+            console.log('order committed!');
+        }).catch(err => {
+            console.log(err.message)
+        });
 }
