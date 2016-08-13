@@ -54,11 +54,11 @@ export default class OrderPage extends Component {
     add(food, count){
         const chart = this.props.chart;
         food.count = count;
-        chart[food.GoodsId] = food;
+        chart.goods[food.GoodsId] = food;
         let total = 0;
-        Object.keys(chart).map(key => {
+        Object.keys(chart.goods).map(key => {
             if (key != 'total') {
-                total += chart[key].count * chart[key].SellPrice
+                total += chart.goods[key].count * chart.goods[key].SellPrice
             }
         });
         chart.total = total;
@@ -66,7 +66,7 @@ export default class OrderPage extends Component {
     }
     
     render() {       
-        const chart = this.props.chart;
+        const chart = this.props.chart.goods;
         const total = this.props.chart.total;
         const footer = {
             button: {
@@ -82,8 +82,7 @@ export default class OrderPage extends Component {
         };
 
         return (
-            <Page footer={footer}>
-                 <div className='order-content'>
+            <Page footer={footer}  className='order-content'>
                     <div className='type'>
                         {this.state.goodsTypes.map(type => {
                             return (
@@ -125,7 +124,6 @@ export default class OrderPage extends Component {
                             )
                         })} 
                     </div>  
-                </div>
             </Page>
         );
     }

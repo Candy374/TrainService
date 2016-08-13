@@ -1,26 +1,30 @@
 import React, {Component} from 'react';
 
 export default class OrderDetail extends Component {
+    generateOrderNum() {
+        const orderNum = 'DC201608110753';
+        return orderNum;
+    }
+    
     render() {
-        const orderNum = 'DC201608110753',
-        userName = "张珊",
-        userPhone = "13454322356",
-        userAddress = "G103 动车 7号餐车";
+        const {userName, userNumber, trainNo, carriageNo } = this.props;
+        
+        const userAddress = `${trainNo} ${carriageNo}号餐车`;
         return (
             <div className='section'>
-                <div className='head line'>
+                <div className='head'>
                     <div className='title'>订单详情：</div>
-                    <div className='order-no'>
-                    {orderNum}
+                    <div className='width-large rightToLeft'>
+                    {this.generateOrderNum()}
                     </div>
                 </div>
                 <div className='user-info'>
                     <div className='line'>
-                    <span className='label'>联系人：</span>{userName}</div>
+                    <span className='width-medium'>联系人：</span>{userName}</div>
                     <div className='line'>
-                    <span className='label'>联系方式：</span>{userPhone}</div>
+                    <span className='width-medium'>联系方式：</span>{userNumber}</div>
                     <div className='line'>
-                    <span className='label'>收货地址：</span>{userAddress}</div>
+                    <span className='width-medium'>收货地址：</span>{userAddress}</div>
                 </div>
             </div>
         );

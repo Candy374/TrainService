@@ -1,0 +1,16 @@
+.order-info {
+    background: $backgorund-color-index-2;
+
+    select {
+        height: 43px;
+        bottom: 5px;
+        position: relative;
+        width: 60px;
+        font-size: 30px;
+    }
+
+    textarea {
+        width: 100%;
+        height: 8em;
+    }
+}
