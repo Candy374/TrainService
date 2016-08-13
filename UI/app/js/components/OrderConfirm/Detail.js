@@ -7,9 +7,9 @@ export default class OrderDetail extends Component {
     }
     
     render() {
-        const {userName, userNumber, trainNo, carriageNo } = this.props;
+        const {Contact, ContactTel, TrainNumber, CarriageNumber } = this.props;
         
-        const userAddress = `${trainNo} ${carriageNo}号餐车`;
+        const userAddress = `${TrainNumber} ${CarriageNumber}号餐车`;
         return (
             <div className='section'>
                 <div className='head'>
@@ -20,9 +20,9 @@ export default class OrderDetail extends Component {
                 </div>
                 <div className='user-info'>
                     <div className='line'>
-                    <span className='width-medium'>联系人：</span>{userName}</div>
+                    <span className='width-medium'>联系人：</span>{Contact}</div>
                     <div className='line'>
-                    <span className='width-medium'>联系方式：</span>{userNumber}</div>
+                    <span className='width-medium'>联系方式：</span>{ContactTel}</div>
                     <div className='line'>
                     <span className='width-medium'>收货地址：</span>{userAddress}</div>
                 </div>

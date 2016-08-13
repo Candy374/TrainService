@@ -16,7 +16,7 @@ export default class OrderInfo extends Component {
         }
     }
 
-    renderInput(name, type) {
+    renderInput(name) {
         return (
             <input value={this.props.chart.info[name]} 
                                 ref={node=> this[name] = node}
@@ -25,7 +25,7 @@ export default class OrderInfo extends Component {
                                     state[name] = this[name].value;
                                     this.props.updateChart({info: state});
                                 }}
-                                type={type || 'text'} />
+                                type='text' />
         );
     }
 
@@ -35,7 +35,7 @@ export default class OrderInfo extends Component {
                     button: {
                         label: '确认下单',
                         onClick: this.props.nextPage,
-                        disabled: !info.trainNo || !info.carriageNo || !info.userName || !info.userNumber
+                        disabled: !info.TrainNumber || !info.CarriageNumber || !info.Contact || !info.ContactTel
                     },
                     left: (<Button label='返回修改'
                                    onClick={this.props.prePage}>
@@ -51,15 +51,21 @@ export default class OrderInfo extends Component {
                     </div>
                     <div className='line'>
                         <label className='width-medium'>车次：</label>
-                        {this.renderInput('trainNo')}*
+                        {this.renderInput('TrainNumber')}*
                     </div>
                     <div className='line'>
                         <label className='width-medium'>餐车车厢号：</label>
-                        {this.renderInput('carriageNo', 'number')}*
+                        {this.renderInput('CarriageNumber', 'number')}*
                     </div>
                     <div className='line'>
                         <label className='width-medium'>列车已晚点</label>
-                        {this.renderInput('isLate', 'checkbox')}
+                        <input  checked={this.props.chart.info.IsDelay} 
+                                ref={node=> this.IsDelay = node}
+                                onChange={() => {
+                                    info.IsDelay = this.IsDelay.value;
+                                    this.props.updateChart({info});
+                                }}
+                                type='checkbox' />
                     </div>
                 </div>
                 <div className='section'>
@@ -68,21 +74,21 @@ export default class OrderInfo extends Component {
                     </div>
                     <div className='line'>
                         <label className='width-small'>姓名：</label>
-                        {this.renderInput('userName')}*
+                        {this.renderInput('Contact')}*
                     </div>
                     <div className='line'>
                         <label className='width-small'>电话：</label>
-                        {this.renderInput('userNumber')}*
+                        {this.renderInput('ContactTel')}*
                     </div>
                 </div>
                 <div className='section'>
                     <p>
                     留言或特殊要求：
                     </p>
-                    <textarea value={info.comments} 
-                            ref={node=> this.comments = node}
+                    <textarea value={info.Comment} 
+                            ref={node=> this.Comment = node}
                             onChange={() => {
-                                    info.comments = this.comments.value;
+                                    info.Comment = this.Comment.value;
                                     this.props.updateChart({info});
                             }}/>
                     <p>

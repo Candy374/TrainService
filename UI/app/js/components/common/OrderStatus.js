@@ -7,7 +7,11 @@ export default class OrderStatus extends Component {
 
         return (
             <div className='section'>
-               <div className='line'>订单状态</div>
+               <div className='head'>
+                    <div className='title'>
+                        订单状态
+                    </div>
+                </div>
                 <div className='status'>
                     <div className={status == 0 ? 'active' : ''}>待支付 ></div>
                     <div className={status == 1 ? 'active' : ''}>商家接单 ></div>
