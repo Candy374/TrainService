@@ -3,15 +3,27 @@ import Footer from './common/Footer.js';
 import OrderPage from './OrderPage';
 import OrderInfo from './OrderInfo.js';
 import MyOrders from './MyOrders.js';
-import OrderConfirmPage from './OrderConfirm/Page.js';
+import ConfirmPage from './OrderConfirm/Page.js';
 export default class Container extends Component {
     componentWillMount() {
         this.state = {
             page: 1,
-            chart: {}
+            chart: { 
+                goods: {},
+                total: 0,
+                info: {
+                    trainNo: '',
+                    carriageNo: '',
+                    isLate: false,
+                    userName: '',
+                    userNumber: '',
+                    comments: ''
+                }
+            }
         };
         this.nextPage = this.nextPage.bind(this);
         this.prePage = this.prePage.bind(this);
+        this.updateChart = this.updateChart.bind(this);
     }
 
     nextPage() {
@@ -26,14 +38,11 @@ export default class Container extends Component {
         });
     }
 
-    updateChart(chart) {
+    updateChart(chart, callback) {
+        const updated = Object.assign({}, this.state.chart, chart);
         this.setState({
-            chart
-        });
-    }
-
-    pay() {
-       this.nextPage();
+            chart: updated
+        }, callback);
     }
 
     render() {
@@ -42,15 +51,18 @@ export default class Container extends Component {
                 return (
                     <OrderPage  chart={this.state.chart}
                                 updateTotal={this.updateTotal}
-                                updateChart={this.updateChart.bind(this)}
+                                updateChart={this.updateChart}
                                 nextPage={this.nextPage} />);
             case 2:
                 return (
-                    <OrderInfo prePage={this.prePage} 
+                    <OrderInfo chart={this.state.chart}
+                               prePage={this.prePage}
                                nextPage={this.nextPage} 
-                               pay={this.pay.bind(this)}/>);
+                               updateChart={this.updateChart}/>);
             case 3:
-                return <OrderConfirmPage />;
+                return (
+                    <ConfirmPage chart={this.state.chart}
+                                 prePage={this.prePage} />);
             case 4:
                 return <MyOrders />;
         }

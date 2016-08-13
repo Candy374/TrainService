@@ -4,10 +4,10 @@ import Footer from './Footer.js';
 export default class Page extends Component {
     render() {
         const {children, footer, className} = this.props;
-        const classes = className ? `container ${className}` : 'container';
+        const classes = className ? `page ${className}` : 'page';
         return (
-            <div className={classes}>
-                <div className='page'>
+            <div className='container'>
+                <div className={classes}>
                 {children}
                 </div>
                 {footer && <Footer {...footer} />}
