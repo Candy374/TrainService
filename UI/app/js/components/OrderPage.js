@@ -10,7 +10,8 @@ export default class OrderPage extends Component {
         const footer = {
                     button: {
                         label: '选好了',
-                        onClick: nextPage
+                        onClick: nextPage,
+                        className: 'active'
                     },
                     total: total,
                 };

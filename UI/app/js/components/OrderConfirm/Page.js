@@ -9,7 +9,8 @@ export default class OrderConfirmPage extends Component {
          const footer = {
                     button: {
                         label: '立即支付',
-                        onClick: () => console.log('pay')
+                        onClick: () => console.log('pay'),
+                        className: 'active'
                     }
                 };
 

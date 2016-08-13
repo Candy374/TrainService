@@ -3,12 +3,15 @@
     Layout = null;
 }
 
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+   
     <title>我的订单</title>
+    <link rel="stylesheet" href="~/Content/MyOrders.css" />
     <script type="text/javascript" src="~/Scripts/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="~/Scripts/underscore.js"></script>
     <script id='ordersListTemp' type='text/template'>
@@ -22,27 +25,86 @@
                 <div>订单时间:<span><%= item.OrderTime %></span></div>
                 <div>状态:<span><%= item.OrderStatus %></span></div>
             </div>
-        </a>
+        </a>        
         <% }); %>
     </script>
 </head>
 <body>
-    <div id="order-list">
-
+   <div id="content">
+        <div class="container order-list">
+            <div class="page">
+                <div class="tabs">
+                    <div>全部</div>
+                    <div class="acitve">待付款</div>
+                    <div>待发货</div>
+                    <div>待收获</div>
+                    <div>待评价</div>
+                </div>
+                <div class="content">
+                    <div class="section list">
+                        <div class="line">
+                            <div class="label">饭店</div>
+                            <div class="status rightToLeft">待付款</div>
+                        </div>
+                        <div class="item"><img src="url" class="img">
+                            <div class="line">
+                                <label class="label">鱼香肉丝盖浇饭</label>
+                                <div class="width-small">x1</div>
+                                <div class="width-small">￥15</div>
+                            </div>
+                        </div>
+                        <div class="item"><img src="url" class="img">
+                            <div class="line">
+                                <label class="label">猪肉水饺</label>
+                                <div class="width-small">x1</div>
+                                <div class="width-small">￥15</div>
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div class="label">2016-08-11 22:54:14</div>
+                            <div class="rightToLeft">共计: ￥30(含外送费$0)</div>
+                        </div>
+                        <div class="line rightToLeft">
+                            <button class="detail">订单详情</button>
+                        </div>
+                    </div>
+                    <div class="section list">
+                        <div class="line">
+                            <div class="label">饭店</div>
+                            <div class="status rightToLeft">已付款</div>
+                        </div>
+                        <div class="item"><img src="url" class="img">
+                            <div class="line">
+                                <label class="label">鱼香肉丝盖浇饭</label>
+                                <div class="width-small">x1</div>
+                                <div class="width-small">￥15</div>
+                            </div>
+                        </div>
+                        <div class="line">
+                            <div class="label">2016-08-11 22:54:14</div>
+                            <div class="rightToLeft">共计: ￥20(含外送费$5)</div>
+                        </div>
+                        <div class="line rightToLeft">
+                            <button class="detail">订单详情</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script type="text/javascript">
         var rawData = new Object();
         var openId = "test_Open_Id";
-        function buildOrderList(data) {
-            var t = _.template($("#ordersListTemp").text());
-            $("#order-list").empty();
-            $("#order-list").html(t(data));
-        }
+        // function buildOrderList(data) {
+        //     var t = _.template($("#ordersListTemp").text());
+        //     $("#order-list").empty();
+        //     $("#order-list").html(t(data));
+        // }
 
-        $.getJSON("/TrainService/api/Orders/Query/" + openId, null, function (data) {
-            rawData = data;
-            buildOrderList(data);
-        });
+        // $.getJSON("/TrainService/api/Orders/Query/" + openId, null, function (data) {
+        //     rawData = data;
+        //     buildOrderList(data);
+        // });
     </script>
 </body>
 </html>

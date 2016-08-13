@@ -40,8 +40,8 @@ export default class OrderList extends Component {
                             total += price;
                             return (<div className='line' key={index}>
                                 <label className='label'>{food.name}</label>
-                                <label className='number'>X{food.num}</label>
-                                <label className='price'>￥{price}</label>
+                                <label className='width-small'>X{food.num}</label>
+                                <label className='width-small price'>￥{price}</label>
                             </div>);
                         });
         fee.price = total > fee.startPrice ? fee.price : 0;
@@ -54,8 +54,8 @@ export default class OrderList extends Component {
                     {goodList}
                     <div className='line'>
                         <label className='label'>{fee.name}</label>
-                        <label className='number'>{' '}</label>
-                        <label className='price'>￥{total}</label>
+                        <label className='width-small'></label>
+                        <label className='width-small price'>￥{total}</label>
                     </div>
                 </div>
                 

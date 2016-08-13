@@ -8,7 +8,8 @@ export default class TrainInfo extends Component {
         const footer = {
                     button: {
                         label: '微信支付',
-                        onClick: this.props.pay
+                        onClick: this.props.pay,
+                         className: 'active'
                     }
                 };
 

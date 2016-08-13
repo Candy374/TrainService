@@ -10,7 +10,7 @@ export default class Footer extends Component {
                 {total != null && <div className='total'>
                     共: ￥{total} 元
                 </div>}
-                <Button {...button}></Button>
+                <Button {...button} ></Button>
             </div>
         )
     }
