@@ -2,9 +2,10 @@ import Rest from '../utils/Rest';
 import request from 'superagent';
 
 const hostname = '123.207.164.202';
-const basicUrl = `http://${hostname}/TrainService/api/`
-const typeURL = 'tags'
-const goodURL = 'goods/郑州东/0'
+const basicUrl = `http://${hostname}/TrainService/api/`;
+const typeURL = 'tags';
+const goodURL = 'goods/郑州东/0';
+const orderURL = 'Orders/add';
 
 export const getTypes = () => {
     return request.get(basicUrl + typeURL)
@@ -24,77 +25,8 @@ export const getGoodsList = (type) => {
         });
 }
 
-export const getOrderList = () => {
-    return new Promise((resolve) => {
-        const orderList = [{
-            shopName: '饭店',
-            type: '外卖',
-            totalPrice: 30,
-            orderTime: '2016-01-11 22:54:12',
-            status: '待付款',
-            fee: 0,
-            list: [{
-                "GoodsId": 3,
-                "Name": "鱼香肉丝盖浇饭",
-                "SellPrice": 15,
-                count: 1,
-                PictureUrl: 'url'
-            }, {
-                "GoodsId": 3,
-                "Name": "猪肉水饺",
-                "SellPrice": 15,
-                count: 1,
-                PictureUrl: 'url'
-            }]
-        }, {
-            shopName: '饭店',
-            type: '外卖',
-            totalPrice: 20,
-            orderTime: '2016-01-11 22:54:12',
-            status: '已付款',
-            fee: 5,
-            list: [{
-                "GoodsId": 3,
-                "Name": "鱼香肉丝盖浇饭",
-                "SellPrice": 15,
-                count: 1,
-                PictureUrl: 'url'
-            }]
-        },{
-            shopName: '饭店',
-            type: '外卖',
-            totalPrice: 30,
-            orderTime: '2016-01-11 22:54:12',
-            status: '待付款',
-            fee: 0,
-            list: [{
-                "GoodsId": 3,
-                "Name": "鱼香肉丝盖浇饭",
-                "SellPrice": 15,
-                count: 1,
-                PictureUrl: 'url'
-            }, {
-                "GoodsId": 3,
-                "Name": "猪肉水饺",
-                "SellPrice": 15,
-                count: 1,
-                PictureUrl: 'url'
-            }]
-        }, {
-            shopName: '饭店',
-            type: '外卖',
-            totalPrice: 20,
-            orderTime: '2016-01-11 22:54:12',
-            status: '已付款',
-            fee: 5,
-            list: [{
-                "GoodsId": 3,
-                "Name": "鱼香肉丝盖浇饭",
-                "SellPrice": 15,
-                count: 1,
-                PictureUrl: 'url'
-            }]
-        }]
-        resolve(orderList);
+export const submmitOrder = (data) => {
+    return request.post(basicUrl + orderURL, data).then((result) => {
+        console.log('order committed!');
     });
 }

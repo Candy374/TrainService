@@ -8,7 +8,7 @@ export default class Comments extends Component {
                     <div className='line'>
                         <div className='title'>订单备注：</div>
                     </div>
-                    <div className='line'>{this.props.comments || '无'}</div>
+                    <div className='line'>{this.props.Comment || '无'}</div>
                 </div>
             </div>
         );
