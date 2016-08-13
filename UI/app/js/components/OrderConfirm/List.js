@@ -10,6 +10,23 @@ export default class OrderList extends Component {
             name:'皮蛋豆腐',
             num: 1,
             price: 9
+        },{
+            name:'水煮鱼',
+            num: 1,
+            price: 25
+        },{
+            name:'皮蛋豆腐',
+            num: 1,
+            price: 9
+        },
+        {
+            name:'水煮鱼',
+            num: 1,
+            price: 25
+        },{
+            name:'皮蛋豆腐',
+            num: 1,
+            price: 9
         }];
         const fee = {
             name:'配送费',
@@ -18,13 +35,13 @@ export default class OrderList extends Component {
             startPrice: 20
         };
         let total = 0.0;
-        const goodList = orderList.map((food) => {
+        const goodList = orderList.map((food, index) => {
                             const price = food.price * food.num;
                             total += price;
-                            return (<div className='line' key={food.name}>
+                            return (<div className='line' key={index}>
                                 <label className='label'>{food.name}</label>
-                                <label className='number'>X{food.num}</label>
-                                <label className='price'>￥{price}</label>
+                                <label className='width-small'>X{food.num}</label>
+                                <label className='width-small price'>￥{price}</label>
                             </div>);
                         });
         fee.price = total > fee.startPrice ? fee.price : 0;
@@ -37,8 +54,8 @@ export default class OrderList extends Component {
                     {goodList}
                     <div className='line'>
                         <label className='label'>{fee.name}</label>
-                        <label className='number'>{' '}</label>
-                        <label className='price'>￥{total}</label>
+                        <label className='width-small'></label>
+                        <label className='width-small price'>￥{total}</label>
                     </div>
                 </div>
                 

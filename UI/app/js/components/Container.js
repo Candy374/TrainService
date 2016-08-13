@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import Footer from './common/Footer.js';
 import OrderPage from './OrderPage';
 import TrainInfo from './TrainInfo.js';
+import MyOrders from './MyOrders.js';
 import OrderConfirmPage from './OrderConfirm/Page.js';
 export default class Container extends Component {
     componentWillMount() {
         this.state = {
-            page: 3,
+            page: 1,
             chart: {},
             total: 0
         };
@@ -46,8 +47,10 @@ export default class Container extends Component {
                                 nextPage={this.nextPage} />);
             case 2:
                 return <TrainInfo nextPage={this.nextPage} pay={this.pay.bind(this)}/>;
-           case 3:
+            case 3:
                 return <OrderConfirmPage />;
+            case 4:
+                return <MyOrders />;
         }
     }
 }
