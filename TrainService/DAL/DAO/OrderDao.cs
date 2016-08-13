@@ -37,12 +37,31 @@ namespace DAL.DAO
             }
         }
 
-        public IList<OrderDetailEntity> GetSubOrders(string orderId)
+        public IList<OrderDetailEntity> GetSubOrders(int orderId)
         {
             var para = new StatementParameterCollection();
-            para.Add(new StatementParameter { Name = "@OId", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = Convert.ToInt32(orderId) });
+            para.Add(new StatementParameter { Name = "@OId", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = orderId });
 
             return _baseDao.SelectList<OrderDetailEntity>("SELECT * FROM order_details WHERE order_id=@OId", para);
+        }
+
+        public IList<SubOrderSummaryEntity> GetSubOrdersSummary(int orderId)
+        {
+            var para = new StatementParameterCollection();
+            para.Add(new StatementParameter { Name = "@OId", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = orderId });
+
+            return _baseDao.SelectList<SubOrderSummaryEntity>(
+                "SELECT "+
+                "goods.pic_url AS  url,  "+
+                "order_details.buy_count AS buy_count,  "+
+                "order_details.display_name AS display_name,  "+
+                "order_details.sell_price AS sell_price, "+
+                "order_details.refund_count AS refund_count " +
+                "FROM order_details,goods  " +
+                "WHERE  " +
+                "order_details.order_id=@OId " +
+                "AND " +
+                "order_details.goods_id=goods.id", para);
         }
 
         public IList<OrderEntity> GetOrderByOpenId(string openId)

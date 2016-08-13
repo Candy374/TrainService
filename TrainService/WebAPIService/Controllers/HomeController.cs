@@ -30,8 +30,14 @@ namespace WebAPIService.Controllers
 
         public ActionResult OrderDetail(string orderId)
         {
+            int id;
+            if (!int.TryParse(orderId, out id))
+            {
+                return HttpNotFound();
+            }
+
             var model = DAL.DalFactory.Orders.GetOrderByOrderId(orderId);
-            ViewBag.SubOrders = DAL.DalFactory.Orders.GetSubOrders(orderId);
+            ViewBag.SubOrders = DAL.DalFactory.Orders.GetSubOrders(id);
             return View(model);
         }
     }

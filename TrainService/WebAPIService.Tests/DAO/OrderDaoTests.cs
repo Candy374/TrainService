@@ -14,8 +14,14 @@ namespace DAL.DAO.Tests
         [TestMethod()]
         public void GetOrderByOrderIdTest()
         {
-          var d=  DalFactory.Orders.GetOrderByOrderId("10");
-            var s = DalFactory.Orders.GetSubOrders("10");
+            var d = DalFactory.Orders.GetOrderByOrderId("10");
+            var s = DalFactory.Orders.GetSubOrders(10);
+        }
+
+        [TestMethod()]
+        public void GetSubOrdersSummaryTest()
+        {
+          var data=  DalFactory.Orders.GetSubOrdersSummary(18);
         }
     }
 }

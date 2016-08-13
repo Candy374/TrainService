@@ -27,5 +27,10 @@ namespace WebAPIService.Entity
 
         [DataMember]
         public string TrainNumber { get; set; }
+
+        [DataMember]
+        public List<UISubOrderEntity> SubOrders { get; set; }
+        [DataMember]
+        public string OrderDate { get; set; }
     }
 }

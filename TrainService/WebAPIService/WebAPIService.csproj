@@ -249,8 +249,10 @@
     <Compile Include="Controllers\API\TagsController.cs" />
     <Compile Include="Controllers\TokenVerifyController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Entity\UIMyOrdersEntity.cs" />
     <Compile Include="Entity\UIMyOrderEntity.cs" />
     <Compile Include="Entity\UIGoodsEntity.cs" />
+    <Compile Include="Entity\UISubOrderEntity.cs" />
     <Compile Include="Entity\UIOrderDetailEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -268,6 +270,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\DishList.css" />
+    <Content Include="Content\MyOrders.css" />
     <Content Include="Content\OrderDetail.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
