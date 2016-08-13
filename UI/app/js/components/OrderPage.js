@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
-import Footer from './common/Footer.js';
-import Page from './common/Page.js';
+import Footer from './common/Footer';
+import Page from './common/Page';
 import * as actions from '../actions/order.js';
 import NumberInput from './common/NumberInput';
-
-const hostname = '123.207.164.202';
-const basicUrl = `http://${hostname}/TrainService`;
+import * as Constants from '../Constants';
 
 export default class OrderPage extends Component {
     componentWillMount() {
@@ -101,7 +99,7 @@ export default class OrderPage extends Component {
                             food.index = index;
                             return (
                                 <div key={food.GoodsId} className='item'>
-                                    <img src= {basicUrl + food.PictureUrl}  className='img'/>
+                                    <img src= {Constants.basicUrl + food.PictureUrl}  className='img'/>
                                     <div className="descriptions">
                                         <label className="name">
                                             {food.Name}

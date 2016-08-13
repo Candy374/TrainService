@@ -56,5 +56,5 @@ module.exports = {
         },
         modulesDirectories: ['node_modules', 'src/js', 'src/scss']
     },
-    devServer: { inline: true, port: 7777 },
+    devServer: { inline: true, port: 80 },
 };
