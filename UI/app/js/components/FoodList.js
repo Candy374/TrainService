@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import * as actions from '../actions/order.js';
 import NumberInput from './common/NumberInput';
 
+const hostname = '123.207.164.202';
+const basicUrl = `http://${hostname}/TrainService`;
+
 export default class FoodList extends Component {
     constructor() {
         super();
@@ -85,7 +88,7 @@ export default class FoodList extends Component {
                         food.index = index;
                         return (
                             <div key={food.GoodsId} className='item'>
-                                <img src= {food.PictureUrl}  className='img'/>
+                                <img src= {basicUrl + food.PictureUrl}  className='img'/>
                                 <div className="descriptions">
                                     <label className="name">
                                         {food.Name}

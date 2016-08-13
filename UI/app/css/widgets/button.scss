@@ -4,9 +4,13 @@
     padding: 0 1em;
     text-align: center;
     cursor: pointer;
-    background: $disbaled-color;
+    background: $button-default-color;
 
     &.active {
         background: $button-active-color;
+    }
+
+    &.disabled {
+        background: $disbaled-color;
     }
 }

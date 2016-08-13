@@ -1,39 +1,131 @@
 import React, {Component} from 'react';
 import Footer from './common/Footer.js';
-import FoodList from './FoodList.js';
-import TrainInfo from './TrainInfo.js';
 import Page from './common/Page.js';
+import * as actions from '../actions/order.js';
+import NumberInput from './common/NumberInput';
+
+const hostname = '123.207.164.202';
+const basicUrl = `http://${hostname}/TrainService`;
+
 export default class OrderPage extends Component {
     componentWillMount() {
         this.state = {
-            total: 0
+            goodsTypes: [],
+            goodsList: [],
+            activeType: 1
         };
+        this.chart = {};
+        this.foodMap = {};
+        this.promiseList = [];
+
+        actions.getTypes().then(types => {      
+            this.types = types;
+            this.setState({
+                goodsTypes: this.types
+            });
+
+            types.map(type => {
+                this.foodMap[type.ID] = type;
+                this.foodMap[type.ID].list = [];
+            });
+        }).then(() => {
+            actions.getGoodsList().then(goodsList => {
+                goodsList.map(goods => {
+                    goods.Tags.forEach(tagId => {
+                        if (tagId)
+                         this.foodMap[tagId].list.push(goods)
+                     })
+                });
+            }).then(() => {
+                this.setState({
+                    goodsList: this.foodMap[this.state.activeType].list
+                })
+            })
+        });        
     }
-    
-    updateTotal(total) {
+
+    chooseType(type) {
         this.setState({
-            total
+            goodsList: this.foodMap[type.ID].list,
+            activeType: type.ID
         });
     }
+
+    add(food, count){
+        const chart = this.props.chart;
+        food.count = count;
+        chart[food.GoodsId] = food;
+        let total = 0;
+        Object.keys(chart).map(key => {
+            if (key != 'total') {
+                total += chart[key].count * chart[key].SellPrice
+            }
+        });
+        chart.total = total;
+        this.props.updateChart(chart);
+    }
     
-    render() {
-        const {nextPage, updateChart}  = this.props;        
-        const total = this.state.total;
+    render() {       
+        const chart = this.props.chart;
+        const total = this.props.chart.total;
         const footer = {
             button: {
                 label: '选好了',
-                onClick: nextPage,
-                className: 'active',
+                onClick: this.props.nextPage,
                 disabled: total == 0
             },
-            total
+            
+            left: (
+                <div className='total'>
+                    共: ￥{total} 元
+                </div>)
         };
 
         return (
             <Page footer={footer}>
-                <FoodList total={total} 
-                    updateChart={updateChart}
-                    updateTotal={this.updateTotal.bind(this)}></FoodList>
+                 <div className='order-content'>
+                    <div className='type'>
+                        {this.state.goodsTypes.map(type => {
+                            return (
+                                <div key={type.ID}
+                                    onClick={this.chooseType.bind(this, type)}
+                                    className={this.state.activeType == type.ID ? 'active item' : 'item'}>
+                                {type.DisplayName}
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div className='list'>
+                        {this.state.goodsList.map((food, index) => {
+                            
+                            food.count = chart[food.GoodsId] && chart[food.GoodsId].count || food.count || 0;
+                            food.index = index;
+                            return (
+                                <div key={food.GoodsId} className='item'>
+                                    <img src= {basicUrl + food.PictureUrl}  className='img'/>
+                                    <div className="descriptions">
+                                        <label className="name">
+                                            {food.Name}
+                                        </label>
+                                        <div className="detail">
+                                            <div className="left">
+                                                {`月售${food.OrderCount}`}
+                                                {`好评率${food.Rating}%`}
+                                                <div className="price">
+                                                    {`￥${food.SellPrice}`}
+                                                </div>
+                                            </div>
+
+                                            <div className="number-input">
+                                                <NumberInput count={food.count} updateCount={(count) => this.add(food, count)}/>
+                                            </div>
+                                        </div>    
+                                    </div>                           
+                                </div>
+                            )
+                        })} 
+                    </div>  
+                </div>
             </Page>
         );
     }

@@ -2,15 +2,19 @@ import React, {Component} from 'react';
 import Header from './common/Header.js';
 import Footer from './common/Footer.js';
 import Page from './common/Page.js';
+import Button from './common/Button';
 
-export default class TrainInfo extends Component {
+export default class OrderInfo extends Component {
     render() {
         const footer = {
                     button: {
                         label: '微信支付',
                         onClick: this.props.pay,
-                         className: 'active'
-                    }
+                        disabled: false
+                    },
+                    left: (<Button label='返回修改'
+                                    onClick={this.props.prePage}>
+                        </Button>)
                 };
 
         return (

@@ -3,21 +3,13 @@ import Button from './Button';
 
 export default class Footer extends Component {
     render() {
-        const {button, total, disabled} = this.props;
-        
-        if (disabled) {
-            button.onClick = undefined;
-            button.className += ' disabled';
-        }
+        const {button, left} = this.props;
 
         return (
             <div className='footer'>
-                {total != null && <div className='total'>
-                    共: ￥{total} 元
-                </div>}
+                {left}
                 <Button {...button}></Button>
             </div>
         )
     }
 };
-

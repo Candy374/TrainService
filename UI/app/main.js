@@ -4,5 +4,4 @@ import Container from './js/components/Container';
 
 require('./css/index.scss');
 
-ReactDOM.render(<Container></Container>, 
-    document.getElementById('content'))
+ReactDOM.render(<Container/>, document.getElementById('content'));
