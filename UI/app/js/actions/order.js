@@ -28,9 +28,16 @@ export const getOrders = () => {
     //     }
     // })
 
-    $.get(basicUrl + 'goods/郑州东/0', {}, function(data) {
-        console.log(data)
-    }, 'json')
+    // $.get(basicUrl + 'goods/郑州东/0', {}, function(data) {
+    //     console.log(data)
+    // }, 'json')
+
+    // request.set("Access-Control-Allow-Origin","*")
+    //     .get(encodeURI(basicUrl + 'goods/郑州东/0'))
+    //     .then(result => console.log(result))
+    //     .catch(err => {
+    //         console.log(err)
+    //     })
 }
 
 export const getTypes = () => {

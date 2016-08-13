@@ -1,0 +1,28 @@
+.order-confirm {
+    display: flex;
+    flex-direction: column;
+    background: $backgorund-color-index-2;
+
+    .title{
+        flex: 1;
+        font-weight: bold
+    }
+
+    .head{
+        border-bottom: 1px solid $backgorund-color-index-2;
+        padding: 0.2em 0;
+        margin-bottom: 0.4em;
+    }
+
+    .status {
+        &.img {
+            margin-bottom: 1em;
+        }
+
+        .img {
+            border-bottom: 1px solid;
+            margin-bottom: 1em;
+            padding: 1em;
+        }
+    }
+}

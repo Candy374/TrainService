@@ -1,0 +1,50 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 0.3em 0 0.5em;
+
+    .item {
+        display: flex;
+        padding: 0.3em;
+        flex-shrink: 0;
+        border-bottom: 1px solid $backgorund-color-index-2;
+
+        &:first-child {
+            padding-top: 0;
+        }
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        .descriptions {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+
+            .detail {
+                display: flex;
+                flex: 1;
+            }
+
+            .left {
+                font-size: 0.8em;
+                color: $subtitle-color;
+                flex: 1;
+            }
+
+            .price {
+                color: $price-color;
+            }
+        }
+    }
+
+     .img {
+        width: 3em;
+        height: 3em;
+        background: $active-color;
+        margin-right: 0.5em;
+    }
+}

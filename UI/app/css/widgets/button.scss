@@ -1,0 +1,12 @@
+.button {
+    border: 1px solid $backgorund-color-index-1;
+    line-height: 2em;
+    padding: 0 1em;
+    text-align: center;
+    cursor: pointer;
+    background: $disbaled-color;
+
+    &.active {
+        background: $button-active-color;
+    }
+}

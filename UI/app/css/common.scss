@@ -1,0 +1,53 @@
+$active-color: #ffc0cb;
+$number-input-color: $active-color;
+$price-color: #E91E63;
+$button-active-color: #E91E63; 
+$border-color: #ddd;
+$backgorund-color-index-1: #fff;
+$backgorund-color-index-2: #eee;
+$backgorund-color-index-3: #ddd;
+$backgorund-color-index-4: #ccc;
+$disbaled-color: #ccc;
+$subtitle-color: #aaa;
+
+body {
+    font-size: 1.2em;
+    font-family: monospace;
+    margin:0;
+}
+
+.container {
+   display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.page {
+    flex: 1;
+    overflow: auto;
+}
+
+input[type="checkbox"] {
+    width: 2em;
+}
+
+.price {
+    color: $price-color;
+}
+
+.rightToLeft {
+    flex-direction: row-reverse;
+    text-align: end;
+}
+
+.width-small {
+    width: 4em;
+}
+
+.width-medium {
+    width: 8em;
+}
+
+.width-large {
+    width: 12em;
+}

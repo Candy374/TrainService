@@ -1,0 +1,20 @@
+.line {
+    line-height: 1.5em;
+    margin: 0.3em 0;
+    display: flex;
+    flex: 1;
+
+    
+    &.comments {
+        flex-direction: column;
+    }
+
+    
+    .label {
+        flex: 1;
+    }
+
+    .status {
+        width: 8em;
+    }
+}

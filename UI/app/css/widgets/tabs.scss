@@ -1,0 +1,12 @@
+.tabs {
+    display: flex;
+    border-bottom: 1px solid;
+    padding: 1em;
+    justify-content: space-around;
+    color: $backgorund-color-index-4;
+    background: $backgorund-color-index-1;
+
+    .acitve {
+        color: $button-active-color;
+    }
+}

@@ -1,0 +1,26 @@
+.order-content {
+    display: flex;
+    margin: 0.2em 0;
+
+    .type {
+        width: 5em;
+        margin-right: 0.1em;
+        overflow-y: auto;
+        background: $backgorund-color-index-3;
+
+        .item {
+            text-align: center;
+            border-bottom: 0.1em solid $backgorund-color-index-2;
+            padding: 0.3em;
+        }
+
+        .active {
+            background: $backgorund-color-index-1;
+            color: $active-color;
+            border-left: 0.3em solid $active-color;    
+        }
+    }
+    .detail {
+        flex: 1;
+    }
+}

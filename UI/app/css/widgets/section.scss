@@ -1,0 +1,27 @@
+.section {
+    padding: 0.5em 1em;
+    margin: 0.5em 0;
+    background: $backgorund-color-index-1;
+
+    .label {
+        width: 7em;
+    }
+
+    .fee {
+        flex-direction: row-reverse;
+
+        .label {
+            width: 8em;
+        }
+    }
+
+    .status {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .block {
+        display: flex;
+        flex-direction: column;
+    }
+}
