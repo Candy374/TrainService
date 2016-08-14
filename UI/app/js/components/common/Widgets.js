@@ -14,12 +14,12 @@ export const Label = ({size, children, flex, align, className}) => {
     return  <label className={classes.join(' ')}>{children}</label>;
 };
 
-export const Line = ({children, className, imgUrl, align = 'start', direction}) => {
+export const Line = ({children, className, align = 'start', direction, style}) => {
     const classes = ['line', `align-${align}`, `direction-${direction || 'row'}`];
     if (className) {
         classes.push(className);
     }
-    return <div className={classes.join(' ')}> {children}</div>;
+    return <div className={classes.join(' ')} style={style}> {children}</div>;
 };
 
 export const ImgLine = ({children, className, url, type}) => {

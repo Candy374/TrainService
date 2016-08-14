@@ -8,26 +8,59 @@ import {Section, Line, Label} from './common/Widgets';
 export default class OrderInfo extends Component {
     componentWillMount() {
         this.state = {
-            trainNo: '',
-            carriageNo: '',
-            isLate: false,
-            userName: '',
-            userNumber: '',
-            comments: ''
+            TrainNumberError: '',
+            CarriageNumberError: '',
+            ContactTelError: ''
         }
     }
 
     renderInput(name) {
         return (
             <input value={this.props.chart.info[name]} 
-                                ref={node=> this[name] = node}
-                                onChange={() => {
-                                    const state = this.props.chart.info;
-                                    state[name] = this[name].value;
-                                    this.props.updateChart({info: state});
-                                }}
-                                type='text' />
+                    ref={node=> this[name] = node}
+                    onChange={() => {
+                        const value = this[name].value;
+                        const info = this.props.chart.info;
+                        info[name] = this[name].value;
+                        this.props.updateChart({info});
+                    }}
+                    onBlur={()=> {
+                        const value = this[name].value;
+                        let state = this.state;
+                        if (!this.isValid(value, name)) {
+                            if (state[name + 'Error'] == '') {
+                                let label = this[name].parentElement.children[0].textContent;
+                                state[name + 'Error'] = '请输入正确的' + label.replace('：', '').trim();
+                                this.setState(state);   
+                            }                         
+                        } else {
+                            if (state[name + 'Error'] != '') {
+                                state[name + 'Error'] = '';
+                                this.setState(state);
+                            }  
+                        }
+                    }}
+                    type='text' />
         );
+    }
+
+    isValid(value, type) {
+        switch(type) {
+            case 'TrainNumber':
+                //value 长度小于10， 字母开头或者全数字
+                return value.length < 10 && value.match(/(G|D|L|T|K|Z|C|S)?\d+$/i);
+            case 'CarriageNumber':
+                // less than 30
+                return value/1 < 30;
+            case 'ContactTel':
+                // start with 1, length == 11
+                return value.length == 11 && !isNaN(value/1) && value.indexOf('1') == 0;
+        }
+    }
+
+    isInfoReady(info) {
+        return info.TrainNumber && info.CarriageNumber && info.Contact && info.ContactTel &&
+            !this.state.TrainNumberError && !this.state.CarriageNumberError && !this.state.ContactTelError;
     }
 
     render() {
@@ -36,7 +69,7 @@ export default class OrderInfo extends Component {
             button: {
                 label: '确认下单',
                 onClick: this.props.nextPage,
-                disabled: !info.TrainNumber || !info.CarriageNumber || !info.Contact || !info.ContactTel
+                disabled: !this.isInfoReady(info)
             },
             left: <Button label='返回修改' onClick={this.props.prePage}/>
         };
@@ -48,10 +81,12 @@ export default class OrderInfo extends Component {
                     <Line>
                         <Label>车次：</Label>
                         {this.renderInput('TrainNumber')}*
+                        <Label size='large'>{this.state.TrainNumberError}</Label>
                     </Line>
                     <Line>
                         <Label>餐车车厢号：</Label>
-                        {this.renderInput('CarriageNumber', 'number')}*
+                        {this.renderInput('CarriageNumber')}*
+                        <Label size='large'>{this.state.CarriageNumberError}</Label>
                     </Line>
                     <Line>
                         <Label>列车已晚点</Label>
@@ -71,11 +106,12 @@ export default class OrderInfo extends Component {
                         {this.renderInput('Contact')}*
                     </Line>
                     <Line>
-                        <Label size='small'>电话：</Label>
+                        <Label size='small'>手机号：</Label>
                         {this.renderInput('ContactTel')}*
+                        <Label size='large'>{this.state.ContactTelError}</Label>
                     </Line>
                 </Section>
-                <Section title='留言或特殊要求：'>
+                <Section title='留言或特殊要求'>
                     <textarea value={info.Comment} 
                             ref={node=> this.Comment = node}
                             onChange={() => {

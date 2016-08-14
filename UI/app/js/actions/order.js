@@ -1,6 +1,6 @@
 import Rest from '../utils/Rest';
 import request from 'superagent';
-import  {basicUrl, typeURL, goodsURL,
+import  {basicUrl, typeURL, goodsURL, userURL,
     submmitURL,orderListURL, orderURL, stationsURL} from '../constants/actions';
 
 export const getTypes = () => {
@@ -55,6 +55,16 @@ export const getStations = () => {
         .then(res => res.body)
         .catch(err => {
             console.log('Can not get station list!');
+            console.log(err.message);
+        });
+}
+
+export const getUserInfo = (userId) => {
+    userId = 124123;
+    return request.get(basicUrl + userURL + userId)
+        .then(res => res.body)
+        .catch(err => {
+            console.log('Can not get user info!');
             console.log(err.message);
         });
 }

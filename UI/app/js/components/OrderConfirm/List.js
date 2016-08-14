@@ -11,7 +11,7 @@ export default class OrderList extends Component {
                                     <Label size='small' className='price'>￥{list[key].SellPrice}</Label>
                                 </Line>));
         return (
-            <Section title='已点菜品：'>
+            <Section title='已点菜品'>
                 <div className='goods-list'>
                     {goodList}
                     {/*<Line>

@@ -20,7 +20,8 @@ export default class Container extends Component {
                     Contact: '',
                     ContactTel: '',
                     Comment: ''
-                }
+                },
+                station: {}
             },
             stations: []
         };
@@ -29,7 +30,14 @@ export default class Container extends Component {
         this.updateChart = this.updateChart.bind(this);
         actions.getStations().then((stations) => {
             this.setState({stations})
-        })
+        });
+        actions.getUserInfo().then((user) => {
+            const info = Object.assign({}, this.state.chart.info, user);
+            this.state.chart.info = info;
+            this.setState({
+                chart: this.state.chart
+            });
+        });
     }
 
     nextPage() {

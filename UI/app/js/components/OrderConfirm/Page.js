@@ -38,7 +38,8 @@ export default class OrderConfirmPage extends Component {
         this.setState({
             submitting: true
         });
-        actions.submmitOrder(data).then(this.props.nextPage);
+        //actions.submmitOrder(data).then(this.props.nextPage);
+        this.props.nextPage();
     }
 
     render() {
@@ -56,9 +57,9 @@ export default class OrderConfirmPage extends Component {
                 };
         const chart = this.props.chart;
         return (
-            <Page footer={footer}>
-                <OrderStatus status={0}/>
+            <Page footer={footer}>            
                 <OrderDetail {...chart.info}/>
+                <OrderStatus status={0}/>
                 <OrderList list={chart.goods} total={chart.total}/>
                 <Comments Comment={chart.info.Comment}/>
             </Page>
