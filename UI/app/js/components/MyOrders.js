@@ -1,21 +1,39 @@
 import React, {Component} from 'react';
 import * as actions from '../actions/order';
 import Page from './common/Page';
+import Footer from './common/Footer';
 import  * as Constants from '../constants/system';
 import {Section, Line, ImgLine, Label} from './common/Widgets';
 
 export default class MyOrders extends Component {
     componentWillMount() {
         this.state = {
-            orderList: [],
-            status: -1
+            orderMap: {'-1': [], '0':[], '1': [], '2': [], '3': []},
+            status: -1,
+            showAll: false
         };
         actions.getOrderList(this.getUserId()).then((orderList)=>{
+            const orderMap = this.state.orderMap;
+            orderList.map(order => {               
+                orderMap['-1'].push(order);
+                orderMap[this.getStatus(order.StatusCode)].push(order);
+            })
             this.setState({
-                orderList
+                orderMap
             })
         });
         this.showNum = 5;
+    }
+
+    getStatus(StatusCode) {
+        if (StatusCode >= 2 && StatusCode < 5 ) {
+            StatusCode = 1;
+        } else if (StatusCode >=5 && StatusCode < 7) {
+            StatusCode = 2;
+        } else if (StatusCode >= 7) {
+            StatusCode = 3;
+        }
+        return StatusCode;
     }
 
     getUserId() {
@@ -23,10 +41,7 @@ export default class MyOrders extends Component {
     }
 
     render() {
-        const {status, orderList} = this.state;
-        if (orderList.length == 0) {
-            return null;
-        }
+        const {status, orderMap, showAll} = this.state;
         let count = 0;
         // 0：未付款，1：已付款，2：商家已接单，3：商家已配货 
         // 4:快递员已取货 5:已经送到指定位置 6：订单结束 7：订单取消 8：异常状态
@@ -45,20 +60,8 @@ export default class MyOrders extends Component {
                          onClick={()=> this.setState({status: 3})}>已取消</div>
                 </div>
                 <div className='content'>
-                {orderList.map((order, index) => {
-                    let StatusCode = order.StatusCode;
-                    if (StatusCode >= 2 && StatusCode < 5 ) {
-                        StatusCode = 1;
-                    } else if (StatusCode >=5 && StatusCode < 7) {
-                        StatusCode = 2;
-                    } else if (StatusCode >= 7) {
-                        StatusCode = 3;
-                    }
-
-                    if (this.showNum != 'ALL' && count++ > this.showNum) {
-                        return null;
-                    }
-                    if (status != -1 && StatusCode != status) {
+                {orderMap[status].map((order, index) => {
+                    if (!showAll && count++ > this.showNum) {
                         return null;
                     }
                     return (
@@ -88,6 +91,12 @@ export default class MyOrders extends Component {
                         </Line>
                     </Section>)
                 })}
+                {orderMap[status].length > this.showNum &&
+                    <Footer button={{
+                        onClick: ()=> this.setState({showAll: !this.state.showAll}),
+                        label: showAll ? '收起' : '显示全部'
+                    }}/>
+                }
                 </div>
             </Page>
             );
