@@ -38,7 +38,7 @@ export default class MyOrders extends Component {
     }
 
     getUserId() {
-        return ''
+        return '124123'
     }
 
     render() {

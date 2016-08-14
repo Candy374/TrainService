@@ -46,7 +46,7 @@ export default class OrderDetail extends Component {
                     </Line>
                 </Section>
                 <Detail {...order}/>
-                <Comments Comment={order.info.Comment}/>
+                <Comments Comment={order.Comment}/>
             </Page>
         );
     }
