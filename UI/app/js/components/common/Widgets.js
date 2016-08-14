@@ -26,19 +26,21 @@ export const Line = ({children, className, align = 'start', direction, style}) =
     return <div className={classes.join(' ')} style={style}> {children}</div>;
 };
 
-export const ImgLine = ({children, className, url, type}) => {
+export const ImgLine = ({children, className, url, type, onClick, imgClassName}) => {
     const classes = ['item'];
     if (className) {
         classes.push(className);
     }
 
     return (
-        <div className={classes.join(' ')}>
-            <img src= {basicUrl + url}  className='img'/>
+        <div className={classes.join(' ')} onClick={onClick}>
+            <img src= {basicUrl + url}  className={imgClassName || 'img'}/>
             <div className={type || 'line'}>{children}</div>
         </div>
     );  
 };
+
+export const Img = (props) => <img  {...props} src= {basicUrl + props.src}/>
 
 export const Section = ({ title, children, list }) => {
     const classes = ['section'];
