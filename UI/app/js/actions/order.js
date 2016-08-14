@@ -23,8 +23,8 @@ export const getGoodsList = (type) => {
 
 export const submmitOrder = (data) => {
     return request.post(basicUrl + submmitURL, data)
-        .then((result) => {
-            console.log('order committed!');
+        .then((res) => {
+            return res.body;
         }).catch(err => {
             console.log('submmit failed!');
             console.log(err.message);
