@@ -1,11 +1,5 @@
-.order-confirm {
-    display: flex;
-    flex-direction: column;
-    background: $backgorund-color-index-2;
-
-    .status {
-        .active {
-            color: $button-active-color;
-        }
+.status {
+    .active {
+        color: $button-active-color;
     }
 }

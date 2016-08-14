@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Section, Line, Label} from '../common/Widgets';
 
 export default class OrderList extends Component {
     render() {
@@ -11,33 +12,31 @@ export default class OrderList extends Component {
         const {total, list} = this.props;
         const goodList = Object.keys(list).map((key, index) => {
                             const goods = list[key];
-                            return (<div className='line' key={index}>
-                                <label className='label'>{goods.Name}</label>
-                                <label className='width-small'>X{goods.count}</label>
-                                <label className='width-small price'>￥{goods.SellPrice}</label>
-                            </div>);
+                            return (
+                                <Line key={index}>
+                                    <Label flex={true}>{goods.Name}</Label>
+                                    <Label size='small'>x{goods.count}</Label>
+                                    <Label size='small' className='price'>￥{goods.SellPrice}</Label>
+                                </Line>);
                         });
         fee.price = total > fee.startPrice ? fee.price : 0;
         return (
-            <div className='section'>
-                <div className='head line'>
-                    <div className='title'>已点菜品：</div>
-                </div>
+            <Section title='已点菜品：'>
                 <div className='goods-list'>
                     {goodList}
-                    <div className='line'>
-                        <label className='label'>{fee.Name}</label>
-                        <label className='width-small'></label>
-                        <label className='width-small price'>￥{total}</label>
-                    </div>
+                    <Line>
+                        <Label flex={true}>{fee.Name}</Label>
+                        <Label size='small'></Label>
+                        <Label size='small' className='price'>{`￥${total}`}</Label>
+                    </Line>
                 </div>
                 
-                <div className='line'>
-                    <label className='label'/>
-                    <label className='width-small'>待支付</label>
-                    <label className='width-small'>￥{total + fee.price}</label>
-                </div>
-            </div>
+                <Line>
+                    <Label flex={true}/>
+                    <Label size='small'>待支付</Label>
+                    <Label size='small'>{`￥${total + fee.price}`}</Label>
+                </Line>
+            </Section>
         );
     }
 }

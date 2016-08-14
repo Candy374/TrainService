@@ -8,7 +8,7 @@ export default class Footer extends Component {
         return (
             <div className='footer'>
                 {left}
-                <Button {...button}></Button>
+                <Button {...button} isPrimary={true}></Button>
             </div>
         )
     }

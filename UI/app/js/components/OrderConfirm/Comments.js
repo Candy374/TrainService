@@ -1,16 +1,12 @@
 import React, {Component} from 'react';
+import {Section, Line} from '../common/Widgets';
 
 export default class Comments extends Component {
     render() {
         return (
-            <div className='section'>
-                <div className='comments line'>
-                    <div className='line'>
-                        <div className='title'>订单备注：</div>
-                    </div>
-                    <div className='line'>{this.props.Comment || '无'}</div>
-                </div>
-            </div>
+            <Section title='订单备注：' className='comments'>
+                <Line>{this.props.Comment || '无'}</Line>
+            </Section>
         );
     }
 }

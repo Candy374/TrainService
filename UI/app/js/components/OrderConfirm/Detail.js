@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Section, Line, Label} from '../common/Widgets';
 
 export default class OrderDetail extends Component {
     generateOrderNum() {
@@ -11,22 +12,15 @@ export default class OrderDetail extends Component {
         
         const userAddress = `${TrainNumber} ${CarriageNumber}号餐车`;
         return (
-            <div className='section'>
-                <div className='head'>
+            <Section>
+                <Line className='head'>
                     <div className='title'>订单详情：</div>
-                    <div className='width-large rightToLeft'>
-                    {this.generateOrderNum()}
-                    </div>
-                </div>
-                <div className='user-info'>
-                    <div className='line'>
-                    <span className='width-medium'>联系人：</span>{Contact}</div>
-                    <div className='line'>
-                    <span className='width-medium'>联系方式：</span>{ContactTel}</div>
-                    <div className='line'>
-                    <span className='width-medium'>收货地址：</span>{userAddress}</div>
-                </div>
-            </div>
+                    <Label size='large' align='end'>{this.generateOrderNum()}</Label>
+                </Line>
+                <Line><Label>联系人：</Label>{Contact}</Line>
+                <Line><Label>联系方式：</Label>{ContactTel}</Line>
+                <Line><Label>收货地址：</Label>{userAddress}</Line>
+            </Section>
         );
     }
 }

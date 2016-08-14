@@ -2,14 +2,14 @@ import React, {Component} from 'react';
 
 export default class Button extends Component {
     render() {
-        const {onClick, label, img, disabled} = this.props;
+        const {onClick, label, img, disabled, isPrimary} = this.props;
         let _onClick =  onClick;
         const classes = ['button'];
         
         if (disabled) {
             _onClick = undefined;
             classes.push('disabled');
-        } else if (disabled == false) {
+        } else if (isPrimary == true) {
             classes.push('active');
         }
 
