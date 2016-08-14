@@ -55,7 +55,7 @@ export default class MyOrders extends Component {
                     <div className={status == 1 ? 'active' : ''}
                          onClick={()=> this.setState({status: 1})}>待收货</div>
                     <div className={status == 2 ? 'active' : ''}
-                         onClick={()=> this.setState({status: 2})}>待评价</div>
+                         onClick={()=> this.setState({status: 2})}>已完成</div>
                     <div className={status == 3 ? 'active' : ''}
                          onClick={()=> this.setState({status: 3})}>已取消</div>
                 </div>
@@ -94,7 +94,7 @@ export default class MyOrders extends Component {
                 {orderMap[status].length > this.showNum &&
                     <Footer button={{
                         onClick: ()=> this.setState({showAll: !this.state.showAll}),
-                        label: showAll ? '收起' : '显示全部'
+                        label: showAll ? '收起' : '显示全部订单'
                     }}/>
                 }
                 </div>

@@ -65,13 +65,12 @@ export default class OrderPage extends Component {
     }
     
     render() {       
-        const chart = this.props.chart.goods;
-        const total = this.props.chart.total;
+        const {goods: chart, total, station } = this.props.chart;
         const footer = {
             button: {
-                label: '选好了',
+                label: total < station.MinPrice ? `还差${station.MinPrice - total}元起送` : '选好了',
                 onClick: this.props.nextPage,
-                disabled: total == 0
+                disabled: total < station.MinPrice
             },
             
             left: (
@@ -99,8 +98,10 @@ export default class OrderPage extends Component {
                                         <Label size='auto'>{food.Name}</Label>
                                         <div className="detail">
                                             <div className="left">
-                                                {`月售${food.OrderCount}`}
-                                                {`好评率${food.Rating}%`}
+                                                <div style={{display: 'flex'}}>
+                                                    <Label size='small'>{`月售${food.OrderCount}`}</Label>
+                                                    <Label>{`好评率${food.Rating}%`}</Label>
+                                                </div>
                                                 <div className="price">{`￥${food.SellPrice}`}</div>
                                             </div>
 

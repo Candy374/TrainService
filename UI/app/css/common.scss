@@ -33,14 +33,6 @@ body {
     &.flex {
         display: flex;
     }
-
-    &.direction-col {        
-        flex-direction: column;
-    }
-
-    &.direction-row {        
-        flex-direction: row;
-    }
 }
 
 input[type="checkbox"] {
@@ -49,11 +41,6 @@ input[type="checkbox"] {
 
 .price {
     color: $price-color;
-}
-
-.align-end {
-    flex-direction: row-reverse;
-    text-align: end;
 }
 
 .width-small {
@@ -70,4 +57,21 @@ input[type="checkbox"] {
 
 .flex {
     flex: 1
+}
+
+.direction-col {        
+    flex-direction: column;
+}
+
+.direction-row {        
+    flex-direction: row;
+}
+
+.align-start {
+    align-items: stretch;
+}
+
+.align-end {
+    flex-direction: row-reverse;
+    text-align: end;
 }

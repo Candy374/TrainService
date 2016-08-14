@@ -1,17 +1,21 @@
 import React from 'react';
 import {basicUrl} from '../../constants/system';
 
-export const Label = ({size, children, flex, align}) => {
+export const Label = ({size, children, flex, align, className}) => {
     const classes = [`width-${size || 'medium'}`, `align-${align || 'start'}`];
     if (flex) {
         classes.push('flex');
+    }
+
+    if (className) {
+        classes.push(className);
     }
     
     return  <label className={classes.join(' ')}>{children}</label>;
 };
 
-export const Line = ({children, className, imgUrl, align}) => {
-    const classes = ['line', `align-${align || 'start'}`];
+export const Line = ({children, className, imgUrl, align = 'start', direction}) => {
+    const classes = ['line', `align-${align}`, `direction-${direction || 'row'}`];
     if (className) {
         classes.push(className);
     }
