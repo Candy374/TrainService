@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import Page from './common/Page.js';
+import Button from './common/Button';
+import Page from './common/Page';
 import {Section, ImgLine, Img, Line, Label} from './common/Widgets';
 
 export default class Station extends Component {
@@ -10,17 +11,12 @@ export default class Station extends Component {
                 fontSize: '2em'}}>请选择车站</Line>
                 <Section list={true}>
                 {this.props.stations.map(station => (
-                    // <li key={station.StationId} style={{listStyle: 'none'}}
-                    //     onClick={()=> this.props.updateChart({station}, this.props.nextPage)} >
-                    //     <Img src={station.PicUrl} style={{width: '4em'}}/>
-                    //     <Label>{station.Name}</Label>
-                    // </li>
-
-                    <ImgLine url={station.PicUrl} key={station.StationId}
-                        imgClassName='width-small height-small'
-                        onClick={()=> this.props.updateChart({station}, this.props.nextPage)}>
-                        <Label>{station.Name}</Label>
-                    </ImgLine>
+                    <Line key={station.StationId}>
+                        <Button label={station.Name} isPrimary={true}
+                            onClick={()=> this.props.updateChart({station}, this.props.nextPage)}>
+                        
+                        </Button>
+                    </Line>
                 ))}
                 </Section>
         </Page>);
