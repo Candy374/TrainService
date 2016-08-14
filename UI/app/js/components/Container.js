@@ -7,7 +7,7 @@ import ConfirmPage from './OrderConfirm/Page.js';
 export default class Container extends Component {
     componentWillMount() {
         this.state = {
-            page: 1,
+            page: location.hash == '#MyOrders' ? 4 : 1,
             chart: { 
                 goods: {},
                 total: 0,
