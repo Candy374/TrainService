@@ -56,7 +56,7 @@ export default class OrderConfirmPage extends Component {
                 };
         const chart = this.props.chart;
         return (
-            <Page footer={footer} className='order-confirm'>
+            <Page footer={footer}>
                 <OrderStatus status={0}/>
                 <OrderDetail {...chart.info}/>
                 <OrderList list={chart.goods} total={chart.total}/>

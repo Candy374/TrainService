@@ -28,6 +28,7 @@ body {
 .page {
     flex: 1;
     overflow: auto;
+    background: $backgorund-color-index-2;
     
     &.flex {
         display: flex;
