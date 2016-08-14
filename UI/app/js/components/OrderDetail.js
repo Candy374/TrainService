@@ -45,7 +45,7 @@ export default class OrderDetail extends Component {
                         <Label size='small' className='price'>{`￥${order.Amount}`}</Label>
                     </Line>
                 </Section>
-                <Detail {...order.info}/>
+                <Detail {...order}/>
                 <Comments Comment={order.info.Comment}/>
             </Page>
         );

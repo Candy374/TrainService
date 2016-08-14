@@ -38,10 +38,10 @@ export default class OrderConfirmPage extends Component {
         this.setState({
             submitting: true
         });
-        // actions.submmitOrder(data).then(orderId => {
-        //     this.props.setCurrentOrderId(orderId)
-        // });
-        this.props.setCurrentOrderId(18)
+        actions.submmitOrder(data).then(orderId => {
+            this.props.setCurrentOrderId(orderId)
+        });
+        //this.props.setCurrentOrderId(18)
     }
 
     render() {

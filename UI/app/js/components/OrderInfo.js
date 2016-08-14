@@ -46,11 +46,11 @@ export default class OrderInfo extends Component {
     isValid(value, type) {
         switch(type) {
             case 'TrainNumber':
-                //value 长度小于10， 字母开头或者全数字
-                return value.length < 10 && value.match(/(G|D|L|T|K|Z|C|S)?\d+$/i);
+                //value 长度小于5， 字母开头或者全数字
+                return value.length < 5 && value.match(/(G|D|C)?\d+$/i);
             case 'CarriageNumber':
-                // less than 30
-                return value/1 < 30;
+                // less than 16
+                return value/1 < 16 && value/1 > 0;
             case 'ContactTel':
                 // start with 1, length == 11
                 return value.length == 11 && !isNaN(value/1) && value.indexOf('1') == 0;
