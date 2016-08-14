@@ -47,7 +47,7 @@ export default class OrderInfo extends Component {
         switch(type) {
             case 'TrainNumber':
                 //value 长度小于5， 字母开头或者全数字
-                return value.length < 5 && value.match(/(G|D|C)?\d+$/i);
+                return value.length < 5 && value.match(/(G|D|C)\d+$/i);
             case 'CarriageNumber':
                 // less than 16
                 return value/1 < 16 && value/1 > 0;
