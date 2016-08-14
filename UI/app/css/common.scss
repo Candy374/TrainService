@@ -12,6 +12,7 @@ $backgorund-color-index-3: #ddd;
 $backgorund-color-index-4: #ccc;
 $disbaled-color: #ccc;
 $subtitle-color: #aaa;
+$error-color: red;
 
 body {
     font-size: 1.2em;
@@ -74,4 +75,8 @@ input[type="checkbox"] {
 .align-end {
     flex-direction: row-reverse;
     text-align: end;
+}
+
+.error {
+    color: $error-color; 
 }

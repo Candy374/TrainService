@@ -16,16 +16,15 @@ export default class OrderInfo extends Component {
 
     renderInput(name) {
         return (
-            <input value={this.props.chart.info[name]} 
+            <input  value={this.props.chart.info[name]} 
+                    style={{width: '7em'}}
                     ref={node=> this[name] = node}
                     onChange={() => {
                         const value = this[name].value;
                         const info = this.props.chart.info;
                         info[name] = this[name].value;
                         this.props.updateChart({info});
-                    }}
-                    onBlur={()=> {
-                        const value = this[name].value;
+
                         let state = this.state;
                         if (!this.isValid(value, name)) {
                             if (state[name + 'Error'] == '') {
@@ -81,12 +80,12 @@ export default class OrderInfo extends Component {
                     <Line>
                         <Label>车次：</Label>
                         {this.renderInput('TrainNumber')}*
-                        <Label size='large'>{this.state.TrainNumberError}</Label>
+                        <Label size='large' status='error'>{this.state.TrainNumberError}</Label>
                     </Line>
                     <Line>
                         <Label>餐车车厢号：</Label>
                         {this.renderInput('CarriageNumber')}*
-                        <Label size='large'>{this.state.CarriageNumberError}</Label>
+                        <Label size='large' status='error'>{this.state.CarriageNumberError}</Label>
                     </Line>
                     <Line>
                         <Label>列车已晚点</Label>
@@ -108,7 +107,7 @@ export default class OrderInfo extends Component {
                     <Line>
                         <Label size='small'>手机号：</Label>
                         {this.renderInput('ContactTel')}*
-                        <Label size='large'>{this.state.ContactTelError}</Label>
+                        <Label size='large' status='error'>{this.state.ContactTelError}</Label>
                     </Line>
                 </Section>
                 <Section title='留言或特殊要求'>

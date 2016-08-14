@@ -1,7 +1,7 @@
 import React from 'react';
 import {basicUrl} from '../../constants/system';
 
-export const Label = ({size, children, flex, align, className}) => {
+export const Label = ({size, children, flex, align, className, status}) => {
     const classes = [`width-${size || 'medium'}`, `align-${align || 'start'}`];
     if (flex) {
         classes.push('flex');
@@ -9,6 +9,10 @@ export const Label = ({size, children, flex, align, className}) => {
 
     if (className) {
         classes.push(className);
+    }
+
+    if (status) {
+        classes.push(status);
     }
     
     return  <label className={classes.join(' ')}>{children}</label>;
