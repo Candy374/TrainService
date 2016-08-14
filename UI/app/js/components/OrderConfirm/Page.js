@@ -38,7 +38,8 @@ export default class OrderConfirmPage extends Component {
         this.setState({
             submitting: true
         });
-        actions.submmitOrder(data);
+        actions.submmitOrder(data).then(() => {
+        });
     }
 
     render() {
