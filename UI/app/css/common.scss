@@ -20,7 +20,7 @@ body {
 }
 
 .container {
-   display: flex;
+    display: flex;
     flex-direction: column;
     height: 100vh;
 }
@@ -28,6 +28,18 @@ body {
 .page {
     flex: 1;
     overflow: auto;
+    
+    &.flex {
+        display: flex;
+    }
+
+    &.direction-col {        
+        flex-direction: column;
+    }
+
+    &.direction-row {        
+        flex-direction: row;
+    }
 }
 
 input[type="checkbox"] {
@@ -38,7 +50,7 @@ input[type="checkbox"] {
     color: $price-color;
 }
 
-.rightToLeft {
+.align-end {
     flex-direction: row-reverse;
     text-align: end;
 }
@@ -53,4 +65,8 @@ input[type="checkbox"] {
 
 .width-large {
     width: 12em;
+}
+
+.flex {
+    flex: 1
 }

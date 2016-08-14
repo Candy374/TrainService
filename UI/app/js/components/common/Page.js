@@ -1,17 +1,24 @@
 import React, {Component} from 'react';
 import Footer from './Footer.js';
 
-export default class Page extends Component {
-    render() {
-        const {children, footer, className} = this.props;
-        const classes = className ? `page ${className}` : 'page';
-        return (
-            <div className='container'>
-                <div className={classes}>
-                {children}
-                </div>
-                {footer && <Footer {...footer} />}
-            </div>
-        );
+const Page = ({children, footer, className, flex, direction}) => {
+    const classes = ['page', `direction-${direction || 'row'}`];
+    if (flex) {
+        classes.push('flex');
     }
-}
+
+    if (className) {
+        classes.push(className);
+    }
+
+    return (
+        <div className='container'>
+            <div className={classes.join(' ')}>
+                {children}
+            </div>
+            {footer && <Footer {...footer} />}
+        </div>
+    );
+};
+
+export default Page;

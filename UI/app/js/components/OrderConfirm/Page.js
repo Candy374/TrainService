@@ -13,6 +13,10 @@ export default class OrderConfirmPage extends Component {
         }
     }
     submmitOrder() {
+        if (this.state.submitting) {
+            return;
+        }
+
         const {info, goods} = this.props.chart;
         const list = Object.keys(goods).map(key => {
             
@@ -23,14 +27,17 @@ export default class OrderConfirmPage extends Component {
             TrainNumber: info.TrainNumber,
             CarriageNumber: '' + info.CarriageNumber,
             IsDelay: info.IsDelay == 'on',
-            OrderType: 0, //订单类型，0是餐饮订单
-            PayWay: 0, //支付途径，0是微信支付
+            OrderType: 0,
+            PayWay: 0,
             Comment: info.Comment,
             Contact: info.Contact,
             ContactTel: info.ContactTel,
             TotalPrice: this.props.chart.total,
             List: list
         }
+        this.setState({
+            submitting: true
+        });
         actions.submmitOrder(data);
     }
 
@@ -39,10 +46,12 @@ export default class OrderConfirmPage extends Component {
                     button: {
                         label: '立即支付',
                         onClick: this.submmitOrder.bind(this),
-                        disabled: false
+                        disabled: this.state.submitting
                     },
-                     left: (<Button label='返回修改'
-                                    onClick={this.props.prePage}>
+                    left: (
+                        <Button label='返回修改'
+                                disabled={this.state.submitting}
+                                onClick={this.props.prePage}>
                         </Button>)
                 };
         const chart = this.props.chart;

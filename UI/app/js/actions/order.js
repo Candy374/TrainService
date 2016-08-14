@@ -1,13 +1,7 @@
 import Rest from '../utils/Rest';
 import request from 'superagent';
-import  * as Constants from '../Constants';
-
-const basicUrl = `${Constants.basicUrl}/api/`;
-const typeURL = 'tags';
-const goodURL = 'goods/郑州东/0';
-const submmitURL = 'Orders/add';
-const orderListURL = 'orders/Query/All/test_Open_Id';
-const orderURL = 'orders/Query/Order/';
+import  {basicUrl, typeURL, goodsURL
+    ,submmitURL,orderListURL, orderURL} from '../constants/actions';
 
 export const getTypes = () => {
     return request.get(basicUrl + typeURL)
@@ -19,7 +13,7 @@ export const getTypes = () => {
 }
 
 export const getGoodsList = (type) => {
-    return request.get(encodeURI(basicUrl + goodURL))
+    return request.get(encodeURI(basicUrl + goodsURL))
         .then(res => res.body)
         .catch(err => {
             console.log('Can not get goods list');

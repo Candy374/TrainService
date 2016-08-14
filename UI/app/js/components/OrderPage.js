@@ -3,7 +3,8 @@ import Footer from './common/Footer';
 import Page from './common/Page';
 import * as actions from '../actions/order.js';
 import NumberInput from './common/NumberInput';
-import * as Constants from '../Constants';
+import  * as Constants from '../constants/system';
+import {Section, Line, ImgLine, Label} from './common/Widgets';
 
 export default class OrderPage extends Component {
     componentWillMount() {
@@ -74,13 +75,11 @@ export default class OrderPage extends Component {
             },
             
             left: (
-                <div className='total'>
-                    共: ￥{total} 元
-                </div>)
+                <label className='total'>{`共: ￥${total} 元`}</label>)
         };
 
         return (
-            <Page footer={footer}  className='order-content'>
+            <Page footer={footer} className='order-content'>
                     <div className='type'>
                         {this.state.goodsTypes.map(type => {
                             return (
@@ -93,34 +92,25 @@ export default class OrderPage extends Component {
                         })}
                     </div>
                     <div className='list'>
-                        {this.state.goodsList.map((food, index) => {
-                            
+                        {this.state.goodsList.map((food, index) => {                            
                             food.count = chart[food.GoodsId] && chart[food.GoodsId].count || food.count || 0;
-                            food.index = index;
                             return (
-                                <div key={food.GoodsId} className='item'>
-                                    <img src= {Constants.basicUrl + food.PictureUrl}  className='img'/>
-                                    <div className="descriptions">
-                                        <label className="name">
-                                            {food.Name}
-                                        </label>
+                                <ImgLine url={food.PictureUrl} type='desc' key={food.GoodsId}>
+                                        <Label size='auto'>{food.Name}</Label>
                                         <div className="detail">
                                             <div className="left">
                                                 {`月售${food.OrderCount}`}
                                                 {`好评率${food.Rating}%`}
-                                                <div className="price">
-                                                    {`￥${food.SellPrice}`}
-                                                </div>
+                                                <div className="price">{`￥${food.SellPrice}`}</div>
                                             </div>
 
                                             <div className="number-input">
                                                 <NumberInput count={food.count} updateCount={(count) => this.add(food, count)}/>
                                             </div>
-                                        </div>    
-                                    </div>                           
-                                </div>
+                                        </div>                         
+                                </ImgLine>
                             )
-                        })} 
+                        })}
                     </div>  
             </Page>
         );

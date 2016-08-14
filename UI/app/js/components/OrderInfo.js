@@ -3,6 +3,7 @@ import Header from './common/Header.js';
 import Footer from './common/Footer.js';
 import Page from './common/Page.js';
 import Button from './common/Button';
+import {Section, Line, Label} from './common/Widgets';
 
 export default class OrderInfo extends Component {
     componentWillMount() {
@@ -32,33 +33,28 @@ export default class OrderInfo extends Component {
     render() {
         const info = this.props.chart.info;
         const footer = {
-                    button: {
-                        label: '确认下单',
-                        onClick: this.props.nextPage,
-                        disabled: !info.TrainNumber || !info.CarriageNumber || !info.Contact || !info.ContactTel
-                    },
-                    left: (<Button label='返回修改'
-                                   onClick={this.props.prePage}>
-                        </Button>)
-                };
+            button: {
+                label: '确认下单',
+                onClick: this.props.nextPage,
+                disabled: !info.TrainNumber || !info.CarriageNumber || !info.Contact || !info.ContactTel
+            },
+            left: <Button label='返回修改' onClick={this.props.prePage}/>
+        };
         
         
         return (
             <Page className='order-info' footer={footer}>
-                <div className='section'>
-                    <div className='head'>
-                        <div className='title'>列车信息</div>
-                    </div>
-                    <div className='line'>
-                        <label className='width-medium'>车次：</label>
+                <Section title='列车信息'>
+                    <Line>
+                        <Label>车次：</Label>
                         {this.renderInput('TrainNumber')}*
-                    </div>
-                    <div className='line'>
-                        <label className='width-medium'>餐车车厢号：</label>
+                    </Line>
+                    <Line>
+                        <Label>餐车车厢号：</Label>
                         {this.renderInput('CarriageNumber', 'number')}*
-                    </div>
-                    <div className='line'>
-                        <label className='width-medium'>列车已晚点</label>
+                    </Line>
+                    <Line>
+                        <Label>列车已晚点</Label>
                         <input  value={this.props.chart.info.IsDelay} 
                                 checked={this.props.chart.info.IsDelay}
                                 ref={node=> this.IsDelay = node}
@@ -67,25 +63,19 @@ export default class OrderInfo extends Component {
                                     this.props.updateChart({info});
                                 }}
                                 type='checkbox' />
-                    </div>
-                </div>
-                <div className='section'>
-                    <div className='head'>
-                        <div className='title'>联系人信息</div>
-                    </div>
-                    <div className='line'>
-                        <label className='width-small'>姓名：</label>
+                    </Line>
+                </Section>
+                <Section title='联系人信息'>
+                    <Line>
+                        <Label size='small'>姓名：</Label>
                         {this.renderInput('Contact')}*
-                    </div>
-                    <div className='line'>
-                        <label className='width-small'>电话：</label>
+                    </Line>
+                    <Line>
+                        <Label size='small'>电话：</Label>
                         {this.renderInput('ContactTel')}*
-                    </div>
-                </div>
-                <div className='section'>
-                    <p>
-                    留言或特殊要求：
-                    </p>
+                    </Line>
+                </Section>
+                <Section title='留言或特殊要求：'>
                     <textarea value={info.Comment} 
                             ref={node=> this.Comment = node}
                             onChange={() => {
@@ -99,7 +89,7 @@ export default class OrderInfo extends Component {
                     <p>
                         如有任何问题、建议或投诉，请拨打电话xxx-xxxx-xxxx
                     </p>
-                </div>
+                </Section>
             </Page>
         );
     }

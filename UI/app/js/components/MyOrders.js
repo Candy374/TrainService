@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import * as actions from '../actions/order';
 import Page from './common/Page';
-import  * as Constants from '../Constants';
+import  * as Constants from '../constants/system';
+import {Section, Line, ImgLine, Label} from './common/Widgets';
 
 export default class MyOrders extends Component {
     componentWillMount() {
@@ -24,7 +25,7 @@ export default class MyOrders extends Component {
         // 0：未付款，1：已付款，2：商家已接单，3：商家已配货 
         // 4:快递员已取货 5:已经送到指定位置 6：订单结束 7：订单取消 8：异常状态
         return (
-            <Page className='order-list'>
+            <Page flex={true} direction='col' className='order-list'>
                 <div className='tabs'>
                     <div className={status == -1 ? 'active' : ''} 
                          onClick={()=> this.setState({status: -1})}>全部</div>
@@ -52,46 +53,31 @@ export default class MyOrders extends Component {
                         return null;
                     }
                     return (
-                     <div className='section list' key={index}> 
-                        <div className='line'>
-                            <div className='label'>{order.TrainNumber}
-                            </div>
-                            <div className='status rightToLeft'>{order.OrderStatus}
-                            </div>
-                        </div>
+                     <Section list={true} key={index}> 
+                        <Line>
+                            <Label flex={true}>{order.TrainNumber}</Label>
+                            <label>{order.OrderStatus}</label>
+                        </Line>
                             {
                                 order.SubOrders.map((food, index) => {
                                     return (
-                                        <div key={index} className='item'>
-                                            {food.PicUrl && <img src= {Constants.basicUrl + food.PicUrl}  className='img'/>}
-                                            <div className="line">
-                                                <div className='descriptions'>
-                                                    <label className="name">
-                                                        {food.Name}
-                                                    </label>
-
-                                                    <div className="width-small">
-                                                        {food.count}
-                                                    </div> 
-                                                    <div className="width-small">
-                                                        {`￥${food.Price}`}
-                                                    </div>
-                                                </div> 
-                                            </div>                           
-                                        </div>
+                                        <ImgLine url={food.PicUrl} key={index}>
+                                            <Label flex={true}>{food.Name}</Label>
+                                            <Label size='small'>x{food.Count}</Label>
+                                            <Label size='small'>{`￥${food.Price}`}</Label>                      
+                                        </ImgLine>
                                     )
                                 })
                             }
-                        <div className='line'>
-                            <div className='label'>
-                                {order.OrderDate}
-                            </div>
-                            <div className='rightToLeft'>共计: ￥{order.Amount}</div>
-                        </div>
-                        <div className='line rightToLeft'>
+                        <Line>
+                            <Label flex={true}>{order.OrderDate}</Label>
+                            <Label size='small'>共计: </Label>
+                            <Label size='small'>￥{order.Amount}</Label>
+                        </Line>
+                        <Line align='end'>
                             <button className='detail'>订单详情</button>
-                        </div>
-                    </div>)
+                        </Line>
+                    </Section>)
                 })}
                 </div>
             </Page>
