@@ -10,11 +10,16 @@ export default class MyOrders extends Component {
             orderList: [],
             status: -1
         };
-        actions.getOrderList().then((orderList)=>{
+        actions.getOrderList(this.getUserId()).then((orderList)=>{
             this.setState({
                 orderList
             })
         });
+        this.showNum = 5;
+    }
+
+    getUserId() {
+        return ''
     }
 
     render() {
@@ -22,6 +27,7 @@ export default class MyOrders extends Component {
         if (orderList.length == 0) {
             return null;
         }
+        let count = 0;
         // 0：未付款，1：已付款，2：商家已接单，3：商家已配货 
         // 4:快递员已取货 5:已经送到指定位置 6：订单结束 7：订单取消 8：异常状态
         return (
@@ -49,6 +55,9 @@ export default class MyOrders extends Component {
                         StatusCode = 3;
                     }
 
+                    if (this.showNum != 'ALL' && count++ > this.showNum) {
+                        return null;
+                    }
                     if (status != -1 && StatusCode != status) {
                         return null;
                     }

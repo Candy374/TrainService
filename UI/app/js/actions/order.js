@@ -31,8 +31,9 @@ export const submmitOrder = (data) => {
         });
 }
 
-export const getOrderList = () => {
-    return request.get(basicUrl + orderListURL)
+export const getOrderList = (userId) => {
+    userId = 'test_Open_Id';
+    return request.get(basicUrl + orderListURL + userId)
         .then(res => res.body && res.body.Orders)
         .catch(err => {
             console.log('Can not get order history!');

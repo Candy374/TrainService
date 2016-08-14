@@ -62,7 +62,8 @@ export default class Container extends Component {
             case 3:
                 return (
                     <ConfirmPage chart={this.state.chart}
-                                 prePage={this.prePage} />);
+                                 prePage={this.prePage}
+                                 nextPage={this.nextPage} />);
             case 4:
                 return <MyOrders />;
         }
