@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import * as actions from '../actions/order';
 import Page from './common/Page';
 import Footer from './common/Footer';
+import {ListItem} from './common/GoodsList';
 import  * as Constants from '../constants/system';
 import {Section, Line, ImgLine, Label} from './common/Widgets';
 
@@ -70,24 +71,21 @@ export default class MyOrders extends Component {
                             <Label flex={true}>{order.TrainNumber}</Label>
                             <label>{order.OrderStatus}</label>
                         </Line>
-                            {
-                                order.SubOrders.map((food, index) => {
-                                    return (
-                                        <ImgLine url={food.PicUrl} key={index}>
-                                            <Label flex={true}>{food.Name}</Label>
-                                            <Label size='small'>x{food.Count}</Label>
-                                            <Label size='small'>{`￥${food.Price}`}</Label>                      
-                                        </ImgLine>
-                                    )
-                                })
-                            }
+                            {order.SubOrders.map((item, index) => (
+                                <ListItem key={index}
+                                        url={item.PicUrl}
+                                        count={item.Count}
+                                        price={item.Price}/>)                                
+                            )}
                         <Line>
                             <Label flex={true}>{order.OrderDate}</Label>
                             <Label size='small'>共计: </Label>
                             <Label size='small'>￥{order.Amount}</Label>
                         </Line>
                         <Line align='end'>
-                            <button className='detail'>订单详情</button>
+                            <button className='detail' onClick={() => {
+                                this.props.setCurrentOrderId(order.OrderId)
+                            }}>订单详情</button>
                         </Line>
                     </Section>)
                 })}

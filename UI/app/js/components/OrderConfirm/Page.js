@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import Page from '../common/Page.js';
-import OrderDetail from './Detail.js';
-import OrderList from './List.js';
-import Comments from './Comments.js';
+import Page from '../common/Page';
+import OrderDetail from './Detail';
+import OrderList from '../common/GoodsList';
+import Comments from './Comments';
 import Button from '../common/Button';
-import OrderStatus from '../common/OrderStatus.js';
-import * as actions from '../../actions/order.js';
+import OrderStatus from '../common/OrderStatus';
+import * as actions from '../../actions/order';
 export default class OrderConfirmPage extends Component {
     componentWillMount() {
         this.state = {
@@ -38,7 +38,10 @@ export default class OrderConfirmPage extends Component {
         this.setState({
             submitting: true
         });
-        actions.submmitOrder(data).then(this.props.nextPage);
+        // actions.submmitOrder(data).then(orderId => {
+        //     this.props.setCurrentOrderId(orderId)
+        // });
+        this.props.setCurrentOrderId(18)
     }
 
     render() {
