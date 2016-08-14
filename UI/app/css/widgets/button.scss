@@ -5,6 +5,7 @@
     text-align: center;
     cursor: pointer;
     background: $button-default-color;
+    color: $backgorund-color-index-1;
 
     &.active {
         background: $button-active-color;

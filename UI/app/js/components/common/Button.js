@@ -14,10 +14,10 @@ export default class Button extends Component {
         }
 
         return (
-            <div className={classes.join(' ')} onClick={_onClick}>
+            <button className={classes.join(' ')} onClick={_onClick}>
                 {img}
                 <span>{label}</span>
-            </div>
+            </button>
         );
     }
 }

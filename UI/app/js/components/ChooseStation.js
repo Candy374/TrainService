@@ -14,7 +14,6 @@ export default class Station extends Component {
                     <Line key={station.StationId}>
                         <Button label={station.Name} isPrimary={true}
                             onClick={()=> this.props.updateChart({station}, this.props.nextPage)}>
-                        
                         </Button>
                     </Line>
                 ))}
