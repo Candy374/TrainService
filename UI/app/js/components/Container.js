@@ -7,6 +7,14 @@ import OrderDetail from './OrderDetail';
 import ChooseStation from './ChooseStation';
 import ConfirmPage from './OrderConfirm/Page';
 import * as actions from '../actions/order';
+
+const _extend = Object.assign || function(target) {
+    for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+        for (var key in source) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } }
+    return target; };
+    
 export default class Container extends Component {
     componentWillMount() {
         this.state = {
@@ -50,7 +58,7 @@ export default class Container extends Component {
     }
 
     updateChart(chart, callback) {
-        const updated = Object.assign({}, this.state.chart, chart);
+        const updated = _extend({}, this.state.chart, chart);
         this.setState({
             chart: updated
         }, callback);
