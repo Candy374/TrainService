@@ -123,6 +123,7 @@ export default class Container extends Component {
             case 'Confirm':
                 return (
                     <ConfirmPage chart={this.state.chart}
+                                 submitting={this.state.submitting}
                                  submmitOrder={this.submmitOrder}
                                  prePage={this.prePage.bind(this, 'Info')}
                                  nextPage={this.nextPage.bind(this, 'Detail')} />);

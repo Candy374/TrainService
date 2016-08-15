@@ -12,7 +12,7 @@ export default class OrderConfirmPage extends Component {
                     button: {
                         label: '立即支付',
                         onClick: this.props.submmitOrder,
-                        disabled: this.state.submitting
+                        disabled: this.props.submitting
                     },
                     left: (
                         <Button label='返回修改'
