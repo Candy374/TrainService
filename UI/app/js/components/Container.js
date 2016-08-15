@@ -95,10 +95,10 @@ export default class Container extends Component {
         this.setState({
             submitting: true
         });
-        // actions.submmitOrder(data).then(orderId => {
-        //     this.setCurrentOrderId(orderId)
-        // });
-       this.setCurrentOrderId(18)
+        actions.submmitOrder(data).then(orderId => {
+            this.setCurrentOrderId(orderId)
+         });
+       //this.setCurrentOrderId(18)
     }
 
     render() {
