@@ -89,7 +89,7 @@ export default class Container extends Component {
             Comment: info.Comment,
             Contact: info.Contact,
             ContactTel: info.ContactTel,
-            TotalPrice: this.props.chart.total,
+            TotalPrice: this.state.chart.total,
             List: list
         }
         this.setState({
