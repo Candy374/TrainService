@@ -11,7 +11,7 @@ export default class OrderConfirmPage extends Component {
          const footer = {
                     button: {
                         label: '立即支付',
-                        onClick: this.submmitOrder.bind(this),
+                        onClick: this.props.submmitOrder,
                         disabled: this.state.submitting
                     },
                     left: (

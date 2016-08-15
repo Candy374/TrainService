@@ -103,6 +103,7 @@ export default class OrderInfo extends Component {
                     <Line>
                         <Label>姓名：</Label>
                         {this.renderInput('Contact')}*
+                        <Label size='large' status='error'/>
                     </Line>
                     <Line>
                         <Label>手机号：</Label>
