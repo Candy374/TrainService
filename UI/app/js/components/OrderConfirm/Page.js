@@ -16,7 +16,7 @@ export default class OrderConfirmPage extends Component {
                     },
                     left: (
                         <Button label='返回修改'
-                                disabled={this.state.submitting}
+                                disabled={this.props.submitting}
                                 onClick={this.props.prePage}>
                         </Button>)
                 };
