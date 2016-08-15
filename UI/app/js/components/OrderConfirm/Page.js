@@ -7,43 +7,6 @@ import Button from '../common/Button';
 import OrderStatus from '../common/OrderStatus';
 import * as actions from '../../actions/order';
 export default class OrderConfirmPage extends Component {
-    componentWillMount() {
-        this.state = {
-            submitting: false
-        }
-    }
-    submmitOrder() {
-        if (this.state.submitting) {
-            return;
-        }
-
-        const {info, goods} = this.props.chart;
-        const list = Object.keys(goods).map(key => {
-            
-            return {Id: goods[key].GoodsId, Count: goods[key].count};
-        });
-        const data = {
-            OpenId: 124123,
-            TrainNumber: info.TrainNumber,
-            CarriageNumber: '' + info.CarriageNumber,
-            IsDelay: info.IsDelay == 'on',
-            OrderType: 0,
-            PayWay: 0,
-            Comment: info.Comment,
-            Contact: info.Contact,
-            ContactTel: info.ContactTel,
-            TotalPrice: this.props.chart.total,
-            List: list
-        }
-        this.setState({
-            submitting: true
-        });
-        actions.submmitOrder(data).then(orderId => {
-            this.props.setCurrentOrderId(orderId)
-        });
-        //this.props.setCurrentOrderId(18)
-    }
-
     render() {
          const footer = {
                     button: {

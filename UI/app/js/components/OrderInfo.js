@@ -101,11 +101,11 @@ export default class OrderInfo extends Component {
                 </Section>
                 <Section title='联系人信息'>
                     <Line>
-                        <Label size='small'>姓名：</Label>
+                        <Label>姓名：</Label>
                         {this.renderInput('Contact')}*
                     </Line>
                     <Line>
-                        <Label size='small'>手机号：</Label>
+                        <Label>手机号：</Label>
                         {this.renderInput('ContactTel')}*
                         <Label size='large' status='error'>{this.state.ContactTelError}</Label>
                     </Line>

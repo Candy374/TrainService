@@ -26,9 +26,16 @@ export default class OrderDetail extends Component {
             return null;
         }
 
-        order.info = {};
+         const footer = order.StatusCode == 0 && {
+                    button: {
+                        label: '立即支付',
+                        onClick: this.props.submmitOrder,
+                        disabled: this.state.submitting
+                    }
+                };
+
         return (
-            <Page >
+            <Page footer={footer}>
                 <OrderStatus status={order.StatusCode}/>
                 <Section title='已点菜品' list={true}> 
                     {

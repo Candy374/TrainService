@@ -33,10 +33,12 @@ export default class Container extends Component {
                 station: {}
             },
             orderId: null,
-            stations: []
+            stations: [],
+            submitting: false
         };
         this.updateChart = this.updateChart.bind(this);
-        this.setCurrentOrderId = this.setCurrentOrderId.bind(this);
+        this.submmitOrder = this.submmitOrder.bind(this);
+        this.setCurrentOrderId = this.setCurrentOrderId.bind(this);        
         actions.getStations().then((stations) => {
             this.setState({stations})
         });
@@ -68,6 +70,37 @@ export default class Container extends Component {
         this.setState({orderId}, () => this.nextPage('Detail'));
     }
 
+    submmitOrder() {
+        if (this.state.submitting) {
+            return;
+        }
+
+        const {info, goods} = this.state.chart;
+        const list = Object.keys(goods).map(key => {            
+            return {Id: goods[key].GoodsId, Count: goods[key].count};
+        });
+        const data = {
+            OpenId: 124123,
+            TrainNumber: info.TrainNumber,
+            CarriageNumber: '' + info.CarriageNumber,
+            IsDelay: info.IsDelay == 'on',
+            OrderType: 0,
+            PayWay: 0,
+            Comment: info.Comment,
+            Contact: info.Contact,
+            ContactTel: info.ContactTel,
+            TotalPrice: this.props.chart.total,
+            List: list
+        }
+        this.setState({
+            submitting: true
+        });
+        // actions.submmitOrder(data).then(orderId => {
+        //     this.setCurrentOrderId(orderId)
+        // });
+       this.setCurrentOrderId(18)
+    }
+
     render() {
         switch(this.state.page){
             case 'Choose':
@@ -90,11 +123,12 @@ export default class Container extends Component {
             case 'Confirm':
                 return (
                     <ConfirmPage chart={this.state.chart}
-                                 setCurrentOrderId={this.setCurrentOrderId}
+                                 submmitOrder={this.submmitOrder}
                                  prePage={this.prePage.bind(this, 'Info')}
                                  nextPage={this.nextPage.bind(this, 'Detail')} />);
             case 'Detail':
-                return <OrderDetail id={this.state.orderId}/>;
+                return <OrderDetail submmitOrder={this.submmitOrder}
+                                    id={this.state.orderId}/>;
             case 'MyOrders':
                 return <MyOrders setCurrentOrderId={this.setCurrentOrderId}/>;
         }

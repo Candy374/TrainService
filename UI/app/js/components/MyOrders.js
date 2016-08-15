@@ -15,21 +15,27 @@ export default class MyOrders extends Component {
         };
         actions.getOrderList(this.getUserId()).then((orderList)=>{
             const orderMap = this.state.orderMap;
+            let defaultStatus = -1;
             orderList.map(order => {               
                 orderMap['-1'].push(order);
-                orderMap[this.getStatus(order.StatusCode)].push(order);
-            })
+                const status = this.getStatus(order.StatusCode);
+                if (status == 0) {
+                    defaultStatus = 0;
+                }
+                orderMap[status].push(order);
+            });
             this.setState({
-                orderMap
+                orderMap,
+                status: defaultStatus
             })
         });
         this.showNum = 5;
     }
 
     getStatus(StatusCode) {
-        if (StatusCode >= 2 && StatusCode < 5 ) {
+        if (StatusCode >= 2 && StatusCode < 6 ) {
             StatusCode = 1;
-        } else if (StatusCode >=5 && StatusCode < 7) {
+        } else if (StatusCode >= 6 && StatusCode < 7) {
             StatusCode = 2;
         } else if (StatusCode >= 7) {
             StatusCode = 3;
@@ -86,6 +92,9 @@ export default class MyOrders extends Component {
                             <button className='detail' onClick={() => {
                                 this.props.setCurrentOrderId(order.OrderId)
                             }}>订单详情</button>
+                            {this.getStatus(order.StatusCode) == 0 && <button className='detail' onClick={() => {
+                                this.props.setCurrentOrderId(order.OrderId)
+                            }}>取消订单</button>}
                         </Line>
                     </Section>)
                 })}
