@@ -127,8 +127,10 @@ export default class Container extends Component {
                                  prePage={this.prePage.bind(this, 'Info')}
                                  nextPage={this.nextPage.bind(this, 'Detail')} />);
             case 'Detail':
-                return <OrderDetail submmitOrder={this.submmitOrder}
-                                    id={this.state.orderId}/>;
+                return (
+                    <OrderDetail setCurrentOrderId={this.setCurrentOrderId}
+                                 submmitOrder={this.submmitOrder}
+                                 id={this.state.orderId}/>);
             case 'MyOrders':
                 return <MyOrders setCurrentOrderId={this.setCurrentOrderId}/>;
         }
