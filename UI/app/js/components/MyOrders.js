@@ -80,6 +80,7 @@ export default class MyOrders extends Component {
                             {order.SubOrders.map((item, index) => (
                                 <ListItem key={index}
                                         url={item.PicUrl}
+                                        name={item.Name}
                                         count={item.Count}
                                         price={item.Price}/>)                                
                             )}
@@ -93,8 +94,15 @@ export default class MyOrders extends Component {
                                 this.props.setCurrentOrderId(order.OrderId)
                             }}>订单详情</button>
                             {this.getStatus(order.StatusCode) == 0 && <button className='detail' onClick={() => {
-                                this.props.setCurrentOrderId(order.OrderId)
+                                actions.cancelOrder(order.OrderId).then((result) => {
+                                    if (result) {
+                                        this.props.setCurrentOrderId(order.OrderId);
+                                    }
+                                })                               
                             }}>取消订单</button>}
+                             {this.getStatus(order.StatusCode) == 2 && <button className='detail' onClick={() => {
+                                this.props.setCurrentOrderId(order.OrderId)
+                            }}>追加评价</button>}
                         </Line>
                     </Section>)
                 })}

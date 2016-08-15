@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ListItem} from './common/GoodsList';
+import {RateItem, ListItem} from './common/GoodsList';
 import * as actions from '../actions/order';
 import Page from './common/Page';
 import Detail from './OrderConfirm/Detail';
@@ -40,10 +40,17 @@ export default class OrderDetail extends Component {
                 <Section title='已点菜品' list={true}> 
                     {
                         order.SubOrders.map((item, index) => (
-                            <ListItem key={index}
+                            order.StatusCode == 6 ? (
+                                <RateItem key={index}
                                     url={item.PicUrl}
+                                    name={item.Name}
                                     count={item.Count}
-                                    price={item.Price}/>)      
+                                    price={item.Price}/>)
+                            : (<ListItem key={index}
+                                    url={item.PicUrl}
+                                    name={item.Name}
+                                    count={item.Count}
+                                    price={item.Price}/>))      
                         )
                     }
                     <Line>
@@ -54,6 +61,18 @@ export default class OrderDetail extends Component {
                 </Section>
                 <Detail {...order}/>
                 <Comments Comment={order.Comment}/>
+                {order.StatusCode < 4 && <button className='detail' onClick={() => {
+                    if (order.StatusCode != 0) {
+                        alert('请联系xxxxxx取消订单');
+                    } else {
+                        actions.cancelOrder(order.OrderId).then((result) => {
+                            if (result) {
+                                this.props.setCurrentOrderId(order.OrderId);
+                            }
+                        });
+                    }                         
+                }}>取消订单</button>
+                }
             </Page>
         );
     }

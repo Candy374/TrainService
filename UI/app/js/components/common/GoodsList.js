@@ -34,4 +34,19 @@ const OrderList = ({total, list, station}) => {
     );    
 };
 
+const setRate = (rate) => {
+
+}
+
+export const RateItem = ({url, name}) => (
+    <ImgLine url={url}>
+        <Label flex={true}>{name}</Label>
+        <span className='star-five-active'/>
+        <span className='star-five-active'/>
+        <span className='star-five-avtive'/>
+        <span className='star-five-normal'/>
+        <span className='star-five-normal'/>
+    </ImgLine>
+)
+
 export default OrderList;
