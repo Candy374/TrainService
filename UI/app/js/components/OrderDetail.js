@@ -61,7 +61,7 @@ export default class OrderDetail extends Component {
                 </Section>
                 <Detail {...order}/>
                 <Comments Comment={order.Comment}/>
-                {order.StatusCode < 4 && <button className='detail' onClick={() => {
+                {order.StatusCode < 4 && <button className='small' onClick={() => {
                     if (order.StatusCode != 0) {
                         alert('请联系xxxxxx取消订单');
                     } else {

@@ -1,6 +1,8 @@
 import React from 'react';
 import {basicUrl} from '../../constants/system';
 
+export {Button, SmallButton} from './Button';
+ 
 export const Label = ({size, children, flex, align, className, status}) => {
     const classes = [`width-${size || 'medium'}`, `align-${align || 'start'}`];
     if (flex) {

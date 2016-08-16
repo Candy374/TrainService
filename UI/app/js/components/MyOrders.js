@@ -4,7 +4,7 @@ import Page from './common/Page';
 import Footer from './common/Footer';
 import {ListItem} from './common/GoodsList';
 import  * as Constants from '../constants/system';
-import {Section, Line, ImgLine, Label} from './common/Widgets';
+import {Section, Line, ImgLine, Label, SmallButton} from './common/Widgets';
 
 export default class MyOrders extends Component {
     componentWillMount() {
@@ -90,19 +90,21 @@ export default class MyOrders extends Component {
                             <Label size='small'>￥{order.Amount}</Label>
                         </Line>
                         <Line align='end'>
-                            <button className='detail' onClick={() => {
+                            <SmallButton label='订单详情' onClick={() => {
                                 this.props.setCurrentOrderId(order.OrderId)
-                            }}>订单详情</button>
-                            {this.getStatus(order.StatusCode) == 0 && <button className='detail' onClick={() => {
-                                actions.cancelOrder(order.OrderId).then((result) => {
-                                    if (result) {
-                                        this.props.setCurrentOrderId(order.OrderId);
-                                    }
-                                })                               
-                            }}>取消订单</button>}
-                             {this.getStatus(order.StatusCode) == 2 && <button className='detail' onClick={() => {
-                                this.props.setCurrentOrderId(order.OrderId)
-                            }}>追加评价</button>}
+                            }}/>
+                            {this.getStatus(order.StatusCode) == 0 && 
+                                <SmallButton label='取消订单' onClick={() => {
+                                    actions.cancelOrder(order.OrderId).then((result) => {
+                                        if (result) {
+                                            this.props.setCurrentOrderId(order.OrderId);
+                                        }
+                                    })                               
+                                }}/>}
+                            {this.getStatus(order.StatusCode) == 2 && 
+                             <SmallButton label='追加评价' onClick={() => {
+                                    this.props.setCurrentOrderId(order.OrderId)
+                                }}/>}
                         </Line>
                     </Section>)
                 })}

@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import Header from './common/Header.js';
 import Footer from './common/Footer.js';
 import Page from './common/Page.js';
-import Button from './common/Button';
-import {Section, Line, Label} from './common/Widgets';
+import {Section, Line, Label, Button} from './common/Widgets';
 
 export default class OrderInfo extends Component {
     componentWillMount() {
@@ -70,7 +68,11 @@ export default class OrderInfo extends Component {
                 onClick: this.props.nextPage,
                 disabled: !this.isInfoReady(info)
             },
-            left: <Button label='返回修改' onClick={this.props.prePage}/>
+            left: {
+                type: 'button',
+                label: '返回修改',
+                onClick: this.props.prePage
+            }
         };
         
         

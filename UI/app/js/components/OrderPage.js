@@ -73,8 +73,7 @@ export default class OrderPage extends Component {
                 disabled: total < station.MinPrice
             },
             
-            left: (
-                <label className='total'>{`共: ￥${total} 元`}</label>)
+            left: <label className='total'>{`共: ￥${total} 元`}</label>
         };
 
         return (

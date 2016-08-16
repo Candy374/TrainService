@@ -15,3 +15,14 @@
         background: $disbaled-color;
     }
 }
+
+
+
+button.small {
+    width: 6em;
+    background: $backgorund-color-index-1;
+    border: 1px solid $backgorund-color-index-2;
+    padding: 0.2em;
+    align-self: flex-end;
+    margin-left: 0.1em;
+}
