@@ -42,8 +42,9 @@ export default class OrderDetail extends Component {
         order.SubOrders.map(item => {
             data.Rates.push({
                 GoodsId: item.GoodsId,
-                Rate: item.rate
-            })
+                Rate: item.Rate,
+                SubId: item.Id
+            });
         });
         actions.submitRates(data).then(this.updateOrder);
     }
@@ -78,9 +79,9 @@ export default class OrderDetail extends Component {
                         order.SubOrders.map((item, index) => (
                             order.StatusCode == 6 ? (
                                 <RateItem key={index}
-                                    rate={item.rate}
-                                    updateRate={(rate) =>{
-                                        item.rate = rate;
+                                    rate={item.Rate}
+                                    updateRate={(Rate) =>{
+                                        item.Rate = Rate;
                                         this.setState({order});
                                     }}
                                     url={item.PicUrl}
