@@ -14,10 +14,10 @@ const OrderList = ({total, list, station}) => {
         <Section title='已点菜品' list={true}>
             {Object.keys(list).map((key, index) => (
                 <ListItem key={index}
-                          url={list[key].PictureUrl}
+                          url={list[key].PictureUrl || list[key].PicUrl}
                           name={list[key].Name}
-                          count={list[key].count}
-                          price={list[key].SellPrice}/>)
+                          count={list[key].Count}
+                          price={list[key].SellPrice || list[key].Price}/>)
             )}
             {/*<Line>
                 <Label flex={true}>'配送费'</Label>
@@ -34,30 +34,20 @@ const OrderList = ({total, list, station}) => {
     );    
 };
 
-export class RateItem extends Component {
-    componentWillMount() {
-        this.state = {
-            rate: this.props.rate || 0
-        }
-    }
-
-    getRateClass(current) {
-        return current <= this.state.rate ? 'active' : 'normal';
+export const RateItem = ({url, name, rate, updateRate}) => {
+    const getRateClass =(current) => {
+        return current <= rate ? 'active' : 'normal';
     };
 
-    render() {
-        const {url, name} = this.props;
-
-        return (
-            <ImgLine url={url}>
-            <Label flex={true}>{name}</Label>
-            {[1,2,3,4,5].map(rate => (
-                <span className={'star-'+ this.getRateClass(rate)}
-                      onClick={()=> this.setState({rate})}
-                      key={rate}/>
-            ))}
-        </ImgLine>);
-    }
-}
+    return (
+        <ImgLine url={url}>
+        <Label flex={true}>{name}</Label>
+        {[1,2,3,4,5].map(rate => (
+            <span className={'star-'+ getRateClass(rate)}
+                    onClick={()=> updateRate(rate)}
+                    key={rate}/>
+        ))}
+    </ImgLine>);
+};
 
 export default OrderList;

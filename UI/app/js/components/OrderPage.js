@@ -50,14 +50,14 @@ export default class OrderPage extends Component {
         });
     }
 
-    add(food, count){
+    add(food, Count){
         const chart = this.props.chart;
-        food.count = count;
+        food.Count = Count;
         chart.goods[food.GoodsId] = food;
         let total = 0;
         Object.keys(chart.goods).map(key => {
             if (key != 'total') {
-                total += chart.goods[key].count * chart.goods[key].SellPrice
+                total += chart.goods[key].Count * chart.goods[key].SellPrice
             }
         });
         chart.total = total;
@@ -91,7 +91,7 @@ export default class OrderPage extends Component {
                     </div>
                     <div className='list'>
                         {this.state.goodsList.map((food, index) => {                            
-                            food.count = chart[food.GoodsId] && chart[food.GoodsId].count || food.count || 0;
+                            food.Count = chart[food.GoodsId] && chart[food.GoodsId].Count || food.Count || 0;
                             return (
                                 <ImgLine url={food.PictureUrl} type='desc' key={food.GoodsId}>
                                         <Label size='auto'>{food.Name}</Label>
@@ -105,7 +105,7 @@ export default class OrderPage extends Component {
                                             </div>
 
                                             <div className="number-input">
-                                                <NumberInput count={food.count} updateCount={(count) => this.add(food, count)}/>
+                                                <NumberInput count={food.Count} updateCount={(Count) => this.add(food, Count)}/>
                                             </div>
                                         </div>                         
                                 </ImgLine>

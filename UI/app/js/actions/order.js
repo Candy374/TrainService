@@ -1,6 +1,6 @@
 import Rest from '../utils/Rest';
 import request from 'superagent';
-import  {basicUrl, typeURL, goodsURL, userURL, cancelURL,
+import  {basicUrl, typeURL, goodsURL, userURL, cancelURL, rateURL,
     submmitURL,orderListURL, orderURL, stationsURL} from '../constants/actions';
 
 export const getTypes = () => {
@@ -73,6 +73,15 @@ export const cancelOrder = (orderId) => {
         .then(res => res.body)
         .catch(err => {
             alert('Cancel order failed!');
+            console.log(err.message);
+        });
+}
+
+export const submitRates = (data) => {
+     return request.post(basicUrl + rateURL, data)
+        .then(res => res.body)
+        .catch(err => {
+            alert('submmit rate failed!');
             console.log(err.message);
         });
 }

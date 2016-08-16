@@ -14,20 +14,22 @@ export default class MyOrders extends Component {
             showAll: false
         };
         actions.getOrderList(this.getUserId()).then((orderList)=>{
-            const orderMap = this.state.orderMap;
-            let defaultStatus = -1;
-            orderList.map(order => {               
-                orderMap['-1'].push(order);
-                const status = this.getStatus(order.StatusCode);
-                if (status == 0) {
-                    defaultStatus = 0;
-                }
-                orderMap[status].push(order);
-            });
-            this.setState({
-                orderMap,
-                status: defaultStatus
-            })
+            if (orderList) {
+                const orderMap = this.state.orderMap;
+                let defaultStatus = -1;
+                orderList.map(order => {               
+                    orderMap['-1'].push(order);
+                    const status = this.getStatus(order.StatusCode);
+                    if (status == 0) {
+                        defaultStatus = 0;
+                    }
+                    orderMap[status].push(order);
+                });
+                this.setState({
+                    orderMap,
+                    status: defaultStatus
+                });
+            }
         });
         this.showNum = 5;
     }

@@ -130,7 +130,9 @@ export default class Container extends Component {
             case 'Detail':
                 return (
                     <OrderDetail setCurrentOrderId={this.setCurrentOrderId}
+                                 updateChart={this.updateChart}
                                  submmitOrder={this.submmitOrder}
+                                 nextPage={this.nextPage.bind(this, 'Info')}
                                  id={this.state.orderId}/>);
             case 'MyOrders':
                 return <MyOrders setCurrentOrderId={this.setCurrentOrderId}/>;

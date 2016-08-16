@@ -12,7 +12,11 @@ export default class OrderDetail extends Component {
         this.state = {
             order: null
         };
-        
+        this.updateOrder = this.updateOrder.bind(this);
+        this.updateOrder();
+    }
+
+    updateOrder() {
         actions.getOrderDetail(this.props.id).then(order => {
             this.setState({
                 order
@@ -20,14 +24,36 @@ export default class OrderDetail extends Component {
         });
     }
 
-    cancelOrder(order) {
+    cancelOrder() {
+        const order = this.state.order;
         if (order.StatusCode != 0) {
             alert('请联系xxxxxx取消订单');
         } else {
-            actions.cancelOrder(order.OrderId).then((result) => {
-                actions.getOrderDetail(order.OrderId).then(order => this.setState({order}));
-            });
+            actions.cancelOrder(order.OrderId).then(this.updateOrder);
         }  
+    }
+
+    scroe() {
+        const order = this.state.order;
+        const data = {
+            OrderId: order.OrderId,
+            Rates: []
+        }
+        order.SubOrders.map(item => {
+            data.Rates.push({
+                GoodsId: item.GoodsId,
+                Rate: item.rate
+            })
+        });
+        actions.submitRates(data).then(this.updateOrder);
+    }
+
+    orderAgain() {
+        const chart = {goods: {}};
+        this.state.order.SubOrders.map(item => {
+            chart.goods[item.GoodsId] = item
+        });
+        this.props.updateChart(chart, this.props.nextPage);
     }
 
     render() {
@@ -52,6 +78,11 @@ export default class OrderDetail extends Component {
                         order.SubOrders.map((item, index) => (
                             order.StatusCode == 6 ? (
                                 <RateItem key={index}
+                                    rate={item.rate}
+                                    updateRate={(rate) =>{
+                                        item.rate = rate;
+                                        this.setState({order});
+                                    }}
                                     url={item.PicUrl}
                                     name={item.Name}
                                     count={item.Count}
@@ -71,11 +102,19 @@ export default class OrderDetail extends Component {
                 </Section>
                 <Detail {...order}/>
                 <Comments Comment={order.Comment}/>
+                <Section className='align-end'>
                 {order.StatusCode < 4 && 
-                    <Section className='align-end'>
-                        <SmallButton label='取消订单'
-                            onClick={this.cancelOrder.bind(this)}/>
-                </Section>}
+                    <SmallButton label='取消订单'
+                        onClick={this.cancelOrder.bind(this)}/>
+                }
+                {order.StatusCode > 4 && 
+                    <SmallButton label='重新下单'
+                            onClick={this.orderAgain.bind(this)}/>
+                }
+                {order.StatusCode == 6 && !order.IsRated &&
+                    <SmallButton label='提交评价'
+                            onClick={this.scroe.bind(this)}/>}
+                </Section>
             </Page>
         );
     }
