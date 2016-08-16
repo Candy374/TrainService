@@ -70,13 +70,7 @@ export const getUserInfo = (userId) => {
 
 export const cancelOrder = (orderId) => {
      return request.post(basicUrl + cancelURL + orderId)
-        .then(res => {
-            if (!res.body) {
-                throw res.body;
-            } else {
-                return res.body;
-            }
-        })
+        .then(res => res.body)
         .catch(err => {
             alert('Cancel order failed!');
             console.log(err.message);

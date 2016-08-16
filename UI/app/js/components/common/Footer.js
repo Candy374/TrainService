@@ -1,21 +1,20 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Button} from './Widgets';
 
-const Footer = ({button, left}) => {
-    if (left && left.type == 'button') {
-        left = (
-            <Button label={left.label}
-                disabled={left.disabled}
-                onClick={left.onClick}>
-            </Button>);
-    }
+const Footer = ({button, left}) =>  (
+    <div className='footer'>
+        {left && (
+            left.onClick ? <Button {...left}/> : <label className='total'>{left.label}</label>)}
+        <Button {...button} isPrimary={true}></Button>
+    </div>
+);
 
-    return (
-        <div className='footer'>
-            {left}
-            <Button {...button} isPrimary={true}></Button>
-        </div>
-    )
+Footer.propTypes = {
+    button: PropTypes.shape({
+        label: PropTypes.string,
+        onClick: PropTypes.func
+    }).isRequired
 };
 
 export default Footer;
+

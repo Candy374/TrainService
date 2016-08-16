@@ -5,7 +5,7 @@ import Page from './common/Page';
 import Detail from './OrderConfirm/Detail';
 import Comments from './OrderConfirm/Comments';
 import OrderStatus from './common/OrderStatus';
-import {Section, Line, Label} from './common/Widgets';
+import {Section, Line, Label, SmallButton} from './common/Widgets';
 
 export default class OrderDetail extends Component {
     componentWillMount() {
@@ -20,19 +20,29 @@ export default class OrderDetail extends Component {
         });
     }
 
+    cancelOrder(order) {
+        if (order.StatusCode != 0) {
+            alert('请联系xxxxxx取消订单');
+        } else {
+            actions.cancelOrder(order.OrderId).then((result) => {
+                actions.getOrderDetail(order.OrderId).then(order => this.setState({order}));
+            });
+        }  
+    }
+
     render() {
         const order = this.state.order;
         if (!order) {
             return null;
         }
-
-         const footer = order.StatusCode == 0 && {
-                    button: {
-                        label: '立即支付',
-                        onClick: this.props.submmitOrder,
-                        disabled: this.state.submitting
-                    }
-                };
+        
+        const footer = order.StatusCode == 0 && {
+                button: {
+                    label: '立即支付',
+                    onClick: this.props.submmitOrder,
+                    disabled: this.state.submitting
+                }
+            };
 
         return (
             <Page footer={footer}>
@@ -61,18 +71,11 @@ export default class OrderDetail extends Component {
                 </Section>
                 <Detail {...order}/>
                 <Comments Comment={order.Comment}/>
-                {order.StatusCode < 4 && <button className='small' onClick={() => {
-                    if (order.StatusCode != 0) {
-                        alert('请联系xxxxxx取消订单');
-                    } else {
-                        actions.cancelOrder(order.OrderId).then((result) => {
-                            if (result) {
-                                this.props.setCurrentOrderId(order.OrderId);
-                            }
-                        });
-                    }                         
-                }}>取消订单</button>
-                }
+                {order.StatusCode < 4 && 
+                    <Section className='align-end'>
+                        <SmallButton label='取消订单'
+                            onClick={this.cancelOrder.bind(this)}/>
+                </Section>}
             </Page>
         );
     }

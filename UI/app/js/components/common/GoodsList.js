@@ -34,19 +34,30 @@ const OrderList = ({total, list, station}) => {
     );    
 };
 
-const setRate = (rate) => {
+export class RateItem extends Component {
+    componentWillMount() {
+        this.state = {
+            rate: this.props.rate || 0
+        }
+    }
 
+    getRateClass(current) {
+        return current <= this.state.rate ? 'active' : 'normal';
+    };
+
+    render() {
+        const {url, name} = this.props;
+
+        return (
+            <ImgLine url={url}>
+            <Label flex={true}>{name}</Label>
+            {[1,2,3,4,5].map(rate => (
+                <span className={'star-'+ this.getRateClass(rate)}
+                      onClick={()=> this.setState({rate})}
+                      key={rate}/>
+            ))}
+        </ImgLine>);
+    }
 }
-
-export const RateItem = ({url, name}) => (
-    <ImgLine url={url}>
-        <Label flex={true}>{name}</Label>
-        <span className='star-five-active'/>
-        <span className='star-five-active'/>
-        <span className='star-five-avtive'/>
-        <span className='star-five-normal'/>
-        <span className='star-five-normal'/>
-    </ImgLine>
-)
 
 export default OrderList;

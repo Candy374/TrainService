@@ -69,7 +69,6 @@ export default class OrderInfo extends Component {
                 disabled: !this.isInfoReady(info)
             },
             left: {
-                type: 'button',
                 label: '返回修改',
                 onClick: this.props.prePage
             }

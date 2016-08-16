@@ -1,4 +1,4 @@
-.star-five-active {
+.star-active {
    margin: 0.5em 0;
    position: relative;
    display: block;
@@ -49,8 +49,8 @@
     }
 }
 
-.star-five-normal {
-    @extend .star-five-active;
+.star-normal {
+    @extend .star-active;
     color: $rate-normal-color;
     border-bottom-color: $rate-normal-color;
 

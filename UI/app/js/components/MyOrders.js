@@ -101,10 +101,10 @@ export default class MyOrders extends Component {
                                         }
                                     })                               
                                 }}/>}
-                            {this.getStatus(order.StatusCode) == 2 && 
+                            {/*this.getStatus(order.StatusCode) == 2 && 
                              <SmallButton label='追加评价' onClick={() => {
                                     this.props.setCurrentOrderId(order.OrderId)
-                                }}/>}
+                                }}/>*/}
                         </Line>
                     </Section>)
                 })}

@@ -44,10 +44,13 @@ export const ImgLine = ({children, className, url, type, onClick, imgClassName})
 
 export const Img = (props) => <img  {...props} src= {basicUrl + props.src}/>
 
-export const Section = ({ title, children, list }) => {
+export const Section = ({ title, children, list, className }) => {
     const classes = ['section'];
     if (list) {
         classes.push('list');
+    }
+    if (className) {
+        classes.push(className);
     }
     return (
         <div className={classes.join(' ')}>
