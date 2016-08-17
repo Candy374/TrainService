@@ -21,6 +21,7 @@ namespace WebAPIService.Controllers
             return _Get(stationCode, type);
         }
 
+
         public static IEnumerable<object> _Get(string stationCode, int type)
         {
             var list = DalFactory.Goods.GetGoodsListByGoodsType(stationCode, type);

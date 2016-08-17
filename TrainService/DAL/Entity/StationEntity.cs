@@ -26,5 +26,9 @@ namespace DAL.Entity
         [DataMember]
         [Column(Name = "min_price", ColumnType = DbType.Int32)]
         public int MinPrice { get; set; }
+
+        [Column(Name = "pic_url", ColumnType = DbType.String, Length = 128)]
+        [DataMember]
+        public string PicUrl { get; set; }
     }
 }

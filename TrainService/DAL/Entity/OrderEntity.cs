@@ -108,6 +108,10 @@ namespace DAL.Entity
         [DataMember]
         [Column(Name = "man_count", ColumnType = DbType.Int32)]
         public int ManCount { get; set; }
+        [DataMember]
+        [Column(Name = "is_rated", ColumnType = DbType.Boolean)]
+        public bool IsRated { get; set; }
+
 
         public string GetOrderTypeDisplayName()
         {

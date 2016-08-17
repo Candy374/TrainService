@@ -25,7 +25,7 @@ namespace WebAPIService.Controllers
             bool isDelay = data.IsDelay;
             int orderType = data.OrderType;
             int payWay = data.PayWay;
-            int manCount = data.ManCount;
+            //int manCount = data.ManCount;
             string comment = data.Comment;
             string contact = data.Contact;
             string contactTel = data.ContactTel;
@@ -81,16 +81,75 @@ namespace WebAPIService.Controllers
                 UserOpenid = openId,
                 UserPayFee = 0,
                 Refund = 0,
-                ManCount = manCount
+                ManCount = 0
             }, orderDetailList);
 
             return Convert.ToInt32(orderId);
         }
 
-        [Route("Query/{openId}")]
+
+        [Route("Rate")]
+        public int Rate([FromBody] dynamic rateInfo)
+        {
+            //{  orderId : 123 , rates: ["SubId":3, "goodsId" : 1 , "rate" : 5] , [ "goodsId" : 2 , "rate" : 3 ] }
+            uint orderId = rateInfo.OrderId;
+            Dictionary<uint, int> goodsRates = new Dictionary<uint, int>();
+            Dictionary<uint, int> subOrderRates = new Dictionary<uint, int>();
+
+            foreach (var item in rateInfo.Rates)
+            {
+                uint key = item.GoodsId;
+                uint subId = item.SubId;
+                goodsRates[key] = item.Rate;
+                subOrderRates[subId] = item.Rate;
+
+            }
+
+            bool rated = DalFactory.Goods.Rate(goodsRates, subOrderRates);
+
+            if (rated)
+            {
+                DalFactory.Orders.SetRated(orderId);
+            }
+            else
+            {
+                return 0;
+            }
+
+            return 1;
+        }
+
+        //[Route("Provider/{id}")]
+        //public List<UISubOrderEntity> GetOrdersBuyProviderId(int id)
+        //{
+        //    var ret=new List<UISubOrderEntity>);
+        //    var list = DalFactory.Orders.GetSubOrdersByProviderId(id);
+        //    foreach (var item in list)
+        //    {
+        //        ret.Add(new UISubOrderEntity {
+        //             Count=item.Count,
+        //              Name=item.DisplayName,
+
+        //        });
+        //    }
+        //}
+
+        [Route("Query/All/{openId}")]
         public Entity.UIMyOrdersEntity Get(string openId)
         {
             var list = DalFactory.Orders.GetOrderByOpenId(openId);
+
+            return BuildUIMyOrdersEntityFromOrderEntityList(list); ;
+        }
+
+        [Route("Cancel/{orderId}")]
+        public int Cancel(uint orderId)
+        {
+            return DalFactory.Orders.CancelOrder(orderId) ? 1 : 0;
+        }
+
+        private UIMyOrdersEntity BuildUIMyOrdersEntityFromOrderEntityList(IList<OrderEntity> list)
+        {
             var ret = new Entity.UIMyOrdersEntity();
             foreach (var item in list)
             {
@@ -106,17 +165,7 @@ namespace WebAPIService.Controllers
                     ret.OrderTypesEnum.Add(orderType);
                 }
 
-                var order = new Entity.UIMyOrderEntity
-                {
-                    Amount = item.Amount,
-                    OrderId = item.OrderId,
-                    OrderStatus = orderStatus,
-                    OrderTime = item.OrderCreateTime,
-                    OrderDate = item.OrderCreateTime.ToString("yyyy-MM-dd"),
-                    OrderType = orderType,
-                    TrainNumber = item.TrainNumber,
-                    SubOrders = GetSubOrdersByOrderId(item.OrderId)
-                };
+                var order = new Entity.UIMyOrderEntity(item);
 
                 ret.Orders.Add(order);
             }
@@ -124,29 +173,29 @@ namespace WebAPIService.Controllers
             return ret;
         }
 
-        private List<UISubOrderEntity> GetSubOrdersByOrderId(uint orderId)
+        [Route("Query/Id/{openId}/Page/{pageNumber}/PageSize/{pageSize}")]
+        public Entity.UIMyOrdersEntity Get(string openId, int pageNumber, int pageSize)
         {
-            var list = DalFactory.Orders.GetSubOrdersSummary(Convert.ToInt32(orderId));
-            var ret = new List<UISubOrderEntity>();
-            foreach (var item in list)
-            {
-                var count = item.Count - item.RefundCount;
-                if (count <= 0)
-                {
-                    continue;
-                }
+            var list = DalFactory.Orders.GetOrderByOpenId(openId, pageSize, pageNumber);
 
-                ret.Add(new UISubOrderEntity
-                {
-                    Count = count,
-                    Name = item.DisplayName,
-                    PicUrl = item.PicUrl,
-                    Price = item.SellPrice * count
-                });
+            return BuildUIMyOrdersEntityFromOrderEntityList(list);
+        }
+
+        [Route("Query/Order/{orderId}")]
+        public UIMyOrderEntity GetByOrderId(string orderId)
+        {
+            var item = DalFactory.Orders.GetOrderByOrderId(orderId);
+            if (item == null)
+            {
+                return null;
             }
 
-            return ret;
+            var order = new UIMyOrderEntity(item);
+
+            return order;
         }
+
+
 
 
     }

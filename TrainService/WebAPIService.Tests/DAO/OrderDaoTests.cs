@@ -21,7 +21,14 @@ namespace DAL.DAO.Tests
         [TestMethod()]
         public void GetSubOrdersSummaryTest()
         {
-          var data=  DalFactory.Orders.GetSubOrdersSummary(18);
+            var data = DalFactory.Orders.GetSubOrdersSummary(18);
+        }
+
+        [TestMethod()]
+        public void GetOrdersByStatusTest()
+        {
+            var data = DalFactory.Orders.GetOrdersByStatus(OrderStatus.已支付);
+
         }
     }
 }

@@ -76,7 +76,14 @@ namespace DAL.DAO
 
         public int Update(T data)
         {
+            _expiredTime = DateTime.Now;
             return _baseDao.Update(data);
+        }
+
+        public int ExecNonQuery(string sql)
+        {
+            _expiredTime = DateTime.Now;
+            return _baseDao.ExecNonQuery(sql);
         }
     }
 }

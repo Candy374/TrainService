@@ -11,12 +11,18 @@ namespace WebAPIService.Entity
     public class UISubOrderEntity
     {
         [DataMember]
+        public uint Id { get; set; }
+        [DataMember]
         public string PicUrl { get; set; }
-        [DataMember] 
+        [DataMember]
         public int Count { get; set; }
         [DataMember]
         public decimal Price { get; set; }
         [DataMember]
         public string Name { get; set; }
+        [DataMember]
+        public uint GoodsId { get; set; }
+        [DataMember]
+        public int Rate { get; set; }
     }
 }

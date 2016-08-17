@@ -12,6 +12,7 @@
 
     <title>我的订单</title>
     <link rel="stylesheet" href="~/Content/MyOrders.css" />
+    <script type="text/javascript" src="~/Scripts/Config.js"></script>
     <script type="text/javascript" src="~/Scripts/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="~/Scripts/underscore.js"></script>
     <script id='tabsTemp' type='text/template'>
@@ -29,7 +30,7 @@
             <% _.each(item.SubOrders, function (d) { %>
 
             <div class="item">
-                <img src="<%= d.PicUrl %>" class="img">
+                <img src= "<%= applicationName+ d.PicUrl %>" class="img">
                 <div class="line">
                     <label class="label"><%= d.Name %></label>
                     <div class="width-small">x<%= d.Count %></div>
@@ -79,7 +80,7 @@
             container.html(container.html() + t(data));
         }
 
-        $.getJSON("/TrainService/api/Orders/Query/" + openId, null, function (data) {
+        $.getJSON(applicationName + "/api/Orders/Query/All/" + openId, null, function (data) {
             rawData = data;
             buildOrderList(data);
         });
@@ -94,11 +95,11 @@
                 var currentTab = $(this).attr("filter");
                 applyTemplate("ordersListTemp", "order-list", filterOrder(rawData.Orders, function (o) {
                     return currentTab == "" || o.OrderStatus == currentTab
-                }),true);
+                }), true);
                 bindEvent();
             });
             $(".detail").click(function () {
-                window.location.href = "/trainservice/Home/OrderDetail?orderId=" + $(this).attr("orderId");
+                window.location.href = applicationName + "/Home/OrderDetail?orderId=" + $(this).attr("orderId");
 
             });
         }

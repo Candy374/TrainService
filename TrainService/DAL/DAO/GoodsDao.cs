@@ -21,5 +21,28 @@ namespace DAL.DAO
         {
             return base.CachedTable.Where(d => d.GoodsId == id).FirstOrDefault();
         }
+
+        public bool Rate(Dictionary<uint, int> goodsRates, Dictionary<uint, int> subOrderRates)
+        {
+            try
+            {
+                foreach (var id in goodsRates.Keys)
+                {
+                  _baseDao.ExecNonQuery("UPDATE goods  SET rating = rating+" + goodsRates[id] + "  WHERE id = " + id);
+                }
+
+                foreach (var id in subOrderRates.Keys)
+                {
+                    _baseDao.ExecNonQuery("UPDATE order_details SET rating=" + subOrderRates[id] + " WHERE id = " + id);
+
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

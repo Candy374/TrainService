@@ -24,5 +24,7 @@ namespace WebAPIService.Entity
         public decimal Amount { get; set; }
         [DataMember]
         public string TrainNumber { get; set; }
+        [DataMember]
+        public int GoodsId { get; set; }
     }
 }

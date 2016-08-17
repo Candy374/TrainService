@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="~/Content/DishList.css" />
     <script type="text/javascript" src="~/Scripts/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="~/Scripts/underscore.js"></script>
+    <script type="text/javascript" src="~/Scripts/Config.js"></script>
     <script id="userinfoTemp" type="text/template">
         <div data-reactroot="" class="container train-info">
             <div class="page">
@@ -87,7 +88,7 @@
     <script id='goodsListTemp' type='text/template'>
         <% _.each(obj, function (item) { %>
         <div class="item" goodsId="<%=item.GoodsId%>" price="<%=item.SellPrice%>">
-            <img src="<%=item.PictureUrl%>" class="img">
+            <img src="<%= applicationName+item.PictureUrl%>" class="img"/>
             <div class="descriptions">
                 <label class="name">
                     <%=item.Name%>
@@ -131,9 +132,9 @@
         userInfo.Contact = "";
         userInfo.ContactNumber = "";
         userInfo.Comment = "";
-        userInfo.ManCount=2;
+        userInfo.ManCount = 2;
 
-        $.getJSON("../api/goods/@ViewBag.Station/0", null, function (data) {
+        $.getJSON(applicationName + "/api/goods/@ViewBag.Station/0", null, function (data) {
             rawData = data;
             buildDishSelectPage();
         });
@@ -151,7 +152,7 @@
             buildMainDiv("userinfoTemp");
             $("#train-number").val(userInfo.TrainNumber);
             $("#carriage-number").val(userInfo.CarriageNumber);
-            $("#is-delay")[0].checked=userInfo.IsDelay;
+            $("#is-delay")[0].checked = userInfo.IsDelay;
             $("#contact").val(userInfo.Contact);
             $("#contact-number").val(userInfo.ContactNumber);
             $("#comment").val(userInfo.Comment);
@@ -163,15 +164,14 @@
             $("#pay-order").click(function () { submitOrder(); });
         }
 
-        function updateUserInfo()
-        {
+        function updateUserInfo() {
             userInfo.TrainNumber = $("#train-number").val();
             userInfo.CarriageNumber = $("#carriage-number").val();
             userInfo.IsDelay = $("#is-delay")[0].checked;
             userInfo.Contact = $("#contact").val();
             userInfo.ContactNumber = $("#contact-number").val();
             userInfo.Comment = $("#comment").val();
-            userInfo.ManCount=$("#man-count").val();
+            userInfo.ManCount = $("#man-count").val();
         }
 
         function buildMainDiv(templateId) {
@@ -264,12 +264,12 @@
             if (d == null) { return; }
             $.ajax({
                 type: "POST",
-                url: "/trainservice/api/Orders/add",
+                url: applicationName + "/api/Orders/add",
                 contentType: "application/json",
                 dataType: "json",
                 data: JSON.stringify(d),
                 success: function (orderId) {
-                    window.location.href = "/trainservice/Home/OrderDetail?orderId=" + orderId;
+                    window.location.href = applicationName + "/Home/OrderDetail?orderId=" + orderId;
                 }
             });
         }
@@ -295,11 +295,11 @@
                 "PayWay": 0,
                 "IsDelay": userInfo.IsDelay,
                 "OrderType": 0,
-                "Comment":userInfo.Comment,
+                "Comment": userInfo.Comment,
                 "Contact": userInfo.Contact,
                 "ContactTel": userInfo.ContactNumber,
                 "TotalPrice": totalPrice,
-                "ManCount":userInfo.ManCount,
+                "ManCount": userInfo.ManCount,
                 "List": lst
             }
 
