@@ -7,6 +7,7 @@ import OrderDetail from './OrderDetail';
 import ChooseStation from './ChooseStation';
 import ConfirmPage from './OrderConfirm/Page';
 import * as actions from '../actions/order';
+import ShopOrders from './Shop/MyOrders';
 
 const _extend = Object.assign || function(target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -17,8 +18,15 @@ const _extend = Object.assign || function(target) {
     
 export default class Container extends Component {
     componentWillMount() {
+        let page = 'Choose';
+        if (location.hash.indexOf('#MyOrders') == 0) {
+            page = 'MyOrders';
+        } else if (location.hash.indexOf('#ShopOrders') == 0) {
+            page = 'ShopOrders';
+        }
+
         this.state = {
-            page: location.hash.indexOf('#MyOrders') == 0 ? 'MyOrders' : 'Choose',
+            page: page,
             chart: { 
                 goods: {},
                 total: 0,
@@ -136,6 +144,9 @@ export default class Container extends Component {
                                  id={this.state.orderId}/>);
             case 'MyOrders':
                 return <MyOrders setCurrentOrderId={this.setCurrentOrderId}/>;
+
+            case 'ShopOrders': 
+                return <ShopOrders />;
         }
     }
 }
