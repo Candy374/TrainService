@@ -10,7 +10,7 @@ import {Section, Line, Label, SmallButton} from '../common/Widgets';
 export default class MyOrders extends Component {
     componentWillMount() {
         this.state = {
-            orderMap: {'1': [], '2': [], '3': [], '4':[], '5':[]},
+            orderMap: {'1': [], '2': [], '3': []},
             status: 1,
             total: 0,
             prepare: {},

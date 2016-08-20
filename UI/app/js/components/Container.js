@@ -8,6 +8,8 @@ import ChooseStation from './ChooseStation';
 import ConfirmPage from './OrderConfirm/Page';
 import * as actions from '../actions/order';
 import ShopOrders from './Shop/MyOrders';
+import Delivery from './Shop/Delivery';
+
 
 const _extend = Object.assign || function(target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -23,6 +25,8 @@ export default class Container extends Component {
             page = 'MyOrders';
         } else if (location.hash.indexOf('#ShopOrders') == 0) {
             page = 'ShopOrders';
+        } else if (location.hash.indexOf('#Delivery') == 0) {
+            page = 'Delivery';
         }
 
         this.state = {
@@ -147,6 +151,9 @@ export default class Container extends Component {
 
             case 'ShopOrders': 
                 return <ShopOrders />;
+
+            case 'Delivery': 
+                return <Delivery />;
         }
     }
 }
