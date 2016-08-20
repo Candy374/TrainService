@@ -21,6 +21,10 @@ body {
     &.flex {
         display: flex;
     }
+    
+    .section:last-child {
+        border-bottom: none;
+    }
 }
 
 input[type="checkbox"] {
