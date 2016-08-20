@@ -1,9 +1,8 @@
 .order-list {
     .content {
-        background: $backgorund-color-index-2;
         overflow: auto;
         flex: 1;
-        margin-top: 0.2em;
+        margin-top: 0.5em;
     }
 
     .page {
@@ -12,7 +11,6 @@
     }
 
     .item {
-        background: $backgorund-color-index-2;
         margin: 0.1em 0;
         border: none;
     }

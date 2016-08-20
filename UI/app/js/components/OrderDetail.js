@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {RateItem, ListItem} from './common/GoodsList';
+import {RateItem, ListItem, SummaryLine} from './common/GoodsList';
 import * as actions from '../actions/order';
 import Page from './common/Page';
 import Detail from './OrderConfirm/Detail';
@@ -95,11 +95,7 @@ export default class OrderDetail extends Component {
                                     price={item.Price}/>))      
                         )
                     }
-                    <Line>
-                        <Label flex={true}/>
-                        <Label size='small'>共计</Label>
-                        <Label size='small' className='price'>{`￥${order.Amount}`}</Label>
-                    </Line>
+                    <SummaryLine label='共计' price={order.Amount}/>
                 </Section>
                 <Detail {...order}/>
                 <Comments Comment={order.Comment}/>

@@ -6,7 +6,7 @@
         width: 5em;
         margin-right: 0.1em;
         overflow-y: auto;
-        background: $backgorund-color-index-2;
+        background: $backgorund-color-index-1;
 
         .item {
             text-align: center;
@@ -15,7 +15,7 @@
         }
 
         .active {
-            background: $backgorund-color-index-1;
+            background: $page-background-color;
             color: $active-color;
             border-left: 0.3em solid $active-color;    
         }

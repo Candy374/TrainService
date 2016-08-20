@@ -3,10 +3,10 @@
     padding: 1em 1em 0 1em;
     justify-content: space-between;
     color: $backgorund-color-index-4;
-    background: $backgorund-color-index-1;
+    background: $tab-background-color;
 
     .active {
-        color: $button-active-color;
+        color: $tab-active-color;
         border-bottom: 0.2em solid;
         padding-bottom: 1em;
     }

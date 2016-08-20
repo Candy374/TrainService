@@ -1,10 +1,10 @@
 .status {
     .active {
-        color: $button-active-color;
+        color: $status-active-color;
     }
 
     .todo {
-        color: $backgorund-color-index-2;
+        color: $status-todo-color;
         display: none;
     }
 }

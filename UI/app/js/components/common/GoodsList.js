@@ -1,11 +1,19 @@
 import React, {Component} from 'react';
 import {Section, ImgLine, Line, Label} from '../common/Widgets';
 
+export const SummaryLine = ({left, label, price}) => (
+    <Line>
+        <Label flex={true}>{left}</Label>
+        <Label size='small' align='end'>{label || '共计'}:</Label>
+        <Label size='small' className='price' align='end'>{`￥${price}`}</Label>
+    </Line>
+);
+
 export const ListItem = ({url, name, count, price}) => (
     <ImgLine url={url}>
         <Label flex={true}>{name}</Label>
-        <Label size='small'>{`x${count}`}</Label>
-        <Label size='small'>{`￥${price}`}</Label>                      
+        <Label size='small' align='end'>{`x${count}`}</Label>
+        <Label size='small' align='end'>{`￥${price}`}</Label>                      
     </ImgLine>
 );
 
@@ -19,17 +27,8 @@ const OrderList = ({total, list, station}) => {
                           count={list[key].Count}
                           price={list[key].SellPrice || list[key].Price}/>)
             )}
-            {/*<Line>
-                <Label flex={true}>'配送费'</Label>
-                <Label size='small'></Label>
-                <Label size='small' className='price'>{`￥${total}`}</Label>
-            </Line>*/}
-            
-            <Line>
-                <Label flex={true}/>
-                <Label size='small'>待支付</Label>
-                <Label size='small' className='price'>{`￥${total}`}</Label>
-            </Line>
+            <SummaryLine label='配送费' price='0' />
+            <SummaryLine label='待支付' price={total} />
         </Section>
     );    
 };

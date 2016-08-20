@@ -3,7 +3,7 @@ import * as actions from '../../actions/order';
 import * as shopActions from '../../actions/shopOrders';
 import Page from '../common/Page';
 import Footer from '../common/Footer';
-import {ListItem} from '../common/GoodsList';
+import {ListItem, SummaryLine} from '../common/GoodsList';
 import  * as Constants from '../../constants/system';
 import {Section, Line, Label, SmallButton} from '../common/Widgets';
 
@@ -60,6 +60,15 @@ export default class MyOrders extends Component {
         });
     }
 
+    countLine(item, key) {
+        return (
+            <Line key={key}>
+                <Label flex={true}>{item.Name}</Label>
+                <Label size='small' align='end'>{`x${item.Count}`}</Label>
+            </Line>
+        );
+    }
+
     render() {
         const {status, orderMap, showAll} = this.state;
         let count = 0;
@@ -83,31 +92,20 @@ export default class MyOrders extends Component {
                 <div className='content'>
                 {status == 2 && <Section>
                     <Label>{`还需制作${kindList.length}道菜，（${this.state.total}种菜）`}</Label>
-                    <SmallButton label={this.state.showAll ? '收起' : '展开详情'} onClick={() => this.setState({showAll: !this.state.showAll})}></SmallButton>
+                    <SmallButton label={this.state.showAll ? '收起' : '展开详情'} 
+                        onClick={() => this.setState({showAll: !this.state.showAll})}/>
                     {
                         this.state.showAll && kindList.map(kind => {
                             const item = this.state.prepare[kind]
-                            return (<Line key={kind}>
-                                    <Label flex={true}>{item.Name}</Label>
-                                    <Label size='small'>{`x${item.Count}`}</Label>
-                                </Line>) 
+                            return this.countLine(item, kind);
                         })
                     }
                 </Section>}
                 {orderMap[status].map((order, index) => {
                     return (
                      <Section list={true} key={index} >
-                            {order.SubOrders.map((item, index) => (
-                                <Line key={index}>
-                                    <Label flex={true}>{item.Name}</Label>
-                                    <Label size='small'>{`x${item.Count}`}</Label>
-                                </Line>)                               
-                            )}
-                        <Line>
-                            <Label flex={true}>{order.OrderDate}</Label>
-                            <Label size='small'>共计: </Label>
-                            <Label size='small'>￥{order.Amount}</Label>
-                        </Line>
+                        {order.SubOrders.map((item, index) => this.countLine(item, index))}
+                        <SummaryLine left={order.OrderDate} price={order.Amount} />
                         <Line align='end'>
                             {order.StatusCode == 1 && 
                                 <SmallButton label='接受订单' onClick={() => {

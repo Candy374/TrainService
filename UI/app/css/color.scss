@@ -1,15 +1,11 @@
-$active-color: #ffc0cb;
-$number-input-color: $active-color;
-$price-color: #E91E63;
+$active-color: #009B95;
+$price-color: #E40045;
 
-$button-active-color: #E91E63; 
-$button-default-color: rgba(0, 0, 0, 0.77);
-
-$border-color: #ddd;
-$backgorund-color-index-1: #fff;
-$backgorund-color-index-2: #eee;
-$backgorund-color-index-3: #ddd;
-$backgorund-color-index-4: #ccc;
+$backgorund-color-index-1: rgb(215, 232, 245);
+$backgorund-color-light: rgba(215, 232, 245, 0.2);
+$backgorund-color-index-2: rgb(177, 211, 236);
+$backgorund-color-index-3: rgba(108, 170, 217, 0.5);
+$backgorund-color-index-4: rgb(108, 170, 217);
 $disbaled-color: #ccc;
 $subtitle-color: #aaa;
 $error-color: red;
@@ -17,7 +13,19 @@ $error-color: red;
 $rate-active-color: #FF9800;
 $rate-normal-color: $backgorund-color-index-3;
 
-$page-background-color: $backgorund-color-index-2;
-$section-background-color: $backgorund-color-index-1;
+$page-background-color: #fff;
+$section-background-color: $backgorund-color-light;
 $split-color: $backgorund-color-index-2;
 $list-item-color: $backgorund-color-index-1;
+
+$number-input-color: $backgorund-color-index-4;
+
+$border-color: #ddd;
+$button-active-color: $active-color; 
+$button-default-color: $backgorund-color-index-3;
+
+$status-active-color: $active-color;
+$status-todo-color: $backgorund-color-index-2;
+
+$tab-active-color: $active-color;
+$tab-background-color: $backgorund-color-light; 

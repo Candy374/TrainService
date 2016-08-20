@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import * as actions from '../actions/order';
 import Page from './common/Page';
 import Footer from './common/Footer';
-import {ListItem} from './common/GoodsList';
+import {ListItem, SummaryLine} from './common/GoodsList';
 import  * as Constants from '../constants/system';
 import {Section, Line, ImgLine, Label, SmallButton} from './common/Widgets';
 
@@ -86,11 +86,7 @@ export default class MyOrders extends Component {
                                         count={item.Count}
                                         price={item.Price}/>)                                
                             )}
-                        <Line>
-                            <Label flex={true}>{order.OrderDate}</Label>
-                            <Label size='small'>共计: </Label>
-                            <Label size='small'>￥{order.Amount}</Label>
-                        </Line>
+                        <SummaryLine left={order.OrderDate} price={order.Amount} />
                         <Line align='end'>
                             <SmallButton label='订单详情' onClick={() => {
                                 this.props.setCurrentOrderId(order.OrderId)

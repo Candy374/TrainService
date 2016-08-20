@@ -7,10 +7,11 @@
 
     .item {
         display: flex;
-        padding: 0.3em 0 0.3em 0.3em;
+        padding: 0.3em 0;
         flex-shrink: 0;
-        border-bottom: 1px solid $split-color;
-        background: $list-item-color;
+        // border-bottom: 1px solid $split-color;
+        margin: 0.1em 0;
+        background: $backgorund-color-light;
 
         &:first-child {
             padding-top: 0;
