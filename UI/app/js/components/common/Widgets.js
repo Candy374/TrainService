@@ -44,7 +44,7 @@ export const ImgLine = ({children, className, url, type, onClick, imgClassName})
 
 export const Img = (props) => <img  {...props} src= {basicUrl + props.src}/>
 
-export const Section = ({checkbox, checked, title, children, list, className }) => {
+export const Section = ({checkbox, checked, title, children, list, className, onChange }) => {
     const classes = ['section'];
     if (list) {
         classes.push('list');
@@ -54,7 +54,7 @@ export const Section = ({checkbox, checked, title, children, list, className }) 
     }
     return (
         <div className={classes.join(' ')}>
-            {checkbox && <input type='checkbox' value={checked} checked={checked} />}
+            {checkbox && <input type='checkbox' onChange={onChange} value={checked} checked={checked} />}
             {title && 
                 <div className='head'>
                     <div className='title'>{title}</div>

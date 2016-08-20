@@ -1,4 +1,3 @@
-import Rest from '../utils/Rest';
 import request from 'superagent';
 import  {basicUrl, typeURL, goodsURL, userURL, cancelURL, rateURL,
     submmitURL,orderListURL, orderURL, stationsURL} from '../constants/actions';
