@@ -81,8 +81,10 @@ export default class OrderDetail extends Component {
                                 <RateItem key={index}
                                     rate={item.Rate}
                                     updateRate={(Rate) =>{
-                                        item.Rate = Rate;
-                                        this.setState({order});
+                                        if (!order.IsRated) {
+                                            item.Rate = Rate;
+                                            this.setState({order});
+                                        }
                                     }}
                                     url={item.PicUrl}
                                     name={item.Name}
@@ -95,7 +97,7 @@ export default class OrderDetail extends Component {
                                     price={item.Price}/>))      
                         )
                     }
-                    <SummaryLine label='共计' price={order.Amount}/>
+                    <SummaryLine price={order.Amount}/>
                 </Section>
                 <Detail {...order}/>
                 <Comments Comment={order.Comment}/>
