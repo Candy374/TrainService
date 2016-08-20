@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import * as actions from '../../actions/order';
 import Page from '../common/Page';
 import Footer from '../common/Footer';
-import {ListItem} from '../common/GoodsList';
+import {ListItem, NumberLine, SummaryLine} from '../common/GoodsList';
 import  * as Constants from '../../constants/system';
 import {Section, Line, Label, SmallButton} from '../common/Widgets';
 import Detail from '../OrderConfirm/Detail';
@@ -50,18 +50,8 @@ export default class MyOrders extends Component {
                         <Detail {...order} title={`订单号：${order.OrderId}`}/>
                         {order.showDetail &&
                             <Section list={true} title='商品信息'>                        
-                                {order.SubOrders.map((item, index) => (
-                                    <Line key={index}>
-                                        <Label flex={true}>{item.Name}</Label>
-                                        <Label size='small'>{`x${item.Count}`}</Label>
-                                    </Line>)                               
-                                )}
-
-                                <Line>
-                                    <Label flex={true}>{order.OrderDate}</Label>
-                                    <Label size='small'>共计: </Label>
-                                    <Label size='small'>￥{order.Amount}</Label>
-                                </Line>
+                                {order.SubOrders.map((item, index) => <NumberLine item={item} key={index}/>)}
+                                <SummaryLine price={order.Amount} left={order.OrderDate}/>
                             </Section>
                         }
                         

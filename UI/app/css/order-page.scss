@@ -4,23 +4,19 @@
 
     .type {
         width: 5em;
-        margin-right: 0.1em;
         overflow-y: auto;
-        background: $backgorund-color-index-1;
+        //background: $backgorund-color-index-1;
 
         .item {
             text-align: center;
-            border-bottom: 0.1em solid $backgorund-color-index-3;
+            //border-bottom: 0.1em solid $backgorund-color-index-3;
             padding: 0.3em;
         }
 
         .active {
             background: $page-background-color;
             color: $active-color;
-            border-left: 0.3em solid $active-color;    
+           // border-left: 0.3em solid $active-color;    
         }
-    }
-    .detail {
-        flex: 1;
     }
 }

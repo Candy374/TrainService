@@ -94,19 +94,14 @@ export default class OrderPage extends Component {
                             food.Count = chart[food.GoodsId] && chart[food.GoodsId].Count || food.Count || 0;
                             return (
                                 <ImgLine url={food.PictureUrl} type='desc' key={food.GoodsId}>
-                                        <Label size='auto'>{food.Name}</Label>
+                                        <Label size='auto'>{food.Name}</Label> 
+                                        <div className='left'>                             
+                                            <Label size='small'>{`月售${food.OrderCount}`}</Label>
+                                            <Label>{`好评率${food.Rating}%`}</Label>
+                                        </div>
                                         <div className="detail">
-                                            <div className="left">
-                                                <div style={{display: 'flex'}}>
-                                                    <Label size='small'>{`月售${food.OrderCount}`}</Label>
-                                                    <Label>{`好评率${food.Rating}%`}</Label>
-                                                </div>
-                                                <div className="price">{`￥${food.SellPrice}`}</div>
-                                            </div>
-
-                                            <div className="number-input">
-                                                <NumberInput count={food.Count} updateCount={(Count) => this.add(food, Count)}/>
-                                            </div>
+                                            <div className="price">{`￥${food.SellPrice}`}</div>
+                                            <NumberInput count={food.Count} updateCount={(Count) => this.add(food, Count)}/>
                                         </div>                         
                                 </ImgLine>
                             )

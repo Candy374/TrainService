@@ -9,6 +9,13 @@ export const SummaryLine = ({left, label, price}) => (
     </Line>
 );
 
+export const NumberLine = ({item}) => (
+    <Line>
+        <Label flex={true}>{item.Name}</Label>
+        <Label size='small' align='end'>{`x${item.Count}`}</Label>
+    </Line>
+)
+
 export const ListItem = ({url, name, count, price}) => (
     <ImgLine url={url}>
         <Label flex={true}>{name}</Label>

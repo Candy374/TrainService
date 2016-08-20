@@ -3,7 +3,7 @@ import * as actions from '../../actions/order';
 import * as shopActions from '../../actions/shopOrders';
 import Page from '../common/Page';
 import Footer from '../common/Footer';
-import {ListItem, SummaryLine} from '../common/GoodsList';
+import {ListItem, SummaryLine,NumberLine} from '../common/GoodsList';
 import  * as Constants from '../../constants/system';
 import {Section, Line, Label, SmallButton} from '../common/Widgets';
 
@@ -60,15 +60,6 @@ export default class MyOrders extends Component {
         });
     }
 
-    countLine(item, key) {
-        return (
-            <Line key={key}>
-                <Label flex={true}>{item.Name}</Label>
-                <Label size='small' align='end'>{`x${item.Count}`}</Label>
-            </Line>
-        );
-    }
-
     render() {
         const {status, orderMap, showAll} = this.state;
         let count = 0;
@@ -95,16 +86,14 @@ export default class MyOrders extends Component {
                     <SmallButton label={this.state.showAll ? '收起' : '展开详情'} 
                         onClick={() => this.setState({showAll: !this.state.showAll})}/>
                     {
-                        this.state.showAll && kindList.map(kind => {
-                            const item = this.state.prepare[kind]
-                            return this.countLine(item, kind);
-                        })
+                        this.state.showAll && 
+                        kindList.map(kind => <NumberLine item={this.state.prepare[kind]} key={kind} />)
                     }
                 </Section>}
                 {orderMap[status].map((order, index) => {
                     return (
                      <Section list={true} key={index} >
-                        {order.SubOrders.map((item, index) => this.countLine(item, index))}
+                        {order.SubOrders.map((item, index) => <NumberLine item={item} key={index}/>)}
                         <SummaryLine left={order.OrderDate} price={order.Amount} />
                         <Line align='end'>
                             {order.StatusCode == 1 && 
