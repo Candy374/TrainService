@@ -1,6 +1,6 @@
 body {
-    font-size: 1.2em;
-    font-family: monospace;
+    font-size: 16px;
+    font-family: 微软雅黑, monospace;
     margin:0;
 }
 
@@ -13,7 +13,7 @@ body {
 .page {
     flex: 1;
     overflow: auto;
-    background: $backgorund-color-index-2;
+    background: $page-background-color;
     
     &.flex {
         display: flex;
