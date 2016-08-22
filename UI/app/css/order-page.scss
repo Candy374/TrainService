@@ -1,22 +1,32 @@
 .order-content {
     display: flex;
     margin: 0.2em 0;
-
     .type {
-        width: 5em;
-        overflow-y: auto;
-        //background: $backgorund-color-index-1;
+        max-width: 5em;
+        //border-right: 1px solid $split-color;
 
         .item {
             text-align: center;
-            //border-bottom: 0.1em solid $backgorund-color-index-3;
             padding: 0.3em;
+            margin: 0.1em;
+            position: relative;
+            transition: 0.2s all;
+        }
+
+        .item:after {
+            content: "";
+            background: linear-gradient(to left, #fff, $split-color,#fff);
+            height: 1px;
+            position: absolute;
+            width: 5em;
+            left: 0;
+            bottom: 0;
         }
 
         .active {
             background: $page-background-color;
             color: $active-color;
-           // border-left: 0.3em solid $active-color;    
+            transform: scale(1.1);
         }
     }
 }

@@ -13,6 +13,7 @@
         
         &:nth-child(even) {
             background: $backgorund-color-light;
+            background: linear-gradient(90deg, $backgorund-color-light, #fff)
         }
         &:first-child {
             padding-top: 0;

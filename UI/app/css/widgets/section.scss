@@ -1,7 +1,8 @@
 .section {
-    padding: 0.5em 1em;
-    //margin: 0.5em 0;
+    padding: 0.5em 0;
+    margin: 0 1em;
     border-bottom: 1px solid $split-color;
+
     .title{
         flex: 1;
         font-weight: bold
