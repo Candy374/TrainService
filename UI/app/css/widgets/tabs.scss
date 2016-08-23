@@ -1,0 +1,13 @@
+.tabs {
+    display: flex;
+    padding: 1em 1em 0 1em;
+    justify-content: space-between;
+   // background: $tab-background-color;
+    border-bottom: 1px solid $tab-background-color;
+
+    .active {
+        color: $tab-active-color;
+        border-bottom: 0.2em solid;
+        padding-bottom: 1em;
+    }
+}

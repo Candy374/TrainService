@@ -1,0 +1,17 @@
+.order-list {
+    .content {
+        overflow: auto;
+        flex: 1;
+        margin-top: 0.5em;
+    }
+
+    .page {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .item {
+        margin: 0.1em 0;
+        border: none;
+    }
+}

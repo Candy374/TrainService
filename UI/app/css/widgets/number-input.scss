@@ -1,0 +1,20 @@
+.number-input {
+    display: flex;
+    align-self: flex-end;
+
+    button {
+    border-radius: 50%;
+        width: 1.8em;
+        height: 1.8em;
+        font-size: 15px;
+        background: $page-background-color;
+        color: $number-input-color;
+        border: solid $split-color 1px;
+        padding: 0;
+    }
+
+    label {
+        margin: 0 0.5em;
+        align-self: center;
+    }
+}

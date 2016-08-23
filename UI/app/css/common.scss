@@ -1,0 +1,77 @@
+* {
+    font-family: 微软雅黑, monospace;
+}
+
+body {
+    font-size: 16px;
+    margin:0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.page {
+    flex: 1;
+    overflow: auto;
+    background: $page-background-color;
+    
+    &.flex {
+        display: flex;
+    }
+    
+    .section:last-child {
+        border-bottom: none;
+    }
+}
+
+input[type="checkbox"] {
+    margin: 0;
+}
+
+.price {
+    color: $price-color;
+}
+
+.width-small {
+    width: 4em;
+}
+
+.width-medium {
+    width: 8em;
+}
+
+.width-large {
+    width: 12em;
+}
+
+.height-small {
+    height: 4em;
+}
+
+.flex {
+    flex: 1
+}
+
+.direction-col {        
+    flex-direction: column;
+}
+
+.direction-row {        
+    flex-direction: row;
+}
+
+.align-start {
+    align-items: stretch;
+}
+
+.align-end {
+    flex-direction: row-reverse;
+    text-align: end;
+}
+
+.error {
+    color: $error-color; 
+}

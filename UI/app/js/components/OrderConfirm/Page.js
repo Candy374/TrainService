@@ -1,28 +1,34 @@
 import React, {Component} from 'react';
-import Page from '../common/Page.js';
-import OrderDetail from './Detail.js';
-import OrderList from './List.js';
-import Comments from './Comments.js';
-import OrderStatus from '../common/OrderStatus.js';
-export default class OrderConfirmPage extends Component {
-    render() {
-         const footer = {
-                    button: {
-                        label: '立即支付',
-                        onClick: () => console.log('pay'),
-                        className: 'active'
-                    }
-                };
+import Page from '../common/Page';
+import OrderDetail from './Detail';
+import OrderList from '../common/GoodsList';
+import Comments from './Comments';
+import {Button} from '../common/Widgets';
+import OrderStatus from '../common/OrderStatus';
+import * as actions from '../../actions/order';
+const OrderConfirmPage = (props) => {
+    const footer = {
+        button: {
+            label: '立即支付',
+            onClick: props.submmitOrder,
+            disabled: props.submitting
+        },
+        left: {
+            type: 'button',
+            label: '返回修改',
+            disabled: props.submitting,
+            onClick: props.prePage
+        }
+    };
+    const chart = props.chart;
+    return (
+        <Page footer={footer}>            
+            <OrderStatus status={0}/>
+            <OrderDetail {...chart.info}/>
+            <OrderList list={chart.goods} total={chart.total}/>
+            <Comments Comment={chart.info.Comment}/>
+        </Page>
+    );
+};
 
-        return (
-            <Page footer={footer}>
-                <div className='order-confirm'>
-                    <OrderStatus />
-                    <OrderDetail />
-                    <OrderList />
-                    <Comments />
-                </div>
-            </Page>
-        );
-    }
-}
+export default OrderConfirmPage;

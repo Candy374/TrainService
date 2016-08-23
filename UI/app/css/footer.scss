@@ -1,0 +1,16 @@
+.footer {
+    background: rgba(0, 0, 0, 0.77);
+    color: $backgorund-color-index-1;
+    height: 2em;
+    display: flex;
+
+    .total {
+        flex: 1;
+        text-align: center;
+        line-height: 2em;
+    }
+
+    .button {
+       flex: 1;
+    }
+}

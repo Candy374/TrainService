@@ -1,0 +1,42 @@
+.section {
+    padding: 0.5em 0;
+    margin: 0 1em;
+    border-bottom: 1px solid $split-color;
+
+    .title{
+        flex: 1;
+        font-weight: bold
+    }
+
+    .head {
+        @extend .line;
+        padding: 0.2em 0;
+        margin-bottom: 0.4em;
+    }
+
+    .label {
+        width: 7em;
+    }
+
+    .fee {
+        flex-direction: row-reverse;
+
+        .label {
+            width: 8em;
+        }
+    }
+
+    .status {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .block {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .section {
+        border-bottom: none;
+    }
+}

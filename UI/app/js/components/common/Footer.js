@@ -1,18 +1,20 @@
-import React, {Component} from 'react';
-import Button from './Button';
+import React, {Component, PropTypes} from 'react';
+import {Button} from './Widgets';
 
-export default class Footer extends Component {
-    render() {
-        const {button, total} = this.props;
-        
-        return (
-            <div className='footer'>
-                {total != null && <div className='total'>
-                    共: ￥{total} 元
-                </div>}
-                <Button {...button} ></Button>
-            </div>
-        )
-    }
+const Footer = ({button, left}) =>  (
+    <div className='footer'>
+        {left && (
+            left.onClick ? <Button {...left}/> : <label className='total'>{left.label}</label>)}
+        <Button {...button} isPrimary={true}></Button>
+    </div>
+);
+
+Footer.propTypes = {
+    button: PropTypes.shape({
+        label: PropTypes.string,
+        onClick: PropTypes.func
+    }).isRequired
 };
+
+export default Footer;
 

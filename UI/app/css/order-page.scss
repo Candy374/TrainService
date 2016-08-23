@@ -1,0 +1,32 @@
+.order-content {
+    display: flex;
+    margin: 0.2em 0;
+    .type {
+        max-width: 5em;
+        //border-right: 1px solid $split-color;
+
+        .item {
+            text-align: center;
+            padding: 0.3em;
+            margin: 0.1em;
+            position: relative;
+            transition: 0.2s all;
+        }
+
+        .item:after {
+            content: "";
+            background: linear-gradient(to left, #fff, $split-color,#fff);
+            height: 1px;
+            position: absolute;
+            width: 5em;
+            left: 0;
+            bottom: 0;
+        }
+
+        .active {
+            background: $page-background-color;
+            color: $active-color;
+            transform: scale(1.1);
+        }
+    }
+}
