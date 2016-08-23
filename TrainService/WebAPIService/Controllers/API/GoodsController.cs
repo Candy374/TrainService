@@ -37,6 +37,7 @@ namespace WebAPIService.Controllers
                     OrderCount = item.OrderCount,
                     PictureUrl = item.PictureUrl,
                     ProviderId = item.ProviderId,
+                    ProviderName = DalFactory.Provider.Search(Convert.ToUInt32(item.ProviderId)).Name,
                     Rating = item.Rating ?? -1,
                     SellPrice = item.SellPrice,
                     Tags = item.Tags == null ? new int[0] : GetTages(item.Tags)

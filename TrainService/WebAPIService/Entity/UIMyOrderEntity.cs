@@ -53,7 +53,9 @@ namespace WebAPIService.Entity
                     PicUrl = item.PicUrl,
                     Price = item.SellPrice * count,
                     GoodsId = item.GoodsId,
-                    Rate = item.Rate
+                    Rate = item.Rate,
+                    ProviderId = item.ProviderId,
+                    ProviderName = DAL.DalFactory.Provider.Search(Convert.ToUInt32(item.ProviderId)).Name
                 });
             }
 

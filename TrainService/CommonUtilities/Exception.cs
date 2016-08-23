@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-
+using System.Text;
 
 namespace CommonUtilities
 {
@@ -95,12 +95,12 @@ namespace CommonUtilities
             }
 
             var info = new ExceptionInfo()
-                       {
-                           ExceptionTypeName = ex.GetType().FullName,
-                           Message = ex.Message,
-                           StackTrace = ex.StackTrace,
-                           Machine = Environment.MachineName
-                       };
+            {
+                ExceptionTypeName = ex.GetType().FullName,
+                Message = ex.Message,
+                StackTrace = ex.StackTrace,
+                Machine = Environment.MachineName
+            };
             if (ex.InnerException != null)
             {
                 info.InnerExceptionInfos = Create(ex.InnerException);
@@ -148,4 +148,91 @@ namespace CommonUtilities
     [Serializable]
     public sealed class ConvertException : ExceptionArgs { }
 
+    public static class ExceptionExtention
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ex"></param>
+        /// <param name="format">P:Type M:message S:Source T:Stack Trace  I:innerException D:Data </param>
+        /// <returns></returns>
+        public static string ToString(this Exception ex, string format, string prefix)
+        {
+            if (ex == null)
+            {
+                return "<null>";
+            }
+
+            var arg = format.ToUpper();
+
+            return ExceptionToString(ex, format, prefix, "     ");
+        }
+
+        private static string ExceptionToString(Exception ex, string format, string currentPrefix, string prefix)
+        {
+            StringBuilder sb = new StringBuilder();
+            if (format.Contains("P"))
+            {
+                sb.AppendLine("ExceptionType:" + ex.GetType().ToString());
+            }
+
+            if (format.Contains("M"))
+            {
+                sb.AppendLine(currentPrefix + "Error Message:" + ex.Message);
+            }
+
+            if (format.Contains("S"))
+            {
+                sb.AppendLine(currentPrefix + "Source:" + ex.Source);
+            }
+
+            if (format.Contains("D"))
+            {
+                var dic = ex.Data;
+                if (dic == null)
+                {
+                    sb.AppendLine(currentPrefix + "Data:<null>");
+                }
+                else
+                {
+                    sb.AppendLine(currentPrefix + "Data:");
+                    foreach (var k in dic.Keys)
+                    {
+                        sb.AppendFormat("{0}{3}{1}={2}\r\n", currentPrefix, k, dic[k], prefix);
+                    }
+                }
+            }
+
+            if (format.Contains("T"))
+            {
+                if (ex.StackTrace == null)
+                {
+                    sb.AppendLine("StackTrace:<null>");
+                }
+                else
+                {
+                    var st = ex.StackTrace.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var l in st)
+                    {
+                        sb.AppendLine(currentPrefix + prefix + l);
+                    }
+                }
+            }
+
+            if (format.Contains("I"))
+            {
+                if (ex.InnerException == null)
+                {
+                    sb.AppendLine(currentPrefix + "InnerException:<null>");
+                }
+                else
+                {
+                    sb.AppendLine(currentPrefix + "InnerException:");
+                    sb.AppendLine(ExceptionToString(ex.InnerException, format, currentPrefix + prefix, prefix));
+                }
+            }
+
+            return sb.ToString();
+        }
+    }
 }

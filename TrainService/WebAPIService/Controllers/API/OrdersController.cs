@@ -9,6 +9,7 @@ using DAL.Entity;
 using DAL;
 using System.Text;
 using WebAPIService.Entity;
+using LoggerContract;
 
 namespace WebAPIService.Controllers
 {
@@ -195,8 +196,20 @@ namespace WebAPIService.Controllers
             return order;
         }
 
+        [Route("Update/SubOrder/{subOrderId}")]
+        public int ChangeSubOrderStatus(uint subOrderId, [FromBody]dynamic data)
+        {
+            int newStatus = data.NewStatus;
+            int oldStatus = data.OldStatus;
+            var result = DalFactory.Orders.ChangeSubOrderStatus(subOrderId, (DAL.DAO.OrderStatus)newStatus, (DAL.DAO.OrderStatus)oldStatus);
+            //if (result && newStatus == 2)
+            //{
+            //    OrderEntity order = DalFactory.Orders.GetOrderBySubOrderId(subOrderId);
+            //}
 
+            return result ? 1 : 0;
+        }
 
-
+   
     }
 }

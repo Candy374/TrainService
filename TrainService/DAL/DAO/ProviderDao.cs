@@ -18,5 +18,11 @@ namespace DAL.DAO
         {
             return CachedTable.Where(d => d.Name == providerName);
         }
+
+        public IEnumerable<ProviderEntity> FuzzySearch(string providerName)
+        {
+            providerName = providerName.ToUpper();
+            return CachedTable.Where(d => d.Name.ToUpper().Contains(providerName));
+        }
     }
 }

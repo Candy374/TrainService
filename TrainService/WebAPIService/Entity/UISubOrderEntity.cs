@@ -24,5 +24,9 @@ namespace WebAPIService.Entity
         public uint GoodsId { get; set; }
         [DataMember]
         public int Rate { get; set; }
+        [DataMember]
+        public int ProviderId { get; set; }
+        [DataMember]
+        public string ProviderName { get; set; }
     }
 }

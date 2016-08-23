@@ -30,6 +30,9 @@ namespace WebAPIService.Entity
         /// </summary>
         [DataMember]
         public int ProviderId { get; set; }
+
+        [DataMember]
+        public string ProviderName { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -50,7 +53,7 @@ namespace WebAPIService.Entity
         /// </summary>
         [DataMember]
         public int OrderCount { get; set; }
-       
+
         [DataMember]
         public int[] Tags { get; set; }
     }

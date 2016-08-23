@@ -13,7 +13,7 @@ namespace DAL.DAO
 {
     public class OrderDao
     {
-        internal readonly BaseDao _baseDao = BaseDaoFactory.CreateBaseDao("userdb");
+        internal readonly BaseDaoWithLogger _baseDao = new BaseDaoWithLogger("userdb");
 
         public uint AddOrder(OrderEntity entity, List<OrderDetailEntity> orderDetailList)
         {
@@ -59,7 +59,8 @@ namespace DAL.DAO
                 "order_details.sell_price AS sell_price, " +
                 "order_details.refund_count AS refund_count, " +
                 "order_details.goods_id AS goods_id, " +
-                "order_details.rating AS rating " +
+                "order_details.rating AS rating, " +
+                "order_details.provider_id AS provider_id " +
                 "FROM order_details,goods  " +
                 "WHERE  " +
                 "order_details.order_id=@OId " +
@@ -93,7 +94,7 @@ namespace DAL.DAO
         {
             var para = new StatementParameterCollection();
             para.Add(new StatementParameter { Name = "@OID", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
-            _baseDao.ExecNonQuery("UPDATE orders SET is_rated=TRUE WHERE order_id=@OID");
+            _baseDao.ExecNonQuery("UPDATE orders SET is_rated=TRUE WHERE order_id=@OID", para);
         }
 
         public OrderEntity GetOrderByOrderId(string orderId)
@@ -138,6 +139,37 @@ namespace DAL.DAO
             }
 
             return result == 1;
+        }
+
+        public bool ChangeSubOrderStatus(uint subOrderId, OrderStatus newStatus, OrderStatus oldStatus)
+        {
+            var para = new StatementParameterCollection();
+            para.Add(new StatementParameter { Name = "@newSt", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)newStatus });
+            para.Add(new StatementParameter { Name = "@oldSt", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)oldStatus });
+            para.Add(new StatementParameter { Name = "@OID", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = subOrderId });
+            var sql = "UPDATE order_details SET status=@newSt WHERE id=@OID AND status=@oldSt";
+
+            return _baseDao.ExecNonQuery(sql, para) == 1;
+        }
+
+        public OrderEntity GetOrderBySubOrderId(uint subOrderId)
+        {
+            var para = new StatementParameterCollection();
+            para.Add(new StatementParameter { Name = "@SubId", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = subOrderId });
+            var query = _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id = (SELECT  order_id FROM order_details WHERE id=@SubId)",para);
+
+            return query.FirstOrDefault();
+        }
+
+        public bool ChangeOrderStatus(uint orderId, OrderStatus newStatus, OrderStatus oldStatus)
+        {
+            var para = new StatementParameterCollection();
+            para.Add(new StatementParameter { Name = "@newSt", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)newStatus });
+            para.Add(new StatementParameter { Name = "@oldSt", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)oldStatus });
+            para.Add(new StatementParameter { Name = "@OID", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
+            var sql = "UPDATE orders SET order_status=@newSt WHERE order_id=@OID AND order_status=@oldSt";
+
+            return _baseDao.ExecNonQuery(sql, para) == 1;
         }
     }
 

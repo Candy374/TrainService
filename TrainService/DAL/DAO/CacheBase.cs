@@ -9,7 +9,7 @@ namespace DAL.DAO
 {
     public class CacheBase<T> where T : class, new()
     {
-        internal readonly BaseDao _baseDao = BaseDaoFactory.CreateBaseDao("userdb");
+        internal readonly BaseDaoWithLogger _baseDao = new BaseDaoWithLogger("userdb");
         internal DateTime _expiredTime = DateTime.MinValue;
         internal IList<T> _list;
         private TimeSpan _minRefreshTimeSpan;
@@ -57,9 +57,9 @@ namespace DAL.DAO
             }
         }
 
-        private IList<T> RefreshData()
+        public IList<T> RefreshData(bool isFouceUpdate = false)
         {
-            if (DateTime.Now > _expiredTime || _list == null)
+            if (isFouceUpdate || DateTime.Now > _expiredTime || _list == null)
             {
                 _list = _baseDao.SelectList<T>("SELECT * FROM " + _tableName);
                 _expiredTime = DateTime.Now.Add(_minRefreshTimeSpan);

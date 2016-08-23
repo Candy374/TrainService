@@ -42,6 +42,10 @@ namespace DAL.Entity
         [DataMember]
         [Column(Name = "rating", ColumnType = DbType.Int32)]
         public int Rate { get; set; }
+
+        [DataMember]
+        [Column(Name = "provider_id", ColumnType = DbType.Int32)]
+        public int ProviderId { get; set; }
     }
 
 }

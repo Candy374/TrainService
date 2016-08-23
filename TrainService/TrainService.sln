@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPIService", "WebAPIServ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPIService.Tests", "WebAPIService.Tests\WebAPIService.Tests.csproj", "{BCC9F2E6-3CA4-4F10-AD41-8D84AEF77C0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerContract", "LoggerContract\LoggerContract.csproj", "{E1F22109-CE3B-48E9-9007-608440D35BDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleLogger", "SimpleLogger\SimpleLogger.csproj", "{39DC68DF-945E-4B0D-91B8-7ABCBB7CD928}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{BCC9F2E6-3CA4-4F10-AD41-8D84AEF77C0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCC9F2E6-3CA4-4F10-AD41-8D84AEF77C0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCC9F2E6-3CA4-4F10-AD41-8D84AEF77C0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1F22109-CE3B-48E9-9007-608440D35BDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1F22109-CE3B-48E9-9007-608440D35BDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1F22109-CE3B-48E9-9007-608440D35BDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1F22109-CE3B-48E9-9007-608440D35BDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39DC68DF-945E-4B0D-91B8-7ABCBB7CD928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39DC68DF-945E-4B0D-91B8-7ABCBB7CD928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39DC68DF-945E-4B0D-91B8-7ABCBB7CD928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39DC68DF-945E-4B0D-91B8-7ABCBB7CD928}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

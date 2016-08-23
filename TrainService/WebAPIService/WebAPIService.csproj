@@ -243,6 +243,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\API\GoodsController.cs" />
+    <Compile Include="Controllers\API\ProviderController.cs" />
     <Compile Include="Controllers\API\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\API\OrdersController.cs" />
@@ -360,6 +361,14 @@
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{e958f57d-d8ce-4e2d-b9a2-cb5c56e2d001}</Project>
       <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoggerContract\LoggerContract.csproj">
+      <Project>{e1f22109-ce3b-48e9-9007-608440d35bda}</Project>
+      <Name>LoggerContract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimpleLogger\SimpleLogger.csproj">
+      <Project>{39dc68df-945e-4b0d-91b8-7abcbb7cd928}</Project>
+      <Name>SimpleLogger</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
