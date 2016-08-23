@@ -1,66 +1,30 @@
 import request from 'superagent';
-import  {basicUrl, typeURL, goodsURL, userURL, cancelURL, rateURL,
-    submmitURL,orderListURL, orderURL, stationsURL} from '../constants/actions';
+import  {basicUrl, updateOrderURL} from '../constants/actions';
+
+const udpateOrder = (orderId, data) => {
+    return request.post(basicUrl + updateOrderURL + orderId, data)
+        .then(res => res.body)
+        .catch(err => {
+            throw err;
+        });
+};
 
 export const takeOrder = (orderId) => {
-    // return request.get(basicUrl + typeURL + orderId)
-    //     .then(res => res.body)
-    //     .catch(err => {
-    //         alert('Can not take order');
-    //         console.log(err.message);
-    //     });
-
-    return request.get(encodeURI(basicUrl + goodsURL))
-        .then(res => {
-            const list = res.body
-            const result = list.filter(item => item.OrderId == orderId);
-            result[0].StatusCode = result[0].StatusCode + 1;
-            return result;
-        })
-        .catch(err => {
-            alert('Can not get goods list');
-            console.log(err.message);
-        });
+    const data = { "NewStatus":2 , "OldStatus":1}
+    return udpateOrder(orderId, data);
 }
 
 export const orderReady = (orderId) => {
-    // return request.get(basicUrl + typeURL + orderId)
-    //     .then(res => res.body)
-    //     .catch(err => {
-    //         alert('Can not take order');
-    //         console.log(err.message);
-    //     });
-
-    return request.get(encodeURI(basicUrl + goodsURL))
-        .then(res => {
-            const list = res.body
-            const result = list.filter(item => item.OrderId == orderId);
-            result[0].StatusCode = result[0].StatusCode + 1;
-            return result;
-        })
-        .catch(err => {
-            alert('Can not get goods list');
-            console.log(err.message);
-        });
+    const data = { "NewStatus":3 , "OldStatus":2}
+    return udpateOrder(orderId, data);
 }
 
 export const expressOrder = (orderId) => {
-    // return request.get(basicUrl + typeURL + orderId)
-    //     .then(res => res.body)
-    //     .catch(err => {
-    //         alert('Can not take order');
-    //         console.log(err.message);
-    //     });
+    const data = { "NewStatus":4 , "OldStatus":3}
+    return udpateOrder(orderId, data);
+}
 
-    return request.get(encodeURI(basicUrl + goodsURL))
-        .then(res => {
-            const list = res.body
-            const result = list.filter(item => item.OrderId == orderId);
-            result[0].StatusCode = result[0].StatusCode + 1;
-            return result;
-        })
-        .catch(err => {
-            alert('Can not get goods list');
-            console.log(err.message);
-        });
+export const doneDeliver = (orderId) => {
+    const data = { "NewStatus":5 , "OldStatus":4}
+    return udpateOrder(orderId, data);
 }

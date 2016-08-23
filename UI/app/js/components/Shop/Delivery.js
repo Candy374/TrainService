@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import * as actions from '../../actions/order';
+import * as shopActions from '../../actions/shopOrders';
 import Page from '../common/Page';
 import Footer from '../common/Footer';
 import {ListItem, NumberLine, SummaryLine} from '../common/GoodsList';
@@ -11,11 +12,15 @@ export default class MyOrders extends Component {
     componentWillMount() {
         this.state = {
             showAll: false,
-            orders: []
+            orders: [],
+            status: 1
         };
+        this.updateOrder();
+    }
+    updateOrder() {
         actions.getOrderList(this.getUserId()).then((orderList)=>{
             if (orderList) {
-                const orders = orderList.filter(order => order.StatusCode >= 3 && order.StatusCode <= 5)
+                const orders = orderList.filter(order => order.StatusCode >= 3 && order.StatusCode < 5)
                 this.setState({
                     orders
                 });
@@ -39,6 +44,13 @@ export default class MyOrders extends Component {
         }
         return (
             <Page flex={true} direction='col' className='order-list' footer={footer}>
+               { // <div className='tabs'>
+                //     <div className={status == 1 ? 'active' : ''}
+                //          onClick={()=> this.setState({status: 1})}>未完成订单</div>
+                //     <div className={status == 2 ? 'active' : ''}
+                //          onClick={()=> this.setState({status: 2})}>已完成配送</div>
+                // </div>
+               }
                 <div className='content'>
                 {orders.map((order, index) => {
                     if (!this.state.showAll && order.StatusCode != 3) {
@@ -55,15 +67,19 @@ export default class MyOrders extends Component {
                             </Section>
                         }
                         
-                        <Line align='end'>     
+                        <Line align='end'>                        
+                            {order.StatusCode == 3 && 
+                                <SmallButton label='已取餐' onClick={() => {
+                                    shopActions.expressOrder(order.OrderId).then(() => {
+                                       this.updateOrder();
+                                   });                            
+                                }}/>}
                             {order.StatusCode == 4 && 
                                 <SmallButton label='货已送到' onClick={() => {
-                                    console.log('备货完成')                                     
-                                }}/>}                   
-                            {order.StatusCode == 5 && 
-                                <SmallButton label='已送到' onClick={() => {
-                                    console.log('取货完成')                                
-                                }}/>}
+                                    shopActions.doneDeliver(order.OrderId).then(() => {
+                                       this.updateOrder();
+                                    });                                
+                                }}/>} 
                                 
                             <SmallButton label={order.showDetail ? '收起' : '查看详情'} 
                                         onClick={() => {

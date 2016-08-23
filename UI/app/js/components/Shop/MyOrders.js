@@ -17,9 +17,13 @@ export default class MyOrders extends Component {
             showAll: false
         };
         this.orders = [];
+        this.updateOrderList();
+    }
+
+    updateOrderList() {
         actions.getOrderList(this.getUserId()).then((orderList)=>{
             if (orderList) {
-                const orderMap = this.state.orderMap;
+                const orderMap = {'1': [], '2': [], '3': []};
                 orderList.map(order => {
                     this.orders[order.OrderId] = {checked: false};
                     if (orderMap[order.StatusCode]) {
@@ -31,8 +35,6 @@ export default class MyOrders extends Component {
                 });
             }
         });
-
-        
     }
 
     getUserId() {
@@ -83,8 +85,8 @@ export default class MyOrders extends Component {
                 <div className='content'>
                 {status == 2 && <Section>
                     <Label>{`还需制作${kindList.length}道菜，（${this.state.total}种菜）`}</Label>
-                    <SmallButton label={this.state.showAll ? '收起' : '展开详情'} 
-                        onClick={() => this.setState({showAll: !this.state.showAll})}/>
+                    {kindList.length > 0 && <SmallButton label={this.state.showAll ? '收起' : '展开详情'} 
+                        onClick={() => this.setState({showAll: !this.state.showAll})}/> }
                     {
                         this.state.showAll && 
                         kindList.map(kind => <NumberLine item={this.state.prepare[kind]} key={kind} />)
@@ -98,19 +100,16 @@ export default class MyOrders extends Component {
                         <Line align='end'>
                             {order.StatusCode == 1 && 
                                 <SmallButton label='接受订单' onClick={() => {
-                                   shopActions.takeOrder().then(() => {
+                                   shopActions.takeOrder(order.OrderId).then(() => {                                       
                                        this.summary();
+                                       this.updateOrderList();
                                    });
                                 }}/>}
                             {order.StatusCode == 2 && 
                                 <SmallButton label='货已备好' onClick={() => {
-                                    shopActions.orderReady().then(() => {
+                                   shopActions.orderReady(order.OrderId).then(() => {
                                        this.summary();
                                    });                                    
-                                }}/>}
-                            {order.StatusCode == 3 && 
-                                <SmallButton label='货已取走' onClick={() => {
-                                    console.log('取货完成')                                
                                 }}/>}
                         </Line>
                     </Section>)
