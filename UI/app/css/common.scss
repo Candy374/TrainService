@@ -33,6 +33,11 @@ input[type="checkbox"] {
 
 .price {
     color: $price-color;
+    font-weight: bold;
+
+    .tag{
+        font-weight: normal;
+    }
 }
 
 .width-small {

@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {Section, ImgLine, Line, Label} from '../common/Widgets';
+import {Section, ImgLine, Line, Label, Price} from '../common/Widgets';
 
 export const SummaryLine = ({left, label, price}) => (
     <Line>
         <Label flex={true}>{left}</Label>
         <Label size='small' align='end'>{label || '共计'}:</Label>
-        <Label size='small' className='price' align='end'>{`￥${price}`}</Label>
+        <Price size='small' className='price' align='end' price={price}/>
     </Line>
 );
 

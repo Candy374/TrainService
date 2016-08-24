@@ -1,20 +1,22 @@
 .number-input {
     display: flex;
     align-self: flex-end;
+    align-items: center;
 
     button {
-    border-radius: 50%;
-        width: 1.8em;
-        height: 1.8em;
-        font-size: 15px;
-        background: $page-background-color;
-        color: $number-input-color;
-        border: solid $split-color 1px;
-        padding: 0;
+        border-radius: 50%;
+        width: 1.6em;
+        height: 1.6em;
+        font-size: 1em;
+        background: $active-color;
+        color: $page-background-color;
+        border: solid $active-color 1px;
+        font-weight: bold;
     }
 
     label {
         margin: 0 0.5em;
         align-self: center;
+        font-size: 1.5em;
     }
 }

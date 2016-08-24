@@ -4,7 +4,7 @@ import {Button} from './Widgets';
 const Footer = ({button, left}) =>  (
     <div className='footer'>
         {left && (
-            left.onClick ? <Button {...left}/> : <label className='total'>{left.label}</label>)}
+            left.onClick ? <Button {...left}/> : left)}
         <Button {...button} isPrimary={true}></Button>
     </div>
 );
