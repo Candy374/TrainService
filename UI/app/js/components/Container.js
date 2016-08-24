@@ -42,7 +42,13 @@ export default class Container extends Component {
                     ContactTel: '',
                     Comment: ''
                 },
-                station: {}
+                station: [{
+                    MinPrice:30,
+                    Name:"郑州东",
+                    PicUrl:"/imgs/ZZD_samll.jpg",
+                    StationCode:"ZZD",
+                    StationId:1
+                }]
             },
             orderId: null,
             stations: [],

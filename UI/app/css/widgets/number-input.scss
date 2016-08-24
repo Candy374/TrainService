@@ -5,11 +5,11 @@
 
     .line {
         stroke: $page-background-color;
+        stroke-width: 2;
     }
 
     .circle {
         fill: $active-color;
-        stroke-width: 3;
     }
 
     button {
