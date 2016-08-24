@@ -3,15 +3,18 @@
     align-self: flex-end;
     align-items: center;
 
+    .line {
+        stroke: $page-background-color;
+    }
+
+    .circle {
+        fill: $active-color;
+        stroke-width: 3;
+    }
+
     button {
-        border-radius: 50%;
-        width: 1.6em;
-        height: 1.6em;
-        font-size: 1em;
-        background: $active-color;
-        color: $page-background-color;
-        border: solid $active-color 1px;
-        font-weight: bold;
+        background: transparent;
+        border: none;
     }
 
     label {
