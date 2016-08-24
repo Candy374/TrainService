@@ -4,7 +4,7 @@ const NumberInput = ({updateCount, count}) => (
     <div className='number-input'>
         <button onClick={() => updateCount(Math.max(count - 1, 0))} 
                 style={{visibility: count == 0 ? 'hidden' : 'visible'}}>-</button>
-        <label >{count}</label>              
+        <label style={{visibility: count == 0 ? 'hidden' : 'visible'}}>{count}</label>              
         <button onClick={() => updateCount(Math.max(count + 1, 0))}>+</button>
     </div>
 );

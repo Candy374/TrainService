@@ -79,7 +79,7 @@ export default class OrderPage extends Component {
             left: (<label className='total'>
                     <Price price={total}/>
                     {total < station.MinPrice && 
-                        <span>{`差${station.MinPrice - total}元起送`}</span>}
+                        <span className='desc'>{`差${station.MinPrice - total}元起送`}</span>}
                 </label>)
         };
 

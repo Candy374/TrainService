@@ -6,6 +6,7 @@
     cursor: pointer;
     background: $button-default-color;
     color: #222;
+    flex: 1;
 
     &.active {
         background: $button-active-color;
