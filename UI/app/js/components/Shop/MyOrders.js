@@ -21,7 +21,7 @@ export default class MyOrders extends Component {
     }
 
     updateOrderList() {
-        actions.getOrderList(this.getUserId()).then((orderList)=>{
+        actions.getOrderList(this.props.openId).then((orderList)=>{
             if (orderList) {
                 const orderMap = {'1': [], '2': [], '3': []};
                 orderList.map(order => {
@@ -35,10 +35,6 @@ export default class MyOrders extends Component {
                 });
             }
         });
-    }
-
-    getUserId() {
-        return '124123'
     }
 
     summary() {

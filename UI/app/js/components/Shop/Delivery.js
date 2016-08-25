@@ -18,7 +18,7 @@ export default class MyOrders extends Component {
         this.updateOrder();
     }
     updateOrder() {
-        actions.getOrderList(this.getUserId()).then((orderList)=>{
+        actions.getOrderList(this.props.openId).then((orderList)=>{
             if (orderList) {
                 const orders = orderList.filter(order => order.StatusCode >= 3 && order.StatusCode < 5)
                 this.setState({
@@ -26,10 +26,6 @@ export default class MyOrders extends Component {
                 });
             }
         });
-    }
-
-    getUserId() {
-        return '124123'
     }
 
     render() {
@@ -59,6 +55,7 @@ export default class MyOrders extends Component {
  
                     return (
                      <Section key={index}>
+                        <Line><Label>{order.ProviderName}</Label></Line>
                         <Detail {...order} title={`订单号：${order.OrderId}`}/>
                         {order.showDetail &&
                             <Section list={true} title='商品信息'>                        

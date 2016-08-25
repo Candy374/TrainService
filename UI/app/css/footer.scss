@@ -1,13 +1,25 @@
 .footer {
     background: rgba(0, 0, 0, 0.77);
     color: $backgorund-color-index-1;
-    height: 2em;
+    height: 3em;
     display: flex;
 
     .total {
-        flex: 1;
+        flex: 2;
         text-align: center;
-        line-height: 2em;
+        padding: 0.5em;
+
+        .desc {            
+            color: $font-second-color;
+            padding-left: 0.3em;
+            border-left: 1px solid $split-color;
+        }
+        
+        .price {
+            color: $font-normal-color;
+            margin: 0.3em;
+            font-size: 1.5em;
+        }
     }
 
     .button {

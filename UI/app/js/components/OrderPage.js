@@ -4,7 +4,7 @@ import Page from './common/Page';
 import * as actions from '../actions/order.js';
 import NumberInput from './common/NumberInput';
 import  * as Constants from '../constants/system';
-import {Section, Line, ImgLine, Label} from './common/Widgets';
+import {Section, Line, DescLine, Label, Img, Price} from './common/Widgets';
 
 export default class OrderPage extends Component {
     componentWillMount() {
@@ -55,12 +55,15 @@ export default class OrderPage extends Component {
         food.Count = Count;
         chart.goods[food.GoodsId] = food;
         let total = 0;
+        let count = 0;
         Object.keys(chart.goods).map(key => {
             if (key != 'total') {
+                count += chart.goods[key].Count;
                 total += chart.goods[key].Count * chart.goods[key].SellPrice
             }
         });
         chart.total = total;
+        chart.count = count;
         this.props.updateChart(chart);
     }
     
@@ -68,45 +71,54 @@ export default class OrderPage extends Component {
         const {goods: chart, total, station } = this.props.chart;
         const footer = {
             button: {
-                label: total < station.MinPrice ? `还差${station.MinPrice - total}元起送` : '选好了',
+                label: '去结算',
                 onClick: this.props.nextPage,
                 disabled: total < station.MinPrice
             },
             
-            left: {label: `共: ￥${total} 元`}
+            left: (<label className='total'>
+                    <Price price={total}/>
+                    {total < station.MinPrice && 
+                        <span className='desc'>{`差${station.MinPrice - total}元起送`}</span>}
+                </label>)
         };
 
         return (
             <Page footer={footer} className='order-content'>
-                    <div className='type'>
-                        {this.state.goodsTypes.map(type => {
-                            return (
-                                <div key={type.ID}
-                                    onClick={this.chooseType.bind(this, type)}
-                                    className={this.state.activeType == type.ID ? 'active item' : 'item'}>
-                                {type.DisplayName}
+                <div className='type'>
+                    {this.state.goodsTypes.map(type => {
+                        return (
+                            <div key={type.ID}
+                                onClick={this.chooseType.bind(this, type)}
+                                className={this.state.activeType == type.ID ? 'active item' : 'item'}>
+                            {type.DisplayName}
+                            </div>
+                        )
+                    })}
+                </div>
+                <div className='list'>
+                    {this.state.goodsList.map((food, index) => {                            
+                        food.Count = chart[food.GoodsId] && chart[food.GoodsId].Count || food.Count || 0;
+                     
+                        return (
+                            <div className='item' key={food.GoodsId}>
+                                <div className='desc'>
+                                    <Img src= {food.PictureUrl}  className='img'/>
+                                    <div >
+                                        <Label size='auto' type='title'>{food.Name}</Label> 
+                                        <Label type='desc'>{`好评率${food.Rating}%`}</Label>
+                                        <Label size='small' type='desc'>{`月售${food.OrderCount}`}</Label>
+                                    </div>
                                 </div>
-                            )
-                        })}
-                    </div>
-                    <div className='list'>
-                        {this.state.goodsList.map((food, index) => {                            
-                            food.Count = chart[food.GoodsId] && chart[food.GoodsId].Count || food.Count || 0;
-                            return (
-                                <ImgLine url={food.PictureUrl} type='desc' key={food.GoodsId}>
-                                        <Label size='auto'>{food.Name}</Label> 
-                                        <div className='left'>                             
-                                            <Label size='small'>{`月售${food.OrderCount}`}</Label>
-                                            <Label>{`好评率${food.Rating}%`}</Label>
-                                        </div>
-                                        <div className="detail">
-                                            <div className="price">{`￥${food.SellPrice}`}</div>
-                                            <NumberInput count={food.Count} updateCount={(Count) => this.add(food, Count)}/>
-                                        </div>                         
-                                </ImgLine>
-                            )
-                        })}
-                    </div>  
+                                
+                                <div className="detail">
+                                    <Price price={food.SellPrice}/>
+                                    <NumberInput count={food.Count} updateCount={(Count) => this.add(food, Count)}/>
+                                </div> 
+                            </div>
+                        )
+                    })}
+                </div>  
             </Page>
         );
     }

@@ -5,14 +5,18 @@
     text-align: center;
     cursor: pointer;
     background: $button-default-color;
-    color: $backgorund-color-index-1;
+    color: #222;
+    flex: 1;
+    font-size: 1.2em;
 
     &.active {
         background: $button-active-color;
+        color: $backgorund-color-index-1;
     }
 
     &.disabled {
         background: $disbaled-color;
+        color: $backgorund-color-index-1;
     }
 }
 
@@ -20,7 +24,7 @@
 
 button.small {
     width: 6em;
-    background: $backgorund-color-index-1;
+    background: $backgorund-color-index-2;
     border: none;
     padding: 0.2em;
     align-self: flex-end;
