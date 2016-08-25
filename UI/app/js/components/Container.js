@@ -110,7 +110,7 @@ export default class Container extends Component {
         this.setState({
             submitting: true
         });
-        alert('submit order with openId: ' + this.openId)
+        
         actions.submmitOrder(data).then(orderId => {
             this.setCurrentOrderId(orderId)
         });
