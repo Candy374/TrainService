@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Footer from './common/Footer.js';
 import Page from './common/Page.js';
 import {Section, Line, Label, Button} from './common/Widgets';
+import {ListItem, SummaryLine} from './common/GoodsList';
 
 export default class OrderInfo extends Component {
     componentWillMount() {
@@ -60,32 +61,50 @@ export default class OrderInfo extends Component {
             !this.state.TrainNumberError && !this.state.CarriageNumberError && !this.state.ContactTelError;
     }
 
+    renderList(total, list) {
+        return (
+            <Section list={true}>
+                <Line><Label>已点菜品：</Label></Line>
+                {Object.keys(list).map((key, index) => (
+                    <Line key={index}>
+                        <Label flex={true}>{list[key].Name}</Label>
+                        <Label size='small' align='end'>{`x${list[key].Count}`}</Label>
+                        <Label size='small' align='end'>{`￥${list[key].SellPrice || list[key].Price}`}</Label>
+                    </Line>
+                ))}
+                <SummaryLine label='待支付' price={total} />
+            </Section>
+        );  
+    }
+
     render() {
-        const info = this.props.chart.info;
+        const chart = this.props.chart;
+        
         const footer = {
             button: {
-                label: '确认下单',
-                onClick: this.props.nextPage,
-                disabled: !this.isInfoReady(info)
+                label: '提交订单',
+                onClick: this.props.submmitOrder,
+                disabled: this.props.submitting || !this.isInfoReady(chart.info)
             },
             left: {
+                type: 'button',
                 label: '返回修改',
+                disabled: this.props.submitting,
                 onClick: this.props.prePage
             }
-        };
-        
+    };
         
         return (
             <Page className='order-info' footer={footer}>
-                <Section title='列车信息'>
+                <Section >
                     <Line>
-                        <Label>车次：</Label>
-                        {this.renderInput('TrainNumber')}*
+                        <Label>*送达车次：</Label>
+                        {this.renderInput('TrainNumber')}
                         <Label size='large' status='error'>{this.state.TrainNumberError}</Label>
                     </Line>
                     <Line>
-                        <Label>餐车车厢号：</Label>
-                        {this.renderInput('CarriageNumber')}*
+                        <Label>*餐车车厢号：</Label>
+                        {this.renderInput('CarriageNumber')}
                         <Label size='large' status='error'>{this.state.CarriageNumberError}</Label>
                     </Line>
                     <Line>
@@ -100,33 +119,33 @@ export default class OrderInfo extends Component {
                                 type='checkbox' />
                     </Line>
                 </Section>
-                <Section title='联系人信息'>
+                <Section>
                     <Line>
-                        <Label>姓名：</Label>
-                        {this.renderInput('Contact')}*
+                        <Label>*联系人：</Label>
+                        {this.renderInput('Contact')}
                         <Label size='large' status='error'/>
                     </Line>
                     <Line>
-                        <Label>手机号：</Label>
-                        {this.renderInput('ContactTel')}*
+                        <Label>*手机号：</Label>
+                        {this.renderInput('ContactTel')}
                         <Label size='large' status='error'>{this.state.ContactTelError}</Label>
                     </Line>
+                </Section>                
+                {this.renderList(chart.total, chart.goods)}
+                <Section>
+                    <Line>
+                        <Label>订单备注：</Label>
+                        {this.renderInput('Comment')}
+                        <Label size='large' status='error'/>
+                    </Line>
                 </Section>
-                <Section title='留言或特殊要求'>
-                    <textarea value={info.Comment} 
-                            ref={node=> this.Comment = node}
-                            onChange={() => {
-                                    info.Comment = this.Comment.value;
-                                    this.props.updateChart({info});
-                            }}/>
-                    <p>
-                        列车到站前， 工作人员会把餐品送到指定餐车前门门口。取餐后请核对餐品和清单。
-                        感谢您对我们的支持！
-                    </p>
-                    <p>
-                        如有任何问题、建议或投诉，请拨打电话xxx-xxxx-xxxx
-                    </p>
-                </Section>
+                <p>
+                   * 列车到站前， 工作人员会把餐品送到指定餐车前门门口。取餐后请核对餐品和清单。
+                    感谢您对我们的支持！
+                </p>
+                <p>
+                    如有任何问题、建议或投诉，请拨打电话xxx-xxxx-xxxx
+                </p>
             </Page>
         );
     }

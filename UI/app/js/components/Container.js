@@ -21,7 +21,7 @@ const _extend = Object.assign || function(target) {
     
 export default class Container extends Component {
     componentWillMount() {
-        let page = 'Booking';
+        let page = 'Info';
         if (location.hash.indexOf('#MyOrders') == 0) {
             page = 'MyOrders';
         } else if (location.hash.indexOf('#ShopOrders') == 0) {
@@ -33,7 +33,7 @@ export default class Container extends Component {
         } 
 
         this.state = {
-            page: page,
+            page,
             chart: { 
                 goods: {},
                 total: 0,
@@ -142,6 +142,8 @@ export default class Container extends Component {
             case 'Info':
                 return (
                     <OrderInfo chart={this.state.chart}
+                               submitting={this.state.submitting}
+                               submmitOrder={this.submmitOrder}
                                prePage={this.prePage.bind(this, 'Order')}
                                nextPage={this.nextPage.bind(this, 'Confirm')} 
                                updateChart={this.updateChart}/>);
@@ -160,13 +162,14 @@ export default class Container extends Component {
                                  nextPage={this.nextPage.bind(this, 'Info')}
                                  id={this.state.orderId}/>);
             case 'MyOrders':
-                return <MyOrders setCurrentOrderId={this.setCurrentOrderId}/>;
+                return <MyOrders openId={this.openId}
+                                 setCurrentOrderId={this.setCurrentOrderId}/>;
 
             case 'Shop': 
-                return <ShopOrders />;
+                return <ShopOrders openId={this.openId}/>;
 
             case 'Deliver': 
-                return <Delivery />;
+                return <Delivery openId={this.openId}/>;
 
             case 'Login': 
                 return <Login updateOpenId={this.updateOpenId.bind(this)}

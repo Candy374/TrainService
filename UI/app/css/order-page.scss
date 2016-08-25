@@ -31,6 +31,8 @@
         }
     }
     .list {
+        
+        background: $backgorund-color-index-1;
         .item {            
             flex-direction: column; 
             padding: 0.5em;

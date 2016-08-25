@@ -24,7 +24,7 @@ export const ListItem = ({url, name, count, price}) => (
     </ImgLine>
 );
 
-const OrderList = ({total, list, station}) => {
+const OrderList = ({total, list}) => {
     return (
         <Section title='已点菜品' list={true}>
             {Object.keys(list).map((key, index) => (

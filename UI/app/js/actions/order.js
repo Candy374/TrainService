@@ -58,7 +58,6 @@ export const getStations = () => {
 }
 
 export const getUserInfo = (userId) => {
-    userId = 124123;
     return request.get(basicUrl + userURL + userId)
         .then(res => res.body)
         .catch(err => {

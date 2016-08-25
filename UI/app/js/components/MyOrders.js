@@ -13,7 +13,7 @@ export default class MyOrders extends Component {
             status: -1,
             showAll: false
         };
-        actions.getOrderList(this.getUserId()).then((orderList)=>{
+        actions.getOrderList(this.props.openId).then((orderList)=>{
             if (orderList) {
                 const orderMap = this.state.orderMap;
                 let defaultStatus = -1;
@@ -43,10 +43,6 @@ export default class MyOrders extends Component {
             StatusCode = 3;
         }
         return StatusCode;
-    }
-
-    getUserId() {
-        return '124123'
     }
 
     render() {
