@@ -16,6 +16,7 @@ export default class Login extends Component {
 
         this.props.nextPage(this.state.state);
         login(this.state.code, this.state.state).then((id) => {
+             alert('open Id is' + id)
             this.props.updateOpenId(id);
         });
     }

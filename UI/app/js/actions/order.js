@@ -31,6 +31,7 @@ export const submmitOrder = (data) => {
 }
 
 export const getOrderList = (userId) => {
+    alert('openId is ' + userId);
     return request.get(basicUrl + orderListURL + userId)
         .then(res => res.body && res.body.Orders)
         .catch(err => {
