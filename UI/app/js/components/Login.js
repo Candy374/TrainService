@@ -14,6 +14,8 @@ export default class Login extends Component {
             const parts = item.split('=');
             this.state[parts[0]] = parts[1]
         });
+
+        this.props.nextPage({page: this.state.state});
         login(this.state.code, this.state.state).then((id) => {
             this.props.updateOpenId(id);
         });

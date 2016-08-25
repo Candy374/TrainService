@@ -21,13 +21,13 @@ const _extend = Object.assign || function(target) {
     
 export default class Container extends Component {
     componentWillMount() {
-        let page = 'Choose';
+        let page = 'Booking';
         if (location.hash.indexOf('#MyOrders') == 0) {
             page = 'MyOrders';
         } else if (location.hash.indexOf('#ShopOrders') == 0) {
-            page = 'ShopOrders';
+            page = 'Shop';
         } else if (location.hash.indexOf('#Delivery') == 0) {
-            page = 'Delivery';
+            page = 'Deliver';
         } else if (location.hash.indexOf('#Login') == 0) {
             page = 'Login';
         } 
@@ -128,7 +128,7 @@ export default class Container extends Component {
 
     render() {
         switch(this.state.page){
-            case 'Choose':
+            case 'Booking':
                 return (
                     <ChooseStation stations={this.state.stations}
                                    nextPage={this.nextPage.bind(this, 'Order')}
@@ -162,14 +162,15 @@ export default class Container extends Component {
             case 'MyOrders':
                 return <MyOrders setCurrentOrderId={this.setCurrentOrderId}/>;
 
-            case 'ShopOrders': 
+            case 'Shop': 
                 return <ShopOrders />;
 
-            case 'Delivery': 
+            case 'Deliver': 
                 return <Delivery />;
 
             case 'Login': 
-                return <Login updateOpenId={this.updateOpenId.bind(this)}/>;
+                return <Login updateOpenId={this.updateOpenId.bind(this)}
+                              nextPage={this.nextPage.bind(this)}/>;
         }
     }
 }
