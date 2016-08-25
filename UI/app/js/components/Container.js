@@ -5,6 +5,7 @@ import OrderInfo from './OrderInfo';
 import MyOrders from './MyOrders';
 import OrderDetail from './OrderDetail';
 import ChooseStation from './ChooseStation';
+import Login from './Login';
 import ConfirmPage from './OrderConfirm/Page';
 import * as actions from '../actions/order';
 import ShopOrders from './Shop/MyOrders';
@@ -27,8 +28,8 @@ export default class Container extends Component {
             page = 'ShopOrders';
         } else if (location.hash.indexOf('#Delivery') == 0) {
             page = 'Delivery';
-        } else if (location.hash.indexOf('#test') == 0) {
-            page = 'Test';
+        } else if (location.hash.indexOf('#Login') == 0) {
+            page = 'Login';
         } 
 
         this.state = {
@@ -163,8 +164,8 @@ export default class Container extends Component {
             case 'Delivery': 
                 return <Delivery />;
 
-            case 'Test': 
-                return <div>登录中...</div>;
+            case 'Login': 
+                return <Login/>;
         }
     }
 }
