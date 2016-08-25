@@ -121,7 +121,7 @@ namespace DAL.DAO
             return _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_status=@St", para);
         }
 
-        public bool CancelOrder(uint orderId)
+        public bool CancelOrder(string openId, uint orderId)
         {
             TransactionOptions transactionOption = new TransactionOptions();
             //设置事务隔离级别
@@ -133,8 +133,8 @@ namespace DAL.DAO
             {
                 var para = new StatementParameterCollection();
                 para.Add(new StatementParameter { Name = "@OID", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
-
-                result = _baseDao.ExecNonQuery("UPDATE orders SET	order_status=7 WHERE order_id=@OID AND order_status IN (0,1)", para);
+                para.Add(new StatementParameter { Name = "@OpenId", Direction = ParameterDirection.Input, DbType = DbType.String, Value = openId });
+                result = _baseDao.ExecNonQuery("UPDATE orders SET	order_status=7 WHERE order_id=@OID AND order_status IN (0,1) AND user_openid=@OpenId", para);
                 ts.Complete();
             }
 
@@ -156,7 +156,7 @@ namespace DAL.DAO
         {
             var para = new StatementParameterCollection();
             para.Add(new StatementParameter { Name = "@SubId", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = subOrderId });
-            var query = _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id = (SELECT  order_id FROM order_details WHERE id=@SubId)",para);
+            var query = _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id = (SELECT  order_id FROM order_details WHERE id=@SubId)", para);
 
             return query.FirstOrDefault();
         }

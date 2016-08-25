@@ -44,7 +44,7 @@ namespace LoggerContract
                 return model;
             }
 
-            var path = Path.Combine(Path.GetDirectoryName(typeof(Logger).Assembly.CodeBase), model);
+            var path = Path.Combine(Path.GetDirectoryName(typeof(Logger).Assembly.CodeBase.Substring(8)), model);
             if (File.Exists(path))
             {
                 return path;

@@ -1,4 +1,5 @@
 ﻿using CommonUtilities;
+using LoggerContract;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,6 +19,7 @@ namespace WebAPIService.Controllers
         [Route("LastInput/{openId}")]
         public object Get(string openId)
         {
+            Logger.Info("openId=" + openId, "api/User/LastInput/{openId}");
             var user = DAL.DalFactory.Account.GetAccount(openId);
             if (user == null)
             {
@@ -42,6 +44,15 @@ namespace WebAPIService.Controllers
 
         [Route("Info/Code/{code}/State/{state}")]
         public string GetOpenIdByCode(string code, string state)
+        {
+            Logger.Info("code={0}, state={1}".FormatedWith(code, state), "api/User/Info/Code/{code}/State/{state}");
+            var openId= _GetOpenIdByCode(code, state);
+            Logger.Info("Successful get Open ID={0} via code={1}".FormatedWith(openId, code), "api/User/Info/Code/{code}/State/{state}");
+
+            return openId;
+        }
+
+        internal static string _GetOpenIdByCode(string code, string state)
         {
             string url = "https://api.weixin.qq.com/sns/oauth2/access_token" +
               "?appid=wxaf1fff843c641aba&secret=c60530db2bd0ac505c8ce30578bd61f0&" +
@@ -68,7 +79,7 @@ namespace WebAPIService.Controllers
                     Province = userInfo.province,
                     HeadImgUrl = userInfo.headimgurl,
                     NickName = userInfo.nickname,
-                    Sex = userInfo.sex??0
+                    Sex = userInfo.sex ?? 0
                 };
 
                 var existAccount = DAL.DalFactory.Account.GetAccount(openId);
@@ -88,36 +99,16 @@ namespace WebAPIService.Controllers
                     DAL.DalFactory.Account.Add(account);
                 }
 
-                /*
-                 {    "openid":" OPENID",  
- " nickname": NICKNAME,   
- "sex":"1",   
- "province":"PROVINCE"   
- "city":"CITY",   
- "country":"COUNTRY",    
- "headimgurl":    "http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ
-4eMsv84eavHiaiceqxibJxCfHe/46",  
-"privilege":[ "PRIVILEGE1" "PRIVILEGE2"     ],    
- "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL" 
-} 
-                 
-                 */
-
                 return openId;
-                /*
-             { "access_token":"ACCESS_TOKEN",    
- "expires_in":7200,    
- "refresh_token":"REFRESH_TOKEN",    
- "openid":"OPENID",    
- "scope":"SCOPE" }     
-             
-             */
             }
             else
             {
+                LoggerContract.Logger.Error("Request error: Status={0}, input: code={1}, state={2}".FormatedWith(status, code ?? "<null>", state ?? "<null>"));
                 return "";
             }
         }
+
+
 
         private static dynamic JsonToDynamic(string json)
         {
@@ -153,5 +144,7 @@ namespace WebAPIService.Controllers
             public string TrainNumber { get; set; }
             public string CarriageNumber { get; set; }
         }
+
+
     }
 }

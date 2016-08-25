@@ -7,6 +7,8 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using DAL;
 using WebAPIService.Entity;
+using LoggerContract;
+using CommonUtilities;
 
 namespace WebAPIService.Controllers
 {
@@ -18,6 +20,7 @@ namespace WebAPIService.Controllers
         [Route("{stationCode}/{type}")]
         public IEnumerable<object> Get(string stationCode, int type)
         {
+            Logger.Info("stationCode={0},type={1}".FormatedWith(stationCode, type), "api/Goods/{stationCode}/{type}");
             return _Get(stationCode, type);
         }
 

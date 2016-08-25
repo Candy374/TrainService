@@ -24,5 +24,10 @@ namespace DAL.DAO
             providerName = providerName.ToUpper();
             return CachedTable.Where(d => d.Name.ToUpper().Contains(providerName));
         }
+
+        public ProviderEntity GetProviderByOpenId(string openId)
+        {
+            return CachedTable.Where(p => p.OpenIdList.Contains(openId)).FirstOrDefault();
+        }
     }
 }
