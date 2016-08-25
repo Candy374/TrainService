@@ -32,6 +32,13 @@ export default class Container extends Component {
             page = 'Login';
         } 
 
+        const station = {
+            MinPrice:30,
+            Name:"郑州东",
+            PicUrl:"/imgs/ZZD_samll.jpg",
+            StationCode:"ZZD",
+            StationId:1
+        };
         this.state = {
             page,
             chart: { 
@@ -45,16 +52,10 @@ export default class Container extends Component {
                     ContactTel: '',
                     Comment: ''
                 },
-                station: {}
+                station
             },
             orderId: null,
-            stations: [{
-                    MinPrice:30,
-                    Name:"郑州东",
-                    PicUrl:"/imgs/ZZD_samll.jpg",
-                    StationCode:"ZZD",
-                    StationId:1
-                }],
+            stations: [station],
             submitting: false
         };
         this.updateChart = this.updateChart.bind(this);
@@ -91,7 +92,7 @@ export default class Container extends Component {
 
         const {info, goods} = this.state.chart;
         const list = Object.keys(goods).map(key => {            
-            return {Id: goods[key].GoodsId, Count: goods[key].count};
+            return {Id: goods[key].GoodsId, Count: goods[key].Count};
         });
         const data = {
             OpenId: this.openId,
@@ -109,10 +110,11 @@ export default class Container extends Component {
         this.setState({
             submitting: true
         });
-        // actions.submmitOrder(data).then(orderId => {
-        //     this.setCurrentOrderId(orderId)
-        //  });
-       this.setCurrentOrderId(18)
+        
+        actions.submmitOrder(data).then(orderId => {
+            this.setCurrentOrderId(orderId)
+        });
+       //this.setCurrentOrderId(18)
     }
 
     updateOpenId(id) {
