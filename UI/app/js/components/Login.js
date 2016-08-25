@@ -4,7 +4,6 @@ import {login} from '../actions/login';
 
 export default class Login extends Component {
     componentWillMount() {
-        alert(location.hash)
         const hash = location.hash;
         const query = hash.split('?')[1];
         const states = query.split('&');
@@ -15,7 +14,7 @@ export default class Login extends Component {
             this.state[parts[0]] = parts[1]
         });
 
-        this.props.nextPage({page: this.state.state});
+        this.props.nextPage(this.state.state);
         login(this.state.code, this.state.state).then((id) => {
             this.props.updateOpenId(id);
         });
