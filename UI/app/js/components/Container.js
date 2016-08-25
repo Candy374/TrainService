@@ -92,7 +92,7 @@ export default class Container extends Component {
 
         const {info, goods} = this.state.chart;
         const list = Object.keys(goods).map(key => {            
-            return {Id: goods[key].GoodsId, Count: goods[key].count};
+            return {Id: goods[key].GoodsId, Count: goods[key].Count};
         });
         const data = {
             OpenId: this.openId,
@@ -110,6 +110,7 @@ export default class Container extends Component {
         this.setState({
             submitting: true
         });
+        alert('submit order with openId: ' + this.openId)
         actions.submmitOrder(data).then(orderId => {
             this.setCurrentOrderId(orderId)
         });
