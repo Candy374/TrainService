@@ -27,7 +27,9 @@ export default class Container extends Component {
             page = 'ShopOrders';
         } else if (location.hash.indexOf('#Delivery') == 0) {
             page = 'Delivery';
-        }
+        } else if (location.hash.indexOf('#test') == 0) {
+            page = 'Test';
+        } 
 
         this.state = {
             page: page,
@@ -160,6 +162,9 @@ export default class Container extends Component {
 
             case 'Delivery': 
                 return <Delivery />;
+
+            case 'Test': 
+                return <div>登录中...</div>;
         }
     }
 }
