@@ -17,6 +17,11 @@ export default class MyOrders extends Component {
         };
         this.updateOrder();
     }
+
+    shouldComponentUpdate() {
+        return !!this.openId;
+    }
+    
     updateOrder() {
         actions.getOrderList(this.props.openId).then((orderList)=>{
             if (orderList) {

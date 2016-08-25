@@ -20,6 +20,10 @@ export default class MyOrders extends Component {
         this.updateOrderList();
     }
 
+    shouldComponentUpdate() {
+        return !!this.openId;
+    }
+
     updateOrderList() {
         actions.getOrderList(this.props.openId).then((orderList)=>{
             if (orderList) {

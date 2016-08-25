@@ -66,6 +66,10 @@ export default class Container extends Component {
         });
     }
 
+    shouldComponentUpdate() {
+        return !!this.openId;
+    }
+    
     nextPage(page) {
         this.setState({page});
     }
