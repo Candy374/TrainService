@@ -4,6 +4,7 @@ import {login} from '../actions/login';
 
 export default class Login extends Component {
     componentWillMount() {
+        alert(location.hash)
         const hash = location.hash;
         const query = hash.split('?')[1];
         const states = query.split('&');
@@ -13,14 +14,13 @@ export default class Login extends Component {
             const parts = item.split('=');
             this.state[parts[0]] = parts[1]
         });
-        login(this.state.code, this.state.state).then((result) => {
-            console.log(result)
+        login(this.state.code, this.state.state).then((id) => {
+            this.props.updateOpenId(id);
         });
-        this.setState(this.state);
     }
 
     render() {
-        return <div>{`code: ${this.state.code}, state: ${this.state.state}`}</div>;
+        return <div>登录中...</div>;
     }
 }
 

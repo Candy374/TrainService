@@ -101,7 +101,7 @@ export default class Container extends Component {
             return {Id: goods[key].GoodsId, Count: goods[key].count};
         });
         const data = {
-            OpenId: 124123,
+            OpenId: this.openId,
             TrainNumber: info.TrainNumber,
             CarriageNumber: '' + info.CarriageNumber,
             IsDelay: info.IsDelay == 'on',
@@ -120,6 +120,10 @@ export default class Container extends Component {
         //     this.setCurrentOrderId(orderId)
         //  });
        this.setCurrentOrderId(18)
+    }
+
+    updateOpenId(id) {
+        this.openId = id;
     }
 
     render() {
@@ -165,7 +169,7 @@ export default class Container extends Component {
                 return <Delivery />;
 
             case 'Login': 
-                return <Login/>;
+                return <Login updateOpenId={this.updateOpenId.bind(this)}/>;
         }
     }
 }
