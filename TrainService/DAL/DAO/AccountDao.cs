@@ -16,10 +16,10 @@ namespace DAL.DAO
     {
         public AccountDao() : base(new TimeSpan(0, 0, 30)) { }
 
-        //public IList<AccountEntity> GetAccount(string openId)
-        //{
-        //    return base.Get("")
-        //}
+        public AccountEntity GetAccount(string openId)
+        {
+            return CachedTable.Where(a => a.OpenId == openId).FirstOrDefault();
+        }
 
     }
 }

@@ -89,6 +89,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Http.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
       <Private>True</Private>
@@ -241,7 +242,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\API\AccountController.cs" />
+    <Compile Include="Controllers\DynamicJsonConverter.cs" />
     <Compile Include="Controllers\API\GoodsController.cs" />
     <Compile Include="Controllers\API\ProviderController.cs" />
     <Compile Include="Controllers\API\UserController.cs" />

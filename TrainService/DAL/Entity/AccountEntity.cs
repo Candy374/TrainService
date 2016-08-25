@@ -7,7 +7,7 @@ namespace DAL.Entity
 {
     [Serializable]
     [DataContract]
-    [Table(Name = "provider")]
+    [Table(Name = "account")]
     public partial class AccountEntity
     {
         /// <summary>

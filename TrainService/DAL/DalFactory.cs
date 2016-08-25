@@ -34,7 +34,7 @@ namespace DAL
                 () => Provider.RefreshData(false),
                 () => Goods.RefreshData(false),
                 () => Tags.RefreshData(false),
-                () => Stations.RefreshData(false),
+                () => Stations.RefreshData(true),
                 () => Account.RefreshData(false)
             };
 

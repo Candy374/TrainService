@@ -35,6 +35,7 @@ namespace WebAPIService.Controllers
             decimal totalPriceVerify = 0;
             var orderDetailList = new List<OrderDetailEntity>();
             StringBuilder sb = new StringBuilder();
+            TryRecordLastInput(openId, contact, contactTel);
             foreach (var item in goodsList)
             {
                 var goods = DAL.DalFactory.Goods.GetGoods((uint)item.Id);
@@ -88,6 +89,23 @@ namespace WebAPIService.Controllers
             return Convert.ToInt32(orderId);
         }
 
+        private void TryRecordLastInput(string openId, string contact, string contactTel)
+        {
+            try
+            {
+                var user = DalFactory.Account.GetAccount(openId);
+                if (user != null)
+                {
+                    user.LastContactName = contact;
+                    user.LastContactTel = contactTel;
+                    DalFactory.Account.Update(user);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "Error when try to update user last input");
+            }
+        }
 
         [Route("Rate")]
         public int Rate([FromBody] dynamic rateInfo)
@@ -210,6 +228,6 @@ namespace WebAPIService.Controllers
             return result ? 1 : 0;
         }
 
-   
+
     }
 }
