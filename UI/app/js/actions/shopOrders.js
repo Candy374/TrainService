@@ -1,5 +1,5 @@
 import request from 'superagent';
-import  {basicUrl, updateOrderURL} from '../constants/actions';
+import  {basicUrl, updateOrderURL, goodsURL} from '../constants/actions';
 
 const udpateOrder = (orderId, data) => {
     return request.post(basicUrl + updateOrderURL + orderId, data)

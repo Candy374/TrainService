@@ -1,8 +1,8 @@
 .order-list {
     .content {
+        background: $content-background-color;
         overflow: auto;
         flex: 1;
-        margin-top: 0.5em;
     }
 
     .page {

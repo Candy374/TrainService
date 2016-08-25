@@ -15,8 +15,7 @@ export default class OrderInfo extends Component {
 
     renderInput(name) {
         return (
-            <input  value={this.props.chart.info[name]} 
-                    style={{width: '7em'}}
+            <input  value={this.props.chart.info[name]}
                     ref={node=> this[name] = node}
                     onChange={() => {
                         const value = this[name].value;
@@ -66,7 +65,7 @@ export default class OrderInfo extends Component {
             <Section list={true}>
                 <Line><Label>已点菜品：</Label></Line>
                 {Object.keys(list).map((key, index) => (
-                    <Line key={index}>
+                    <Line key={index} className='short'>
                         <Label flex={true}>{list[key].Name}</Label>
                         <Label size='small' align='end'>{`x${list[key].Count}`}</Label>
                         <Label size='small' align='end'>{`￥${list[key].SellPrice || list[key].Price}`}</Label>
@@ -97,15 +96,19 @@ export default class OrderInfo extends Component {
         return (
             <Page className='order-info' footer={footer}>
                 <Section >
-                    <Line>
-                        <Label>*送达车次：</Label>
+                    <Line direction='col'>
+                     <div style={{width : '100%'}}>
+                        <Label className='must'>送达车次：</Label>
                         {this.renderInput('TrainNumber')}
-                        <Label size='large' status='error'>{this.state.TrainNumberError}</Label>
+                        </div>
+                        <Label status='error'>{this.state.TrainNumberError}</Label>
                     </Line>
-                    <Line>
-                        <Label>*餐车车厢号：</Label>
+                    <Line direction='col'>
+                        <div style={{width : '100%'}}>
+                        <Label className='must'>餐车车厢号：</Label>
                         {this.renderInput('CarriageNumber')}
-                        <Label size='large' status='error'>{this.state.CarriageNumberError}</Label>
+                        </div>
+                        <Label status='error'>{this.state.CarriageNumberError}</Label>
                     </Line>
                     <Line>
                         <Label>列车已晚点</Label>
@@ -120,15 +123,19 @@ export default class OrderInfo extends Component {
                     </Line>
                 </Section>
                 <Section>
-                    <Line>
-                        <Label>*联系人：</Label>
+                    <Line direction='col'>
+                    <div style={{width : '100%'}}>
+                        <Label className='must'>联系人：</Label>
                         {this.renderInput('Contact')}
-                        <Label size='large' status='error'/>
+                        </div>
+                        <Label status='error'/>
                     </Line>
-                    <Line>
-                        <Label>*手机号：</Label>
+                    <Line direction='col'>
+                    <div style={{width : '100%'}}>
+                        <Label className='must'>手机号：</Label>
                         {this.renderInput('ContactTel')}
-                        <Label size='large' status='error'>{this.state.ContactTelError}</Label>
+                        </div>
+                        <Label status='error'>{this.state.ContactTelError}</Label>
                     </Line>
                 </Section>                
                 {this.renderList(chart.total, chart.goods)}
@@ -136,7 +143,7 @@ export default class OrderInfo extends Component {
                     <Line>
                         <Label>订单备注：</Label>
                         {this.renderInput('Comment')}
-                        <Label size='large' status='error'/>
+                        <Label />
                     </Line>
                 </Section>
                 <p>
