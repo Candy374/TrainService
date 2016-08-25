@@ -21,7 +21,7 @@ const _extend = Object.assign || function(target) {
     
 export default class Container extends Component {
     componentWillMount() {
-        let page = 'Info';
+        let page = 'Booking';
         if (location.hash.indexOf('#MyOrders') == 0) {
             page = 'MyOrders';
         } else if (location.hash.indexOf('#ShopOrders') == 0) {
@@ -62,13 +62,6 @@ export default class Container extends Component {
         this.setCurrentOrderId = this.setCurrentOrderId.bind(this);        
         actions.getStations().then((stations) => {
             this.setState({stations})
-        });
-        actions.getUserInfo(this.openId).then((user) => {
-            const info = Object.assign({}, this.state.chart.info, user);
-            this.state.chart.info = info;
-            this.setState({
-                chart: this.state.chart
-            });
         });
     }
 
@@ -124,6 +117,14 @@ export default class Container extends Component {
 
     updateOpenId(id) {
         this.openId = id;
+        
+        actions.getUserInfo(this.openId).then((user) => {
+            const info = Object.assign({}, this.state.chart.info, user);
+            this.state.chart.info = info;
+            this.setState({
+                chart: this.state.chart
+            });
+        });
     }
 
     render() {
