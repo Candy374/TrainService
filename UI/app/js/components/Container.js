@@ -45,16 +45,16 @@ export default class Container extends Component {
                     ContactTel: '',
                     Comment: ''
                 },
-                station: [{
+                station: {}
+            },
+            orderId: null,
+            stations: [{
                     MinPrice:30,
                     Name:"郑州东",
                     PicUrl:"/imgs/ZZD_samll.jpg",
                     StationCode:"ZZD",
                     StationId:1
-                }]
-            },
-            orderId: null,
-            stations: [],
+                }],
             submitting: false
         };
         this.updateChart = this.updateChart.bind(this);
