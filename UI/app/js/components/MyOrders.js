@@ -34,10 +34,6 @@ export default class MyOrders extends Component {
         this.showNum = 5;
     }
 
-    shouldComponentUpdate() {
-        return !!this.openId;
-    }
-
     getStatus(StatusCode) {
         if (StatusCode >= 2 && StatusCode < 6 ) {
             StatusCode = 1;

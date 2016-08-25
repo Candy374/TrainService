@@ -56,7 +56,8 @@ export default class Container extends Component {
             },
             orderId: null,
             stations: [station],
-            submitting: false
+            submitting: false,
+            opendId: null
         };
         this.updateChart = this.updateChart.bind(this);
         this.submmitOrder = this.submmitOrder.bind(this);
@@ -66,10 +67,6 @@ export default class Container extends Component {
         });
     }
 
-    shouldComponentUpdate() {
-        return !!this.openId;
-    }
-    
     nextPage(page) {
         this.setState({page});
     }
@@ -122,7 +119,7 @@ export default class Container extends Component {
     }
 
     updateOpenId(id) {
-        this.openId = id;
+        this.setState({openId: id});
         
         actions.getUserInfo(this.openId).then((user) => {
             const info = Object.assign({}, this.state.chart.info, user);
@@ -134,30 +131,31 @@ export default class Container extends Component {
     }
 
     render() {
+        const {openId, stations, chart, submitting, orderId } = this.state;
         switch(this.state.page){
             case 'Booking':
                 return (
-                    <ChooseStation stations={this.state.stations}
+                    <ChooseStation stations={tations}
                                    nextPage={this.nextPage.bind(this, 'Order')}
                                    updateChart={this.updateChart} />);
             case 'Order':
                 return (
-                    <OrderPage  chart={this.state.chart}
+                    <OrderPage  chart={chart}
                                 updateTotal={this.updateTotal}
                                 updateChart={this.updateChart}
                                 nextPage={this.nextPage.bind(this, 'Info')} />);
             case 'Info':
                 return (
-                    <OrderInfo chart={this.state.chart}
-                               submitting={this.state.submitting}
+                    <OrderInfo chart={chart}
+                               submitting={submitting}
                                submmitOrder={this.submmitOrder}
                                prePage={this.prePage.bind(this, 'Order')}
                                nextPage={this.nextPage.bind(this, 'Confirm')} 
                                updateChart={this.updateChart}/>);
             case 'Confirm':
                 return (
-                    <ConfirmPage chart={this.state.chart}
-                                 submitting={this.state.submitting}
+                    <ConfirmPage chart={chart}
+                                 submitting={submitting}
                                  submmitOrder={this.submmitOrder}
                                  prePage={this.prePage.bind(this, 'Info')}
                                  nextPage={this.nextPage.bind(this, 'Detail')} />);
@@ -167,16 +165,16 @@ export default class Container extends Component {
                                  updateChart={this.updateChart}
                                  submmitOrder={this.submmitOrder}
                                  nextPage={this.nextPage.bind(this, 'Info')}
-                                 id={this.state.orderId}/>);
+                                 id={orderId}/>);
             case 'MyOrders':
-                return <MyOrders openId={this.openId}
+                return <MyOrders openId={openId}
                                  setCurrentOrderId={this.setCurrentOrderId}/>;
 
             case 'Shop': 
-                return <ShopOrders openId={this.openId}/>;
+                return <ShopOrders openId={openId}/>;
 
             case 'Deliver': 
-                return <Delivery openId={this.openId}/>;
+                return <Delivery openId={openId}/>;
 
             case 'Login': 
                 return <Login updateOpenId={this.updateOpenId.bind(this)}
