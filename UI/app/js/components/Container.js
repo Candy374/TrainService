@@ -63,7 +63,7 @@ export default class Container extends Component {
         actions.getStations().then((stations) => {
             this.setState({stations})
         });
-        actions.getUserInfo().then((user) => {
+        actions.getUserInfo(this.openId).then((user) => {
             const info = Object.assign({}, this.state.chart.info, user);
             this.state.chart.info = info;
             this.setState({
