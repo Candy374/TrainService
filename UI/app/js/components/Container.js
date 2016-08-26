@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+﻿import React, {Component} from 'react';
 import Footer from './common/Footer';
 import OrderPage from './OrderPage';
 import OrderInfo from './OrderInfo';
@@ -21,7 +21,7 @@ const _extend = Object.assign || function(target) {
     
 export default class Container extends Component {
     componentWillMount() {
-        let page = 'Detail';
+        let page = 'Booking';
         if (location.hash.indexOf('#MyOrders') == 0) {
             page = 'MyOrders';
         } else if (location.hash.indexOf('#Shop') == 0) {
