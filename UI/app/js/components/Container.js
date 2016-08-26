@@ -112,8 +112,14 @@ export default class Container extends Component {
             submitting: true
         });
         
+        if (!data.OpenId) {
+            data.OpenId = 'TBD';
+        }
         actions.submmitOrder(data).then(orderId => {
-            this.setCurrentOrderId(orderId)
+            this.setCurrentOrderId(orderId);
+            if (data.OpenId == 'TBD') {
+                actions.redirect(orderId);    
+            }            
         });
        //this.setCurrentOrderId(18)
     }

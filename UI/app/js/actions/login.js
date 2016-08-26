@@ -10,3 +10,15 @@ export const login = (code, state) => {
         });
 }
 
+
+export const renewOpenId = (orderId) => {
+    return request.post(basicUrl + 'Update/Order/${orderId}/OpenId/{newOpenId}')
+        .then((res) => {
+
+        })
+        .catch(err => {
+            console.log('can not get openId');
+            console.log(err.message);
+        });
+};
+

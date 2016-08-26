@@ -37,8 +37,15 @@ export const doneDeliver = (orderId) => {
 // 另外按照ProviderId查询商家信息的API是
 // :
 // http://123.207.164.202:8080/TrainService/api/Provider/Find/ID/2
+// http://123.207.164.202:8080/TrainService/api/Provider/Find/Code/2
+// 使用login 界面的 code， 如果返回值大于0 ， 就是商家的id， 小于0 就是没有权限
 // :
 // 也可以按名字查询 http://123.207.164.202:8080/TrainService/api/Provider/Find/Name/%E7%A7%A6%E6%B1%89%E8%80%81%E7%A2%97
 // :
 // api/Orders/Update/SubOrder/{subOrderId}
 // Post的requestBody是{"NewStatus":2,"OldStatus":1}
+
+
+// api/Orders/Update/Order/{orderId}/OpenId/{openId}
+
+// Update/Order/{orderId}/OpenId/{newOpenId}

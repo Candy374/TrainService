@@ -20,14 +20,16 @@ export const getGoodsList = (type) => {
         });
 }
 
+export const redirect = (orderId) => {
+    location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxaf1fff843c641aba&redirect_uri=http%3A%2F%2Ftrainservice.techotaku.net%2F%23Login%2F&response_type=code&scope=snsapi_userinfo&state=ReLogin_${orderId}#wechat_redirect`        
+}
+
 export const submmitOrder = (data) => {
-    if (!data.OpenId) {
-        data.OpenId = 'TBD';
-    }
     return request.post(basicUrl + submmitURL, data)
         .then((res) => {
             return res.body;
-        }).catch(err => {
+        })
+        .catch(err => {
             console.log('submmit failed!');
             console.log(err.message);
         });
