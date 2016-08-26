@@ -1,6 +1,6 @@
 .section {
     border-bottom: 1px solid $split-color;
-    background: $backgorund-color-index-1;
+    background: $background-color-index-1;
     margin: 0.8em 0;
     padding: 0 0.5em;  
 
@@ -10,7 +10,6 @@
 
     .title{
         flex: 1;
-        font-weight: bold
     }
 
     .head {

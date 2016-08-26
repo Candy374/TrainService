@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import Page from '../common/Page';
-import OrderDetail from './Detail';
+import OrderDetail from './../common/Detail';
 import OrderList from '../common/GoodsList';
-import Comments from './Comments';
+import Comments from './../common/Comments';
 import {Button} from '../common/Widgets';
 import OrderStatus from '../common/OrderStatus';
 import * as actions from '../../actions/order';
@@ -10,7 +10,7 @@ const OrderConfirmPage = (props) => {
     const footer = {
         button: {
             label: '立即支付',
-            onClick: props.submmitOrder,
+            onClick: props.submitOrder,
             disabled: props.submitting
         },
         left: {

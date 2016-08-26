@@ -66,7 +66,7 @@ export default class MyOrders extends Component {
         let total = 0;
         Object.keys(prepare).map(key => {
             total +=prepare[key].Count
-        })
+        });
         
         this.setState({
             total,
@@ -75,8 +75,7 @@ export default class MyOrders extends Component {
     }
 
     render() {
-        const {status, orderMap, showAll} = this.state;
-        let count = 0;
+        const {status, orderMap} = this.state;
         // 0：未付款，1：已付款，2：商家已接单，3：商家已配货 
         // 4:快递员已取货 5:已经送到指定位置 6：订单结束 7：订单取消 8：异常状态
 

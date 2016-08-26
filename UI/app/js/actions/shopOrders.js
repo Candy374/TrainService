@@ -10,24 +10,24 @@ const udpateOrder = (orderId, data) => {
 };
 
 export const takeOrder = (orderId) => {
-    const data = { "NewStatus":2 , "OldStatus":1}
+    const data = { "NewStatus":2 , "OldStatus":1};
     return udpateOrder(orderId, data);
-}
+};
 
 export const orderReady = (orderId) => {
-    const data = { "NewStatus":3 , "OldStatus":2}
+    const data = { "NewStatus":3 , "OldStatus":2};
     return udpateOrder(orderId, data);
-}
+};
 
 export const expressOrder = (orderId) => {
-    const data = { "NewStatus":4 , "OldStatus":3}
+    const data = { "NewStatus":4 , "OldStatus":3};
     return udpateOrder(orderId, data);
-}
+};
 
 export const doneDeliver = (orderId) => {
-    const data = { "NewStatus":5 , "OldStatus":4}
+    const data = { "NewStatus":5 , "OldStatus":4};
     return udpateOrder(orderId, data);
-}
+};
 
 // :
 // 第一个是http://123.207.164.202:8080/trainservice/api/goods/%E9%83%91%E5%B7%9E%E4%B8%9C/0

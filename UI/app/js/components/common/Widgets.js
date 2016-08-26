@@ -24,7 +24,7 @@ export const Label = ({size, children, flex, align, className, status, type}) =>
     return  <label className={classes.join(' ')}>{children}</label>;
 };
 
-export const Line = ({children, className, align = 'start', direction, style}) => {
+export const Line = ({children, className, direction, style, align = 'start'}) => {
     const classes = ['line', `align-${align}`, `direction-${direction || 'row'}`];
     if (className) {
         classes.push(className);
@@ -62,9 +62,9 @@ export const DescLine = ({children, className, url, type, onClick, imgClassName,
     );  
 };
 
-export const Img = (props) => <img  {...props} src= {basicUrl + props.src}/>
+export const Img = (props) => <img  {...props} src= {basicUrl + props.src}/>;
 
-export const Section = ({title, children, list, className, onChange }) => {
+export const Section = ({title, children, list, className }) => {
     const classes = ['section'];
     if (list) {
         classes.push('list');
@@ -88,4 +88,4 @@ export const Price = ({price}) =>(
     <span className='price'>
         <span className='tag'>￥</span>{`${price}.00`}
     </span>
-)
+);

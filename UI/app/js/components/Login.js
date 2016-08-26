@@ -11,7 +11,7 @@ export default class Login extends Component {
 
         states.map(item=> {
             const parts = item.split('=');
-            this.state[parts[0]] = parts[1]
+            this.state[parts[0]] = parts[1];
         });
 
         if (this.state.state.indexOf('ReLogin') > -1) {
@@ -29,7 +29,7 @@ export default class Login extends Component {
             this.props.nextPage(this.state.state);
             login(this.state.code, this.state.state).then((id) => {
                 //id =123;
-                alert('open Id is' + id)
+                alert('open Id is' + id);
                 this.props.updateOpenId(id);
             });
         }

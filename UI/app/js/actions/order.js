@@ -1,6 +1,6 @@
 import request from 'superagent';
 import  {basicUrl, typeURL, goodsURL, userURL, cancelURL, rateURL,
-    submmitURL,orderListURL, orderURL, stationsURL} from '../constants/actions';
+  submitURL,orderListURL, orderURL, stationsURL} from '../constants/actions';
 
 export const getTypes = () => {
     return request.get(basicUrl + typeURL)
@@ -9,31 +9,34 @@ export const getTypes = () => {
             console.log('Can not get tags');
             console.log(err.message);
         });
-}
+};
 
-export const getGoodsList = (type) => {
+export const getGoodsList = () => {
     return request.get(encodeURI(basicUrl + goodsURL))
         .then(res => res.body)
         .catch(err => {
             console.log('Can not get goods list');
             console.log(err.message);
         });
-}
+};
 
 export const redirect = (orderId) => {
     location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxaf1fff843c641aba&redirect_uri=http%3A%2F%2Ftrainservice.techotaku.net%2F%23Login%2F&response_type=code&scope=snsapi_userinfo&state=ReLogin_${orderId}#wechat_redirect`        
-}
+};
 
-export const submmitOrder = (data) => {
-    return request.post(basicUrl + submmitURL, data)
+export const submitOrder = (data) => {
+    if (!data.OpenId) {
+      data.OpenId = 'TBD';
+    }
+    return request.post(basicUrl + submitURL, data)
         .then((res) => {
             return res.body;
         })
         .catch(err => {
-            console.log('submmit failed!');
+            console.log('submit failed!');
             console.log(err.message);
         });
-}
+};
 
 export const getOrderList = (userId) => {
     alert('openId is ' + userId);
@@ -43,7 +46,7 @@ export const getOrderList = (userId) => {
             console.log('Can not get order history!');
             console.log(err.message);
         });
-}
+};
 
 export const getOrderDetail = (orderId) => {
     return request.get(basicUrl + orderURL + orderId)
@@ -52,7 +55,7 @@ export const getOrderDetail = (orderId) => {
             console.log('Can not get order detail!');
             console.log(err.message);
         });
-}
+};
 
 export const getStations = () => {
     return request.get(basicUrl + stationsURL)
@@ -61,7 +64,7 @@ export const getStations = () => {
             console.log('Can not get station list!');
             console.log(err.message);
         });
-}
+};
 
 export const getUserInfo = (userId) => {
     return request.get(basicUrl + userURL + userId)
@@ -70,7 +73,7 @@ export const getUserInfo = (userId) => {
             console.log('Can not get user info!');
             console.log(err.message);
         });
-}
+};
 
 export const cancelOrder = (orderId) => {
      return request.post(basicUrl + cancelURL + orderId)
@@ -79,13 +82,13 @@ export const cancelOrder = (orderId) => {
             console.log('Cancel order failed!');
             console.log(err.message);
         });
-}
+};
 
 export const submitRates = (data) => {
      return request.post(basicUrl + rateURL, data)
         .then(res => res.body)
         .catch(err => {
-            console.log('submmit rate failed!');
+            console.log('submit rate failed!');
             console.log(err.message);
         });
-}
+};
