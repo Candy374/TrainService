@@ -11,13 +11,13 @@ export const login = (code, state) => {
 }
 
 
-export const renewOpenId = (orderId) => {
+export const updateOpenId = (orderId) => {
     return request.post(basicUrl + 'Update/Order/${orderId}/OpenId/{newOpenId}')
         .then((res) => {
-
+            return res.body
         })
         .catch(err => {
-            console.log('can not get openId');
+            console.log('can not update openId');
             console.log(err.message);
         });
 };

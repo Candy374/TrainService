@@ -112,6 +112,7 @@ export default class Container extends Component {
             submitting: true
         });
         
+        //data.OpenId = '';
         if (!data.OpenId) {
             data.OpenId = 'TBD';
         }
