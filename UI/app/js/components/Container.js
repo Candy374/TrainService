@@ -24,9 +24,9 @@ export default class Container extends Component {
         let page = 'Booking';
         if (location.hash.indexOf('#MyOrders') == 0) {
             page = 'MyOrders';
-        } else if (location.hash.indexOf('#ShopOrders') == 0) {
+        } else if (location.hash.indexOf('#Shop') == 0) {
             page = 'Shop';
-        } else if (location.hash.indexOf('#Delivery') == 0) {
+        } else if (location.hash.indexOf('#Deliver') == 0) {
             page = 'Deliver';
         } else if (location.hash.indexOf('#Login') == 0) {
             page = 'Login';
@@ -96,7 +96,7 @@ export default class Container extends Component {
             return {Id: goods[key].GoodsId, Count: goods[key].Count};
         });
         const data = {
-            OpenId: this.openId,
+            OpenId: this.state.openId,
             TrainNumber: info.TrainNumber,
             CarriageNumber: '' + info.CarriageNumber,
             IsDelay: info.IsDelay == 'on',
@@ -135,7 +135,7 @@ export default class Container extends Component {
         switch(this.state.page){
             case 'Booking':
                 return (
-                    <ChooseStation stations={tations}
+                    <ChooseStation stations={stations}
                                    nextPage={this.nextPage.bind(this, 'Order')}
                                    updateChart={this.updateChart} />);
             case 'Order':

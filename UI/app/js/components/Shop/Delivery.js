@@ -13,17 +13,27 @@ export default class MyOrders extends Component {
         this.state = {
             showAll: false,
             orders: [],
-            status: 1
+            status: 1,
+            openId: this.props.openId
         };
+    }
+
+    componentDidMount() {        
         this.updateOrder();
     }
 
-    shouldComponentUpdate() {
-        return !!this.props.openId;
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.openId && nextProps.openId != this.state.openId) {
+            this.setState({openId: nextProps.openId}, this.updateOrder);
+        }
     }
     
     updateOrder() {
-        actions.getOrderList(this.props.openId).then((orderList)=>{
+        if (!this.state.openId) {
+            return;
+        }
+
+        actions.getOrderList(this.state.openId).then((orderList)=>{
             if (orderList) {
                 const orders = orderList.filter(order => order.StatusCode >= 3 && order.StatusCode < 5)
                 this.setState({

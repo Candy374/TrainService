@@ -11,9 +11,28 @@ export default class MyOrders extends Component {
         this.state = {
             orderMap: {'-1': [], '0':[], '1': [], '2': [], '3': []},
             status: -1,
-            showAll: false
+            showAll: false,
+            openId: this.props.openId
         };
-        actions.getOrderList(this.props.openId).then((orderList)=>{
+        this.showNum = 5;
+    }
+
+    componentDidMount() {        
+        this.getOrderList();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.openId && nextProps.openId != this.state.openId) {
+            this.setState({openId: nextProps.openId}, this.getOrderList);
+        }
+    }
+
+    getOrderList() {
+        if (!this.state.openId) {
+            return;
+        }
+
+        actions.getOrderList(this.state.openId).then((orderList)=>{
             if (orderList) {
                 const orderMap = this.state.orderMap;
                 let defaultStatus = -1;
@@ -31,11 +50,6 @@ export default class MyOrders extends Component {
                 });
             }
         });
-        this.showNum = 5;
-    }
-
-    shouldComponentUpdate() {
-        return !!this.props.openId;
     }
 
     getStatus(StatusCode) {

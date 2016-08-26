@@ -14,18 +14,30 @@ export default class MyOrders extends Component {
             status: 1,
             total: 0,
             prepare: {},
-            showAll: false
+            showAll: false,
+            openId: this.props.openId
         };
         this.orders = [];
         this.updateOrderList();
     }
 
-    shouldComponentUpdate() {
-        return !!this.props.openId;
+    componentDidMount() {        
+        this.updateOrderList();
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.openId && nextProps.openId != this.state.openId) {
+            this.setState({openId: nextProps.openId}, this.updateOrderList);
+        }
+    }
+    
+
     updateOrderList() {
-        actions.getOrderList(this.props.openId).then((orderList)=>{
+        if (!this.state.openId) {
+            return;
+        }
+
+        actions.getOrderList(this.state.openId).then((orderList)=>{
             if (orderList) {
                 const orderMap = {'1': [], '2': [], '3': []};
                 orderList.map(order => {

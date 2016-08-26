@@ -21,6 +21,9 @@ export const getGoodsList = (type) => {
 }
 
 export const submmitOrder = (data) => {
+    if (!data.OpenId) {
+        data.OpenId = 'TBD';
+    }
     return request.post(basicUrl + submmitURL, data)
         .then((res) => {
             return res.body;
