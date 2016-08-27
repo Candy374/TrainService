@@ -105,6 +105,17 @@ namespace DAL.DAO
             return _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id=@OId limit 1", para).FirstOrDefault();
         }
 
+        public bool UpdateOpenId(uint orderId, string oldOpenId, string newOpenId)
+        {
+            var para = new StatementParameterCollection();
+            para.Add(new StatementParameter { Name = "@OId", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
+            para.Add(new StatementParameter { Name = "@NewOpenId", Direction = ParameterDirection.Input, DbType = DbType.String, Value = newOpenId });
+            para.Add(new StatementParameter { Name = "@OldOpenId", Direction = ParameterDirection.Input, DbType = DbType.String, Value = oldOpenId });
+            var sql = "UPDATE orders SET user_openid=@NewOpenId WHERE order_id=@OId AND  user_openid=@OldOpenId LIMIT 1";
+
+            return _baseDao.ExecNonQuery(sql, para) == 1;
+        }
+
         public IList<OrderDetailEntity> GetSubOrdersByProviderId(int id)
         {
             var para = new StatementParameterCollection();

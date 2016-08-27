@@ -19,7 +19,7 @@ namespace WebAPIService.Controllers
     public class OrdersController : ApiController
     {
         [Route("Add")]
-        public int Add([FromBody]dynamic data)
+        public AddOrderResult Add([FromBody]dynamic data)
         {
             Logger.Info(Convert.ToString(data), "api/Orders/Add");
             try
@@ -244,6 +244,16 @@ namespace WebAPIService.Controllers
             return result ? 1 : 0;
         }
 
+        [Route("Update/Order/{orderId}/OpenId/{openId}")]
+        public int UpdateOpenId(uint orderId, string openId)
+        {
+            if (openId.Length < 28)
+            {
+                return 0;
+            }
+
+            return DalFactory.Orders.UpdateOpenId(orderId, "TBD", openId) ? 1 : 0;
+        }
 
     }
 }

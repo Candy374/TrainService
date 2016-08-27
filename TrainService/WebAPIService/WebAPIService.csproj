@@ -242,6 +242,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\API\AddOrderResult.cs" />
     <Compile Include="Controllers\DynamicJsonConverter.cs" />
     <Compile Include="Controllers\API\GoodsController.cs" />
     <Compile Include="Controllers\API\ProviderController.cs" />

@@ -30,5 +30,11 @@ namespace DAL.DAO.Tests
             var data = DalFactory.Orders.GetOrdersByStatus(OrderStatus.已支付);
 
         }
+
+        [TestMethod()]
+        public void UpdateOpenIdTest()
+        {
+            DalFactory.Orders.UpdateOpenId(17, "test_Open_Id", "qqqqqqqqqqqqqqqqqqqqqq");
+        }
     }
 }
