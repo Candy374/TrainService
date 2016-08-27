@@ -112,11 +112,11 @@ export default class Container extends Component {
             submitting: true
         });
 
-        actions.submitOrder(data).then(orderId => {
+        actions.submitOrder(data, (orderId) => {
             this.setCurrentOrderId(orderId);
             if (data.OpenId == 'TBD') {
                 actions.redirect(orderId);    
-            }            
+            }
         });
        //this.setCurrentOrderId(18)
     }
