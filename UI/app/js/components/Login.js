@@ -29,8 +29,7 @@ export default class Login extends Component {
         } else {
             this.props.nextPage(page);
             login(this.state.code, page).then((id) => {
-                //id =123;
-                // alert('open Id is' + id);
+                console.log('open Id is' + id);
                 this.props.updateOpenId(id);
             });
         }

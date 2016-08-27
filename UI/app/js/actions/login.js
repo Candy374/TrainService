@@ -22,20 +22,3 @@ export const updateOpenId = (orderId) => {
         });
 };
 
-export const getUserIp = (url) => {
-    var xmlhttp;
-    if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp = new XMLHttpRequest();
-    }
-    else {// code for IE6, IE5
-        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.open("GET", url || 'http://pv.sohu.com/cityjson?ie=utf-8', false);
-    xmlhttp.send();
-    console.log(xmlhttp.responseText);
-
-    // return request.get(url || 'http://pv.sohu.com/cityjson?ie=utf-8')
-    //     .then((res) => {
-    //         return res.body;
-    //     })
-}
