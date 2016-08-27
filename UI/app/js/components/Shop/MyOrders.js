@@ -15,7 +15,7 @@ export default class MyOrders extends Component {
             total: 0,
             prepare: {},
             showAll: false,
-            openId: this.props.openId
+            openId: this.props.openId ||124123
         };
         this.orders = [];
         this.updateOrderList();
@@ -84,7 +84,7 @@ export default class MyOrders extends Component {
             <Page flex={true} direction='col' className='order-list'>
                 <div className='tabs'>
                     <div className={status == 1 ? 'active' : ''}
-                         onClick={()=> this.setState({status: 1})}>可接受订单</div>
+                         onClick={()=> this.setState({status: 1})}>新订单</div>
                     <div className={status == 2 ? 'active' : ''}
                          onClick={()=> {
                              this.summary();
@@ -95,9 +95,11 @@ export default class MyOrders extends Component {
                 </div>
                 <div className='content'>
                 {status == 2 && <Section>
-                    <Label>{`还需制作${kindList.length}道菜，（${this.state.total}种菜）`}</Label>
+                    <Line>
+                        <Label flex={true}>{`还需制作${kindList.length}道菜，（${this.state.total}种菜）`}</Label>
                     {kindList.length > 0 && <SmallButton label={this.state.showAll ? '收起' : '展开详情'} 
-                        onClick={() => this.setState({showAll: !this.state.showAll})}/> }
+                        onClick={() => this.setState({showAll: !this.state.showAll})}/> }                        
+                    </Line>
                     {
                         this.state.showAll && 
                         kindList.map(kind => <NumberLine item={this.state.prepare[kind]} key={kind} />)
