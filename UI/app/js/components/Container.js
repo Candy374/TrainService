@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+﻿import React, {Component} from 'react';
 import Footer from './common/Footer';
 import OrderPage from './OrderPage';
 import OrderInfo from './OrderInfo';
@@ -24,9 +24,9 @@ export default class Container extends Component {
         let page = 'Booking';
         if (location.hash.indexOf('#MyOrders') == 0) {
             page = 'MyOrders';
-        } else if (location.hash.indexOf('#ShopOrders') == 0) {
+        } else if (location.hash.indexOf('#Shop') == 0) {
             page = 'Shop';
-        } else if (location.hash.indexOf('#Delivery') == 0) {
+        } else if (location.hash.indexOf('#Deliver') == 0) {
             page = 'Deliver';
         } else if (location.hash.indexOf('#Login') == 0) {
             page = 'Login';
@@ -35,7 +35,7 @@ export default class Container extends Component {
         const station = {
             MinPrice:30,
             Name:"郑州东",
-            PicUrl:"/imgs/ZZD_samll.jpg",
+            PicUrl:'',
             StationCode:"ZZD",
             StationId:1
         };
@@ -56,10 +56,11 @@ export default class Container extends Component {
             },
             orderId: null,
             stations: [station],
-            submitting: false
+            submitting: false,
+            openId: null
         };
         this.updateChart = this.updateChart.bind(this);
-        this.submmitOrder = this.submmitOrder.bind(this);
+        this.submitOrder = this.submitOrder.bind(this);
         this.setCurrentOrderId = this.setCurrentOrderId.bind(this);        
         actions.getStations().then((stations) => {
             this.setState({stations})
@@ -85,7 +86,7 @@ export default class Container extends Component {
         this.setState({orderId}, () => this.nextPage('Detail'));
     }
 
-    submmitOrder() {
+    submitOrder() {
         if (this.state.submitting) {
             return;
         }
@@ -95,7 +96,7 @@ export default class Container extends Component {
             return {Id: goods[key].GoodsId, Count: goods[key].Count};
         });
         const data = {
-            OpenId: this.openId,
+            OpenId: this.state.openId,
             TrainNumber: info.TrainNumber,
             CarriageNumber: '' + info.CarriageNumber,
             IsDelay: info.IsDelay == 'on',
@@ -106,23 +107,25 @@ export default class Container extends Component {
             ContactTel: info.ContactTel,
             TotalPrice: this.state.chart.total,
             List: list
-        }
+        };
         this.setState({
             submitting: true
         });
-        
-        actions.submmitOrder(data).then(orderId => {
-            this.setCurrentOrderId(orderId)
+
+        actions.submitOrder(data).then(orderId => {
+            this.setCurrentOrderId(orderId);
+            if (data.OpenId == 'TBD') {
+                actions.redirect(orderId);    
+            }            
         });
        //this.setCurrentOrderId(18)
     }
 
     updateOpenId(id) {
-        this.openId = id;
+        this.setState({openId: id});
         
         actions.getUserInfo(this.openId).then((user) => {
-            const info = Object.assign({}, this.state.chart.info, user);
-            this.state.chart.info = info;
+            this.state.chart.info = Object.assign({}, this.state.chart.info, user);
             this.setState({
                 chart: this.state.chart
             });
@@ -130,49 +133,49 @@ export default class Container extends Component {
     }
 
     render() {
+        const {openId, stations, chart, submitting, orderId } = this.state;
         switch(this.state.page){
             case 'Booking':
                 return (
-                    <ChooseStation stations={this.state.stations}
+                    <ChooseStation stations={stations}
                                    nextPage={this.nextPage.bind(this, 'Order')}
                                    updateChart={this.updateChart} />);
             case 'Order':
                 return (
-                    <OrderPage  chart={this.state.chart}
-                                updateTotal={this.updateTotal}
+                    <OrderPage  chart={chart}
                                 updateChart={this.updateChart}
                                 nextPage={this.nextPage.bind(this, 'Info')} />);
             case 'Info':
                 return (
-                    <OrderInfo chart={this.state.chart}
-                               submitting={this.state.submitting}
-                               submmitOrder={this.submmitOrder}
+                    <OrderInfo chart={chart}
+                               submitting={submitting}
+                               submitOrder={this.submitOrder}
                                prePage={this.prePage.bind(this, 'Order')}
                                nextPage={this.nextPage.bind(this, 'Confirm')} 
                                updateChart={this.updateChart}/>);
             case 'Confirm':
                 return (
-                    <ConfirmPage chart={this.state.chart}
-                                 submitting={this.state.submitting}
-                                 submmitOrder={this.submmitOrder}
+                    <ConfirmPage chart={chart}
+                                 submitting={submitting}
+                                 submitOrder={this.submitOrder}
                                  prePage={this.prePage.bind(this, 'Info')}
                                  nextPage={this.nextPage.bind(this, 'Detail')} />);
             case 'Detail':
                 return (
                     <OrderDetail setCurrentOrderId={this.setCurrentOrderId}
                                  updateChart={this.updateChart}
-                                 submmitOrder={this.submmitOrder}
-                                 nextPage={this.nextPage.bind(this, 'Info')}
-                                 id={this.state.orderId}/>);
+                                 submitOrder={this.submitOrder}
+                                 nextPage={this.nextPage.bind(this)}
+                                 id={orderId}/>);
             case 'MyOrders':
-                return <MyOrders openId={this.openId}
+                return <MyOrders openId={openId}
                                  setCurrentOrderId={this.setCurrentOrderId}/>;
 
             case 'Shop': 
-                return <ShopOrders openId={this.openId}/>;
+                return <ShopOrders openId={openId}/>;
 
             case 'Deliver': 
-                return <Delivery openId={this.openId}/>;
+                return <Delivery openId={openId}/>;
 
             case 'Login': 
                 return <Login updateOpenId={this.updateOpenId.bind(this)}

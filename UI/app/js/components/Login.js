@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Page from './common/Page';
-import {login} from '../actions/login';
+import {login, updateOpenId} from '../actions/login';
 
 export default class Login extends Component {
     componentWillMount() {
@@ -11,13 +11,28 @@ export default class Login extends Component {
 
         states.map(item=> {
             const parts = item.split('=');
-            this.state[parts[0]] = parts[1]
+            this.state[parts[0]] = parts[1];
         });
 
-        this.props.nextPage(this.state.state);
-        login(this.state.code, this.state.state).then((id) => {
-            this.props.updateOpenId(id);
-        });
+        if (this.state.state.indexOf('ReLogin') > -1) {
+            const orderId = this.state.state.replace('ReLogin_', '');
+            login(this.state.code, 'ReLogin').then((id) => {
+                alert('renew open Id is' + id);
+                updateOpenId(orderId).then(id => {
+                    this.props.updateOpenId(id);
+                });
+            }, err => {
+                alert('服务器出现错误， 请重新打开');
+                console.log(err);
+            });
+        } else {
+            this.props.nextPage(this.state.state);
+            login(this.state.code, this.state.state).then((id) => {
+                //id =123;
+                alert('open Id is' + id);
+                this.props.updateOpenId(id);
+            });
+        }
     }
 
     render() {

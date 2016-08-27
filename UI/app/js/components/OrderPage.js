@@ -15,7 +15,6 @@ export default class OrderPage extends Component {
         };
         this.chart = {};
         this.foodMap = {};
-        this.promiseList = [];
 
         actions.getTypes().then(types => {      
             this.types = types;
@@ -97,7 +96,7 @@ export default class OrderPage extends Component {
                     })}
                 </div>
                 <div className='list'>
-                    {this.state.goodsList.map((food, index) => {                            
+                    {this.state.goodsList.map((food) => {
                         food.Count = chart[food.GoodsId] && chart[food.GoodsId].Count || food.Count || 0;
                      
                         return (

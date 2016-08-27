@@ -14,14 +14,30 @@ export default class MyOrders extends Component {
             status: 1,
             total: 0,
             prepare: {},
-            showAll: false
+            showAll: false,
+            openId: this.props.openId
         };
         this.orders = [];
         this.updateOrderList();
     }
 
+    componentDidMount() {        
+        this.updateOrderList();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.openId && nextProps.openId != this.state.openId) {
+            this.setState({openId: nextProps.openId}, this.updateOrderList);
+        }
+    }
+    
+
     updateOrderList() {
-        actions.getOrderList(this.props.openId).then((orderList)=>{
+        if (!this.state.openId) {
+            return;
+        }
+
+        actions.getOrderList(this.state.openId).then((orderList)=>{
             if (orderList) {
                 const orderMap = {'1': [], '2': [], '3': []};
                 orderList.map(order => {
@@ -50,7 +66,7 @@ export default class MyOrders extends Component {
         let total = 0;
         Object.keys(prepare).map(key => {
             total +=prepare[key].Count
-        })
+        });
         
         this.setState({
             total,
@@ -59,8 +75,7 @@ export default class MyOrders extends Component {
     }
 
     render() {
-        const {status, orderMap, showAll} = this.state;
-        let count = 0;
+        const {status, orderMap} = this.state;
         // 0：未付款，1：已付款，2：商家已接单，3：商家已配货 
         // 4:快递员已取货 5:已经送到指定位置 6：订单结束 7：订单取消 8：异常状态
 

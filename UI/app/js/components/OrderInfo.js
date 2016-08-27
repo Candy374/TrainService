@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import Footer from './common/Footer.js';
 import Page from './common/Page.js';
+import Comments from './common/Comments.js';
 import {Section, Line, Label, Button} from './common/Widgets';
-import {ListItem, SummaryLine} from './common/GoodsList';
+import {OrderListNoImg} from './common/GoodsList';
 
 export default class OrderInfo extends Component {
     componentWillMount() {
@@ -60,34 +61,18 @@ export default class OrderInfo extends Component {
             !this.state.TrainNumberError && !this.state.CarriageNumberError && !this.state.ContactTelError;
     }
 
-    renderList(total, list) {
-        return (
-            <Section list={true}>
-                <Line><Label>已点菜品：</Label></Line>
-                {Object.keys(list).map((key, index) => (
-                    <Line key={index} className='short'>
-                        <Label flex={true}>{list[key].Name}</Label>
-                        <Label size='small' align='end'>{`x${list[key].Count}`}</Label>
-                        <Label size='small' align='end'>{`￥${list[key].SellPrice || list[key].Price}`}</Label>
-                    </Line>
-                ))}
-                <SummaryLine label='待支付' price={total} />
-            </Section>
-        );  
-    }
-
     render() {
         const chart = this.props.chart;
         
         const footer = {
             button: {
                 label: '提交订单',
-                onClick: this.props.submmitOrder,
+                onClick: this.props.submitOrder,
                 disabled: this.props.submitting || !this.isInfoReady(chart.info)
             },
             left: {
                 type: 'button',
-                label: '返回修改',
+                label: '修改菜品',
                 disabled: this.props.submitting,
                 onClick: this.props.prePage
             }
@@ -138,7 +123,7 @@ export default class OrderInfo extends Component {
                         <Label status='error'>{this.state.ContactTelError}</Label>
                     </Line>
                 </Section>                
-                {this.renderList(chart.total, chart.goods)}
+                <OrderListNoImg total={chart.total} list={chart.goods}/>
                 <Section>
                     <Line>
                         <Label>订单备注：</Label>
@@ -146,13 +131,7 @@ export default class OrderInfo extends Component {
                         <Label />
                     </Line>
                 </Section>
-                <p>
-                   * 列车到站前， 工作人员会把餐品送到指定餐车前门门口。取餐后请核对餐品和清单。
-                    感谢您对我们的支持！
-                </p>
-                <p>
-                    如有任何问题、建议或投诉，请拨打电话xxx-xxxx-xxxx
-                </p>
+                <Comments />
             </Page>
         );
     }
