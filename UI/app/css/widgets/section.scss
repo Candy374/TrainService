@@ -1,0 +1,46 @@
+.section {
+    border-bottom: 1px solid $split-color;
+    background: $background-color-index-1;
+    margin: 0.8em 0;
+    padding: 0 0.5em;  
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    .title{
+        flex: 1;
+    }
+
+    .head {
+        @extend .line;
+        padding: 0.2em 0;
+        margin-bottom: 0.4em;
+    }
+
+    .label {
+        width: 7em;
+    }
+
+    .fee {
+        flex-direction: row-reverse;
+
+        .label {
+            width: 8em;
+        }
+    }
+
+    .status {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .block {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .section {
+        border-bottom: none;
+    }
+}

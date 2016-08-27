@@ -1,0 +1,323 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Train Service</title>
+    <script src="./jquery.min.js"></script>
+    <style>
+    body {
+        font-size: 1em;
+        font-family: monospace;
+        margin: 0;
+    }
+    
+    .order-page {
+        display: flex;
+        flex-direction: column;
+        top: 0;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    
+    .button {
+        border: 1px solid #fff;
+        line-height: 2em;
+        padding: 0 1em;
+        text-align: center;
+        cursor: pointer;
+    }
+    
+    .footer {
+        background: rgba(0, 0, 0, 0.77);
+        color: #fff;
+        height: 2em;
+    }
+    
+    .order-page .footer {
+        display: flex;
+    }
+    
+    .footer .total {
+        flex: 1;
+        text-align: center;
+        line-height: 2em;
+    }
+    
+    .footer .button {
+        background: #E91E63;
+        flex: 1;
+    }
+    
+    .order-content {
+        display: flex;
+        margin: 0.2em 0;
+        flex: 1;
+    }
+    
+    .order-content .type {
+        width: 5em;
+        margin-right: 0.1em;
+        overflow-y: auto;
+        background: #ddd;
+    }
+    
+    .order-content .type .item {
+        text-align: center;
+        border-bottom: 0.1em solid #eee;
+        padding: 0.3em;
+    }
+    
+    .order-content .type .active {
+        background: #fff;
+        color: pink;
+        border-left: 0.3em solid pink;
+    }
+    
+    .order-content .detail {
+        flex: 1;
+    }
+    
+    .order-content .img {
+        width: 3em;
+        height: 3em;
+        background: pink;
+        margin-right: 0.5em;
+    }
+    
+    .order-content .list {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow-y: auto;
+        padding: 0 0.3em 0 0.5em;
+    }
+    
+    .order-content .list .item {
+        display: flex;
+        padding: 0.3em;
+        flex-shrink: 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .order-content .list .item:first-child {
+        padding-top: 0;
+    }
+    
+    .order-content .list .item:last-child {
+        border-bottom: none;
+    }
+    
+    .order-content .list .item .descriptions {
+        flex: 1;
+    }
+    
+    .order-content .list .item .descriptions .detail {
+        font-size: 0.5em;
+        color: #aaa;
+    }
+    
+    .order-content .list .item .descriptions .price {
+        font-size: 0.8em;
+        color: red;
+    }
+    
+    .number-input {
+        display: flex;
+        align-self: flex-end;
+    }
+    
+    .number-input button {
+        border-radius: 50%;
+        width: 1em;
+        height: 1em;
+        font-size: 1.5em;
+        background: #fff;
+        color: rgba(255, 0, 0, 0.66);
+        border: solid #ddd 1px;
+        line-height: 1em;
+    }
+    
+    .number-input label {
+        margin: 0 0.5em;
+        align-self: center;
+    }
+    
+    .train-info {
+        margin: 10px 10px;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        flex: 1;
+    }
+    
+    .train-info .line {
+        line-height: 1.5em;
+    }
+    
+    .train-info input {
+        height: 2em;
+    }
+    
+    .train-info input[type="text"],
+    .train-info input[type="number"] {
+        bottom: 0.3em;
+        position: relative;
+        margin-right: 2em;
+    }
+    
+    input[type="checkbox"] {
+        width: 2em;
+    }
+    
+    .train-info select {
+        height: 43px;
+        bottom: 5px;
+        position: relative;
+        width: 60px;
+        font-size: 30px;
+    }
+    
+    .train-info select {
+        font-size: 10px;
+    }
+    
+    .train-info textarea {
+        width: 80%;
+        height: 400px;
+        margin: 0 10px;
+    }
+    
+    .order-confirm {
+        display: flex;
+        flex-direction: column;
+        background: #eee;
+    }
+    
+    .order-confirm .section {
+        padding: 1em;
+        margin: 1em 0;
+        background: #fff;
+    }
+    
+    .order-confirm .line {
+        display: flex;
+        line-height: 1.5em;
+    }
+    
+    .order-confirm .title {
+        flex: 1;
+        font-weight: bold
+    }
+    
+    .order-confirm .head {
+        border-bottom: 1px solid #eee;
+        padding: 0.2em 0;
+        margin-bottom: 0.4em;
+    }
+    
+    .order-confirm .section .label {
+        width: 7em;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="content">
+        <div data-reactroot="" class="order-confirm">
+            <div class="section">
+                <div class="line">订单状态</div>
+            </div>
+            <div class="section">
+                <div class="head line">
+                    <div class="title">订单详情：</div>
+                    <div class="order-no">DC201608110753</div>
+                </div>
+                <div class="user-info">
+                    <div class="line"><span class="label">联系人：</span>
+                        <!-- react-text: 11 -->张珊
+                        <!-- /react-text -->
+                    </div>
+                    <div class="line"><span class="label">联系方式：</span>
+                        <!-- react-text: 14 -->13454322356
+                        <!-- /react-text -->
+                    </div>
+                    <div class="line"><span class="label">收货地址：</span>
+                        <!-- react-text: 17 -->G103 动车 7号餐车
+                        <!-- /react-text -->
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <div class="head line">
+                    <div class="title">已点菜品：</div>
+                </div>
+                <div class="goods-list">
+                    <div class="line">
+                        <label class="label">水煮鱼</label>
+                        <label class="number">
+                            <!-- react-text: 25 -->X
+                            <!-- /react-text -->
+                            <!-- react-text: 26 -->1
+                            <!-- /react-text -->
+                        </label>
+                        <label class="price">
+                            <!-- react-text: 28 -->￥
+                            <!-- /react-text -->
+                            <!-- react-text: 29 -->25
+                            <!-- /react-text -->
+                        </label>
+                    </div>
+                    <div class="line">
+                        <label class="label">皮蛋豆腐</label>
+                        <label class="number">
+                            <!-- react-text: 33 -->X
+                            <!-- /react-text -->
+                            <!-- react-text: 34 -->1
+                            <!-- /react-text -->
+                        </label>
+                        <label class="price">
+                            <!-- react-text: 36 -->￥
+                            <!-- /react-text -->
+                            <!-- react-text: 37 -->9
+                            <!-- /react-text -->
+                        </label>
+                    </div>
+                </div>
+                <div class="line">
+                    <label class="name">配送费</label>
+                    <label class="number"> </label>
+                    <label class="price">
+                        <!-- react-text: 42 -->￥
+                        <!-- /react-text -->
+                        <!-- react-text: 43 -->0
+                        <!-- /react-text -->
+                    </label>
+                </div>
+                <div class="line">
+                    <!-- react-text: 45 -->待支付 ￥
+                    <!-- /react-text -->
+                    <!-- react-text: 46 -->NaN
+                    <!-- /react-text -->
+                </div>
+            </div>
+            <div class="section">
+                <div class="head line">
+                    <div class="title">用餐人数</div>
+                    <div>2</div>
+                </div>
+                <div class="comments line">
+                    <div class="label">订单备注：</div>
+                    <textarea></textarea>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="button"><span>立即支付</span></div>
+            </div>
+        </div>
+    </div>
+    <script src="bundle.js"></script>
+</body>
+
+</html>

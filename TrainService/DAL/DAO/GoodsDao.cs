@@ -1,43 +1,48 @@
-﻿using Arch.Data;
-using DAL.Entity;
-using System;
+﻿using DAL.Entity;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Arch.CFX;
-using Arch.CFramework;
-using Arch.Data.DbEngine;
 using System.Data;
+using System.Linq;
+using System;
 
 namespace DAL.DAO
 {
-    public class GoodsDao
+    public class GoodsDao : CacheBase<GoodsEntity>
     {
-        readonly BaseDao _baseDao = BaseDaoFactory.CreateBaseDao("userdb");
+        public GoodsDao() : base(new System.TimeSpan(0, 5, 0)) { }
 
-        public IList<GoodsEntity> GetGoodsListByGoodsType(int goodsType)
+        public IEnumerable<GoodsEntity> GetGoodsListByGoodsType(string stationCode, int goodsType)
         {
-            var sql = "SELECT * FROM goods WHERE goods_type=@GoodsType";
-            var parameters = new StatementParameterCollection();
-            parameters.Add(new StatementParameter { Name = "@GoodsType", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = goodsType });
-            var list = _baseDao.SelectList<GoodsEntity>(sql, parameters);
+            var list = base.CachedTable.Where(d => d.StationCode == stationCode && d.GoodsType == goodsType && d.IsAvailable == true && d.IsObsolete == false);
 
             return list;
         }
 
-        public bool Add(GoodsEntity data)
+        public GoodsEntity GetGoods(uint id)
         {
-            var d = _baseDao.Insert(data);
-
-            return true;
+            return base.CachedTable.Where(d => d.GoodsId == id).FirstOrDefault();
         }
 
-        public bool Modify(GoodsEntity data)
+        public bool Rate(Dictionary<uint, int> goodsRates, Dictionary<uint, int> subOrderRates)
         {
-            var d = _baseDao.Update(data);
+            try
+            {
+                foreach (var id in goodsRates.Keys)
+                {
+                  _baseDao.ExecNonQuery("UPDATE goods  SET rating = rating+" + goodsRates[id] + "  WHERE id = " + id);
+                }
 
-            return d == 1;
+                foreach (var id in subOrderRates.Keys)
+                {
+                    _baseDao.ExecNonQuery("UPDATE order_details SET rating=" + subOrderRates[id] + " WHERE id = " + id);
+
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

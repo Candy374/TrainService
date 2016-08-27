@@ -1,0 +1,105 @@
+﻿body {
+    font-size: 1.2em;
+    font-family: monospace;
+    margin:0;
+}
+
+.footer {
+    color: #fff;
+    height: 2em;
+    display: flex;
+}
+
+.footer .button{
+    background: #E91E63;
+    flex: 1;
+}
+
+.order-confirm {
+    display: flex;
+    flex-direction: column;
+    background: #eee;
+}
+
+.order-confirm .section {
+    padding: 0.5em 1em;
+    margin: 0.5em 0;
+    background: #fff;
+}
+
+.order-confirm .line{
+     display: flex;
+}
+.order-confirm .title{
+     flex: 1;
+     font-weight: bold
+}
+
+.order-confirm .head{
+    border-bottom: 1px solid #eee;
+    padding: 0.2em 0;
+    margin-bottom: 0.4em;
+}
+
+.order-confirm .section .label{
+    width: 7em;
+}
+
+.order-confirm .section .fee{
+    flex-direction: row-reverse;
+}
+
+.order-confirm .section .fee .label{
+    width: 8em;
+}
+
+.order-confirm .section .goods-list .label{
+    flex: 1;
+}
+
+.order-confirm .section .goods-list .price, .order-confirm .section .goods-list .number{
+    width: 4em;
+}
+.order-confirm .section .fee .price {
+    color: #E91E63;
+}
+
+.step0 {
+    color: #000;
+}
+
+.step1 {
+    color: #E91E63;
+}
+
+.step2 {
+    color: #ccc;
+}
+
+.button {
+    border: 1px solid #fff;
+    line-height: 2em;
+    padding: 0 1em;
+    text-align: center;
+    cursor: pointer;
+}
+
+.container {
+   display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.page {
+    flex: 1;
+    overflow: auto;
+}
+
+.comments.line {
+    display: block;
+}
+
+.line {
+    line-height: 1.5em;
+    margin: 0.3em 0;
+}

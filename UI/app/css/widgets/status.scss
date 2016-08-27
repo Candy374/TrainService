@@ -1,0 +1,10 @@
+.status {
+    .active {
+        color: $status-active-color;
+    }
+
+    .todo {
+        color: $status-todo-color;
+        display: none;
+    }
+}

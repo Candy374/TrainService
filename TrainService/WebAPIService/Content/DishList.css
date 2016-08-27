@@ -1,0 +1,205 @@
+﻿body {
+    font-size: 1.2em;
+    font-family: monospace;
+    padding: 0;
+    margin: 0;
+}
+
+#content > div {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.order-page {
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.button {
+    border: 1px solid #fff;
+    line-height: 2em;
+    padding: 0 1em;
+    text-align: center;
+    cursor: pointer;
+}
+
+.footer {
+    background: rgba(0, 0, 0, 0.77);
+    color: #fff;
+    height: 2em;
+    display: flex;
+}
+
+.order-page .footer {
+    display: flex;
+}
+
+.footer .total {
+    flex: 1;
+    text-align: center;
+    line-height: 2em;
+}
+
+.footer .button {
+    background: #E91E63;
+    flex: 1;
+}
+
+.order-content {
+    display: flex;
+    margin: 0.2em 0;
+    flex: 1;
+}
+
+    .order-content .type {
+        width: 5em;
+        margin-right: 0.1em;
+        overflow-y: auto;
+        background: #ddd;
+    }
+
+        .order-content .type .tag {
+            text-align: center;
+            border-bottom: 0.1em solid #eee;
+            padding: 0.5em 0.3em;
+        }
+
+        .order-content .type .active {
+            background: #fff;
+            color: pink;
+            border-left: 0.3em solid pink;
+        }
+
+    .order-content .detail {
+        flex: 1;
+    }
+
+    .order-content .img {
+        width: 3em;
+        height: 3em;
+        background: pink;
+        margin-right: 0.5em;
+    }
+
+    .order-content .list {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        overflow-y: auto;
+        padding: 0 0.3em 0 0.5em;
+    }
+
+        .order-content .list .item {
+            display: flex;
+            padding: 0.3em;
+            flex-shrink: 0;
+            border-bottom: 1px solid #eee;
+        }
+
+            .order-content .list .item:first-child {
+                padding-top: 0;
+            }
+
+            .order-content .list .item:last-child {
+                border-bottom: none;
+            }
+
+            .order-content .list .item .descriptions {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+            }
+
+                .order-content .list .item .descriptions .detail {
+                    display: flex;
+                    flex: 1;
+                }
+
+                .order-content .list .item .descriptions .left {
+                    font-size: 0.8em;
+                    color: #aaa;
+                    flex: 1;
+                }
+
+                .order-content .list .item .descriptions .price {
+                    font-size: 1em;
+                    color: red;
+                }
+
+.number-input {
+    display: flex;
+    align-self: flex-end;
+}
+
+    .number-input button {
+        border-radius: 50%;
+        width: 1.8em;
+        height: 1.8em;
+        font-size: 15px;
+        background: #fff;
+        color: rgba(255, 0, 0, 0.66);
+        border: solid #ddd 1px;
+        padding: 0;
+    }
+
+    .number-input label {
+        margin: 0 0.5em;
+        align-self: center;
+    }
+
+.train-info {
+    margin: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex: 1;
+}
+
+    .train-info .line {
+        line-height: 1.5em;
+    }
+
+    .train-info input {
+        height: 2em;
+    }
+
+        .train-info input[type="text"], .train-info input[type="number"] {
+            bottom: 0.3em;
+            position: relative;
+            margin-right: 2em;
+        }
+
+input[type="checkbox"] {
+    width: 2em;
+}
+
+.train-info select {
+    height: 43px;
+    bottom: 5px;
+    position: relative;
+    width: 60px;
+    font-size: 30px;
+}
+
+.train-info select {
+    font-size: 10px;
+}
+
+.train-info textarea {
+    width: 80%;
+    height: 100px;
+    margin: 0 10px;
+}
+
+
+.hidden {
+    display: none !important;
+}
+
+

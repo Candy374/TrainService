@@ -1,0 +1,310 @@
+﻿
+@{
+    Layout = null;
+    var tags = ViewBag.Tags as IList<DAL.Entity.TagEntity>;
+}
+
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+    <title>DishBook</title>
+    <link rel="stylesheet" href="~/Content/DishList.css" />
+    <script type="text/javascript" src="~/Scripts/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/underscore.js"></script>
+    <script type="text/javascript" src="~/Scripts/Config.js"></script>
+    <script id="userinfoTemp" type="text/template">
+        <div data-reactroot="" class="container train-info">
+            <div class="page">
+                <div class="line">
+                    车次：
+                    <input type="text" id="train-number">
+                </div>
+                <div class="line">
+                    餐车车厢号：
+                    <input type="number" min="1" max="16" id="carriage-number">
+                </div>
+                <div class="line">
+                    用餐人数:<input type="number" value="2" id="man-count" />
+                </div>
+                <div class="line">
+                    列车当前是否晚点
+                    <input type="checkbox" value="off" id="is-delay">
+                </div>
+                <div class="line">
+                    联系人姓名<input type="text" maxlength="12" id="contact" />
+                    电话<input type="number" maxlength="16" id="contact-number" />
+                </div>
+
+                <div>
+                    <p>留言或特殊要求：</p>
+                    <textarea id="comment"></textarea>
+                    <p>列车到站前， 工作人员会把餐品送到指定餐车前门门口。取餐后请核对餐品和清单。 感谢您对我们的支持！</p>
+                    <p>如有任何问题、建议或投诉，请拨打电话xxx-xxxx-xxxx</p>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="total" id="back-to-dishlist-button">
+
+                    返回重选
+                </div>
+                <div class="button" id="pay-order">
+                    <span>
+                        微信支付
+                    </span>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script id="dishDivTemp" type="text/template">
+        <div data-reactroot="">
+            <div class="order-content">
+                <div class="type">
+                    <div class="tag" tagId="-1">已选</div>
+                    @foreach (var tag in tags)
+                    {
+                        <div class='tag @(tag.ID==1?"active":"")' tagId="@tag.ID">@tag.DisplayName</div>
+                    }
+                </div>
+                <div class="list" id="goods-list">
+
+                </div>
+            </div>
+            <div class="footer">
+                <div class="total">
+
+                    共计: ￥<span id="total-price">0</span>
+                </div>
+                <div class="button" id="submit-order">
+                    <span>
+                        选好了
+                    </span>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script id='goodsListTemp' type='text/template'>
+        <% _.each(obj, function (item) { %>
+        <div class="item" goodsId="<%=item.GoodsId%>" price="<%=item.SellPrice%>">
+            <img src="<%= applicationName+item.PictureUrl%>" class="img"/>
+            <div class="descriptions">
+                <label class="name">
+                    <%=item.Name%>
+                </label>
+                <div class="detail">
+                    <div class="left">
+                        月售<%=item.OrderCount%>
+                        好评率<%=item.Rating%>%
+                        <div class="price">
+                            ￥<%=item.SellPrice%>
+                        </div>
+                    </div>
+
+                    <div class="number-input">
+                        <button class="jianhao hidden">-</button>
+                        <label price="<%=item.SellPrice%>" goodsId="<%=item.GoodsId%>">
+                            0
+                        </label>
+                        <button class="jiahao">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }); %>
+    </script>
+</head>
+<body>
+    <div id="content">
+
+    </div>
+
+    <script type="text/javascript">
+        var rawData = null;
+        var buyList = new Array();
+        var openId = "test_Open_Id";
+        var totalPrice = 0.0;
+        var userInfo = new Object();
+        userInfo.TrainNumber = "";
+        userInfo.CarriageNumber = "";
+        userInfo.IsDelay = false;
+        userInfo.Contact = "";
+        userInfo.ContactNumber = "";
+        userInfo.Comment = "";
+        userInfo.ManCount = 2;
+
+        $.getJSON(applicationName + "/api/goods/@ViewBag.Station/0", null, function (data) {
+            rawData = data;
+            buildDishSelectPage();
+        });
+
+        function buildDishSelectPage() {
+            buildMainDiv("dishDivTemp");
+            bindTagsClickEnvent();
+            $("#submit-order").click(function () {
+                buildUserInfoFormPage();
+            });
+            buildDishList(rawData);
+        }
+
+        function buildUserInfoFormPage() {
+            buildMainDiv("userinfoTemp");
+            $("#train-number").val(userInfo.TrainNumber);
+            $("#carriage-number").val(userInfo.CarriageNumber);
+            $("#is-delay")[0].checked = userInfo.IsDelay;
+            $("#contact").val(userInfo.Contact);
+            $("#contact-number").val(userInfo.ContactNumber);
+            $("#comment").val(userInfo.Comment);
+            $("#man-count").val(userInfo.ManCount);
+            $("#back-to-dishlist-button").click(function () {
+                updateUserInfo();
+                buildDishSelectPage();
+            });
+            $("#pay-order").click(function () { submitOrder(); });
+        }
+
+        function updateUserInfo() {
+            userInfo.TrainNumber = $("#train-number").val();
+            userInfo.CarriageNumber = $("#carriage-number").val();
+            userInfo.IsDelay = $("#is-delay")[0].checked;
+            userInfo.Contact = $("#contact").val();
+            userInfo.ContactNumber = $("#contact-number").val();
+            userInfo.Comment = $("#comment").val();
+            userInfo.ManCount = $("#man-count").val();
+        }
+
+        function buildMainDiv(templateId) {
+            var t = _.template($("#" + templateId).text());
+            $("#content").html(t());
+
+        }
+
+        function buildDishList(data) {
+            var t = _.template($("#goodsListTemp").text());
+            $("#goods-list").empty();
+            $("#goods-list").html(t(data));
+            $("#goods-list > div.item > div.descriptions > div.detail > div.number-input > label").each(function () {
+                var label = $(this);
+                var buyCount = buyList[parseInt(label.attr("goodsId"))];
+                if (buyCount != undefined && buyCount != null && buyCount.Count > 0) {
+                    label.text(buyCount.Count);
+                    label.parent().find(".jianhao").removeClass("hidden");
+                }
+            });
+            bindEvent();
+        }
+
+        function bindTagsClickEnvent() {
+            $("div.tag").click(function () {
+                $("div.tag").each(function (i, e) {
+                    $(e).removeClass("active");
+                });
+                $(this).addClass("active");
+                var tagId = $(this).attr("tagId");
+                if (tagId == "-1") {
+                    //show all selected goods
+                    buildDishList(rawData.filter(function (d) { return buyList[d.GoodsId] != undefined && buyList[d.GoodsId] != null && buyList[d.GoodsId].Count > 0 }));
+                } else {
+                    buildDishList(rawData.filter(function (d) { return d.Tags.some(function (g) { return g.toString() == tagId; }); }));
+                }
+            });
+        }
+
+        function bindEvent() {
+            $("#goods-list button").click(function () {
+                var me = $(this);
+                var label = me.parent().find("label")[0];
+                var val = parseInt(label.innerText);
+                if (me.hasClass("jiahao")) {
+                    label.innerText = ++val;
+                } else {
+                    if (val < 1) {
+                        val = 1;
+                    }
+                    label.innerText = --val;
+                }
+
+                if (val > 0) {
+                    me.parent().find(".jianhao").removeClass("hidden");
+                } else {
+                    me.parent().find(".jianhao").addClass("hidden");
+                }
+                updateBuyList();
+                sumPrice();
+            });
+        }
+
+        function updateBuyList() {
+            $("#goods-list > div.item > div.descriptions > div.detail > div.number-input > label").each(function () {
+                var label = $(this);
+                var goodsId = parseInt(label.attr("goodsId"));
+                buyList[goodsId] = { Id: goodsId, Count: parseInt(label.text()), Price: parseFloat(label.attr("price")) };
+            });
+        }
+
+        function sumPrice() {
+            var price = 0.0;
+            for (var index in buyList) {
+                var p = buyList[index];
+                if (p != undefined && p != null && p.Count > 0) {
+                    price += p.Count * p.Price;
+                }
+            }
+            totalPrice = price;
+            $("#total-price").text(price);
+        }
+
+
+
+
+
+        function submitOrder() {
+            var d = BuildPostData();
+            if (d == null) { return; }
+            $.ajax({
+                type: "POST",
+                url: applicationName + "/api/Orders/add",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(d),
+                success: function (orderId) {
+                    window.location.href = applicationName + "/Home/OrderDetail?orderId=" + orderId;
+                }
+            });
+        }
+
+        function BuildPostData() {
+            updateUserInfo();
+            var lst = [];
+            for (var index in buyList) {
+                var p = buyList[index];
+                if (p != undefined && p != null && p.Count > 0) {
+                    lst.push({ Count: p.Count, Id: p.Id })
+                }
+            }
+
+            if (lst.length == 0) {
+                return null;
+            }
+
+            var d = {
+                "OpenId": openId,
+                "TrainNumber": userInfo.TrainNumber,
+                "CarriageNumber": userInfo.CarriageNumber,
+                "PayWay": 0,
+                "IsDelay": userInfo.IsDelay,
+                "OrderType": 0,
+                "Comment": userInfo.Comment,
+                "Contact": userInfo.Contact,
+                "ContactTel": userInfo.ContactNumber,
+                "TotalPrice": totalPrice,
+                "ManCount": userInfo.ManCount,
+                "List": lst
+            }
+
+            return d;
+        }
+    </script>
+</body>
+</html>

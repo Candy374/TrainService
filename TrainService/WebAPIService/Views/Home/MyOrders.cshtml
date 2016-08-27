@@ -1,0 +1,122 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+
+    <title>我的订单</title>
+    <link rel="stylesheet" href="~/Content/MyOrders.css" />
+    <script type="text/javascript" src="~/Scripts/Config.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/underscore.js"></script>
+    <script id='tabsTemp' type='text/template'>
+        <% _.each(obj, function (item) { %>
+        <div filter="<%= item %>" class="tab"><%= item %></div>
+        <% }); %>
+    </script>
+    <script id='ordersListTemp' type='text/template'>
+        <% _.each(obj, function (item) { %>
+        <div class="section list">
+            <div class="line">
+                <div class="label"><%= item.OrderType %></div>
+                <div class="status rightToLeft"><%= item.OrderStatus %></div>
+            </div>
+            <% _.each(item.SubOrders, function (d) { %>
+
+            <div class="item">
+                <img src= "<%= applicationName+ d.PicUrl %>" class="img">
+                <div class="line">
+                    <label class="label"><%= d.Name %></label>
+                    <div class="width-small">x<%= d.Count %></div>
+                    <div class="width-small">￥<%= d.Price %></div>
+                </div>
+            </div>
+            <% }); %>
+            <div class="line">
+                <div class="label"><%= item.OrderDate %>&nbsp;<%= item.TrainNumber %></div>
+                <div class="rightToLeft">共计: ￥<%= item.Amount %>(含外送费￥0)</div>
+            </div>
+            <div class="line rightToLeft">
+                <button class="detail" orderId="<%= item.OrderId %>">订单详情</button>
+            </div>
+        </div>
+        <% }); %>
+    </script>
+</head>
+<body>
+    <div id="content">
+        <div class="container order-list">
+            <div class="page">
+                <div id="tabs" class="tabs">
+                    <div filter="" class="tab active">全部订单</div>
+                </div>
+                <div id="order-list" class="content">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var rawData = new Object();
+        var openId = "test_Open_Id";
+        function buildOrderList(data) {
+            applyTemplate("tabsTemp", "tabs", data.OrderStatusEnum, false)
+            applyTemplate("ordersListTemp", "order-list", data.Orders, true)
+            bindEvent();
+        }
+
+        function applyTemplate(tempName, containerId, data, emptyContainerBeforeApply) {
+            var t = _.template($("#" + tempName).text());
+            var container = $("#" + containerId);
+            if (emptyContainerBeforeApply) {
+                container.empty();
+            }
+            container.html(container.html() + t(data));
+        }
+
+        $.getJSON(applicationName + "/api/Orders/Query/All/" + openId, null, function (data) {
+            rawData = data;
+            buildOrderList(data);
+        });
+
+
+        function bindEvent() {
+            $("#tabs > div").click(function () {
+                $("#tabs > div.active").each(function () {
+                    $(this).removeClass("active");
+                });
+                $(this).addClass("active");
+                var currentTab = $(this).attr("filter");
+                applyTemplate("ordersListTemp", "order-list", filterOrder(rawData.Orders, function (o) {
+                    return currentTab == "" || o.OrderStatus == currentTab
+                }), true);
+                bindEvent();
+            });
+            $(".detail").click(function () {
+                window.location.href = applicationName + "/Home/OrderDetail?orderId=" + $(this).attr("orderId");
+
+            });
+        }
+
+        function filterOrder(orders, conditionFun) {
+            var arr = new Array();
+            for (var i in orders) {
+                var o = orders[i];
+                if (conditionFun(o)) {
+                    arr.push(o);
+                }
+            }
+
+            return arr;
+        }
+
+
+    </script>
+</body>
+</html>

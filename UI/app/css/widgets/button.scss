@@ -1,0 +1,32 @@
+.button {
+    border: 1px solid $background-color-index-1;
+    line-height: 2em;
+    padding: 0 1em;
+    text-align: center;
+    cursor: pointer;
+    background: $button-default-color;
+    color: #222;
+    flex: 1;
+    font-size: 1.2em;
+
+    &.active {
+        background: $button-active-color;
+        color: $background-color-index-1;
+    }
+
+    &.disabled {
+        background: $disabled-color;
+        color: $background-color-index-1;
+    }
+}
+
+
+
+button.small {
+    width: 6em;
+    background: $background-color-index-2;
+    border: none;
+    padding: 0.2em;
+    align-self: flex-end;
+    margin-left: 0.1em;
+}

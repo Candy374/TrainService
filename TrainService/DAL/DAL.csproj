@@ -48,6 +48,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,15 +58,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseDaoWithLogger.cs" />
     <Compile Include="DalFactory.cs" />
-    <Compile Include="DAO\OrdersDao.cs" />
-    <Compile Include="Entity\OrderDetailEntity.cs" />
-    <Compile Include="Entity\OrderEntity.cs" />
+    <Compile Include="DAO\CacheBase.cs" />
+    <Compile Include="DAO\OrderDao.cs" />
+    <Compile Include="DAO\StationDao.cs" />
     <Compile Include="DAO\GoodsDao.cs" />
     <Compile Include="DAO\AccountDao.cs" />
+    <Compile Include="DAO\TagsDao.cs" />
+    <Compile Include="Entity\SubOrderSummaryEntity.cs" />
+    <Compile Include="Entity\OrderDetailEntity.cs" />
+    <Compile Include="Entity\OrderEntity.cs" />
+    <Compile Include="Entity\OrderStatus.cs" />
+    <Compile Include="Entity\StationEntity.cs" />
+    <Compile Include="Entity\TagEntity.cs" />
     <Compile Include="Entity\AccountEntity.cs" />
     <Compile Include="Entity\GoodsEntity.cs" />
     <Compile Include="Entity\ProviderEntity.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DAO\ProviderDao.cs" />
     <Compile Include="TrainDBContext.cs" />
@@ -73,7 +84,12 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\LoggerContract\LoggerContract.csproj">
+      <Project>{e1f22109-ce3b-48e9-9007-608440d35bda}</Project>
+      <Name>LoggerContract</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,0 +1,51 @@
+.order-info {
+    color: $font-second-color;
+
+    select {
+        height: 43px;
+        bottom: 5px;
+        position: relative;
+        width: 60px;
+        font-size: 30px;
+    }
+
+    textarea {
+        width: 100%;
+        height: 8em;
+    }
+    
+
+    .line {
+        border-bottom: 1px solid $split-color;
+        padding: 0.8em;
+
+        &:last-child {
+            border: none;
+        }
+
+        &.short {
+            border: none;
+            padding: 0.3em 0.8em;
+        }
+    }
+
+    input {
+        border: none;
+    }
+
+    .section {  
+        border: none;
+    }
+
+    p {
+        margin: 1em;
+    }
+
+    .must {
+        color: $active-color;
+    }
+
+    .error {
+        width: 100%;
+    }
+}

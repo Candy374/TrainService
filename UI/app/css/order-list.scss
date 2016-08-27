@@ -1,0 +1,17 @@
+.order-list {
+    .content {
+        background: $content-background-color;
+        overflow: auto;
+        flex: 1;
+    }
+
+    .page {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .item {
+        margin: 0.1em 0;
+        border: none;
+    }
+}

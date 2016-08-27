@@ -1,42 +1,33 @@
-﻿using Arch.Data;
-using DAL.Entity;
-using System;
+﻿using DAL.Entity;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Arch.CFX;
-using Arch.CFramework;
-using Arch.Data.DbEngine;
 using System.Data;
+using System.Linq;
 
 namespace DAL.DAO
 {
-    public class ProviderDao
+    public class ProviderDao : CacheBase<ProviderEntity>
     {
-        readonly BaseDao _baseDao = BaseDaoFactory.CreateBaseDao("userdb");
+        public ProviderDao() : base(new System.TimeSpan(0, 5, 0)) { }
 
         public ProviderEntity Search(uint providerId)
         {
-            var parameters = new StatementParameterCollection();
-            parameters.Add(new StatementParameter { Name = "@ID", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = providerId });
-            var list = _baseDao.SelectList<ProviderEntity>("select * from provider where id=@ID limit 1", parameters);
-
-            return list.FirstOrDefault();
+            return CachedTable.Where(d => d.ProviderId == providerId).FirstOrDefault();
         }
 
-        public ProviderEntity[] Search(string providerName)
+        public IEnumerable<ProviderEntity> Search(string providerName)
         {
-            var parameters = new StatementParameterCollection();
-            parameters.Add(new StatementParameter { Name = "@Name", Direction = ParameterDirection.Input, DbType = DbType.String, Value = providerName });
-            var list = _baseDao.SelectList<ProviderEntity>("select * from provider where name=@Name limit 1", parameters);
-
-            return list.ToArray();
+            return CachedTable.Where(d => d.Name == providerName);
         }
 
-        public void AddProvider(ProviderEntity data)
+        public IEnumerable<ProviderEntity> FuzzySearch(string providerName)
         {
-            _baseDao.Insert(data);
+            providerName = providerName.ToUpper();
+            return CachedTable.Where(d => d.Name.ToUpper().Contains(providerName));
+        }
+
+        public ProviderEntity GetProviderByOpenId(string openId)
+        {
+            return CachedTable.Where(p => p.OpenIdList.Contains(openId)).FirstOrDefault();
         }
     }
 }

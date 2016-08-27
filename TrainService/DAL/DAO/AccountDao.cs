@@ -12,10 +12,14 @@ using System.Data;
 
 namespace DAL.DAO
 {
-    public class AccountDao
+    public class AccountDao : CacheBase<AccountEntity>
     {
-        readonly BaseDao _baseDao = BaseDaoFactory.CreateBaseDao("userdb");
+        public AccountDao() : base(new TimeSpan(0, 0, 30)) { }
 
-        
+        public AccountEntity GetAccount(string openId)
+        {
+            return CachedTable.Where(a => a.OpenId == openId).FirstOrDefault();
+        }
+
     }
 }

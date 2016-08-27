@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import OrderPage from './components/order.js';
+import Container from './js/components/Container';
 
-ReactDOM.render(<OrderPage>test</OrderPage>, 
-    document.getElementById('content'))
+require('./css/index.scss');
+
+ReactDOM.render(<Container/>, document.getElementById('content'));
