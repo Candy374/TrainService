@@ -1,6 +1,7 @@
 .order-list {
+    @extend .order-info;
+
     .content {
-        background: $content-background-color;
         overflow: auto;
         flex: 1;
     }
@@ -13,5 +14,23 @@
     .item {
         margin: 0.1em 0;
         border: none;
+    }
+
+    .time {
+        font-size: 0.5em;
+        margin-left: 0.5em;
+    }
+
+    .short {
+        .line {
+            margin: 0;
+        }
+    }
+
+    .list {
+        .section {
+            margin: 0;
+            border-bottom: 1px solid $border-color;
+        }
     }
 }

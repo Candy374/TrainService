@@ -3,7 +3,7 @@ import {basicUrl} from '../../constants/system';
 
 export {Button, SmallButton} from './Button';
  
-export const Label = ({size, children, flex, align, className, status, type}) => {
+export const Label = ({size, children, flex, align, className, status, type, onClick}) => {
     const classes = [`width-${size || 'medium'}`, `align-${align || 'start'}`];
     if (flex) {
         classes.push('flex');
@@ -20,9 +20,17 @@ export const Label = ({size, children, flex, align, className, status, type}) =>
     if (type) {
         classes.push(type);
     }
+
+    if (onClick) {
+        classes.push('link');
+    }
     
-    return  <label className={classes.join(' ')}>{children}</label>;
+    return  <label className={classes.join(' ')} onClick={onClick}>{children}</label>;
 };
+
+export const LinkLabel = (props) => {
+    return <Label {...props} onClick={props.onClick}/>
+}
 
 export const Line = ({children, className, direction, style, align = 'start'}) => {
     const classes = ['line', `align-${align}`, `direction-${direction || 'row'}`];
@@ -64,7 +72,7 @@ export const DescLine = ({children, className, url, type, onClick, imgClassName,
 
 export const Img = (props) => <img  {...props} src= {basicUrl + props.src}/>;
 
-export const Section = ({title, children, list, className }) => {
+export const Section = ({title, children, list, className, onClick }) => {
     const classes = ['section'];
     if (list) {
         classes.push('list');
@@ -72,8 +80,9 @@ export const Section = ({title, children, list, className }) => {
     if (className) {
         classes.push(className);
     }
+
     return (
-        <div className={classes.join(' ')}>
+        <div className={classes.join(' ')} onClick={onClick}>
             {title && 
                 <div className='head'>
                     <div className='title'>{title}</div>

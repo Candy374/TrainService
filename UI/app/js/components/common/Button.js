@@ -19,5 +19,6 @@ export const Button = ({onClick, label, img, disabled, isPrimary}) => {
     );
 };
 
-export const SmallButton = ({onClick, label}) => (
-    <button className='small' onClick={onClick}>{label}</button>);
+export const SmallButton = ({onClick, label, primary}) => (
+    <button className={(primary ? 'primary' : '') + ' small'} onClick={onClick}>{label}</button>
+);

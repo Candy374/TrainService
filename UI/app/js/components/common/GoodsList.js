@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Section, ImgLine, Line, Label, Price} from '../common/Widgets';
 
-export const SummaryLine = ({left, label, price}) => (
-    <Line>
+export const SummaryLine = ({left, label, price, className}) => (
+    <Line className={className ? className : ''}>
         <Label flex={true}>{left}</Label>
         <Label size='small' align='end'>{label || '共计'}:</Label>
         <Price size='small' className='price' align='end' price={price}/>
@@ -38,20 +38,21 @@ const OrderList = ({total, list}) => (
   </Section>
 );
 
-export const OrderListNoImg = ({total, list, totalLabel}) => {
+export const OrderListNoImg = ({total, list, totalLabel, short}) => {
   let arrayList = list instanceof Array ? list : Object.keys(list).map(key => list[key]);
 
+  const lineClass = short ? 'short' : '';
   return (
     <Section list={true}>
-      <Line><Label>已点菜品：</Label></Line>
+      {!short && <Line><Label>已点菜品：</Label></Line>}
       {arrayList.map((item, index) => (
-        <Line key={index} className='short'>
+        <Line key={index} className={lineClass}>
           <Label flex={true}>{item.Name}</Label>
           <Label size='small' align='end'>{`x${item.Count}`}</Label>
           <Label size='small' align='end'>{`￥${item.SellPrice || item.Price}`}</Label>
         </Line>
       ))}
-      <SummaryLine label={totalLabel || '待支付'} price={total} />
+      <SummaryLine label={totalLabel || '待支付'} price={total} className={lineClass}/>
     </Section>
   );
 };

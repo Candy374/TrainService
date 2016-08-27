@@ -7,4 +7,8 @@ label {
     &.title {
         font-weight: bold;
     }
+
+    &.link {
+        text-decoration: underline;
+    }
 }

@@ -24,9 +24,16 @@
 
 button.small {
     width: 6em;
-    background: $background-color-index-2;
-    border: none;
+    color: $button-small-default-color;
+    background: $button-small-background-color;
     padding: 0.2em;
     align-self: flex-end;
-    margin-left: 0.1em;
+    margin-left: 0.5em;
+    border: 1px solid $button-small-default-color;
+    border-radius: 3px;
+
+    &.primary {
+        color: $button-small-primary-color;
+        border-color: $button-small-primary-color;
+    }
 }
