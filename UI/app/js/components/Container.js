@@ -112,7 +112,7 @@ export default class Container extends Component {
             submitting: true
         });
 
-        actions.submitOrder(data, (orderId) => {
+        actions.submitOrder(data, (orderId, success) => {
             this.setCurrentOrderId(orderId);
             if (data.OpenId == 'TBD') {
                 actions.redirect(orderId);    
@@ -124,7 +124,7 @@ export default class Container extends Component {
     updateOpenId(id) {
         this.setState({openId: id});
         
-        actions.getUserInfo(this.state.openId, success).then((user) => {
+        actions.getUserInfo(id).then((user) => {
             this.state.chart.info = Object.assign({}, this.state.chart.info, user);
             this.setState({
                 chart: this.state.chart

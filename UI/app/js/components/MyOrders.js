@@ -13,7 +13,7 @@ export default class MyOrders extends Component {
             orderMap: {'-1': [], '0':[], '1': [], '2': [], '3': []},
             status: -1,
             showAll: false,
-            openId: this.props.openId || 'ouzHawBv2svApr1IiNxXykpmAuI0'
+            openId: this.props.openId
         };
         // this.showNum = 5;
     }
