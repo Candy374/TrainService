@@ -30,15 +30,13 @@ const pay = ({appId, timeStamp, nonceStr, prepay_id, signType, paySign}, callbac
             'getBrandWCPayRequest', {
                 appId,     //公众号名称，由商户传入     
                 timeStamp,    //时间戳，自1970年以来的秒数     
-                nonceStrm, //随机串     
+                nonceStr, //随机串     
                 package: `prepay_id=${prepay_id}`,     
                 signType,         //微信签名方式：     
                 paySign //微信签名 
             },
             function (res) {
-                if (res.err_msg == "get_brand_wcpay_request：ok") {
-                    callback();
-                }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+                callback(res.err_msg == "get_brand_wcpay_request：ok"); // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
             }
         );
     }
@@ -56,8 +54,6 @@ const pay = ({appId, timeStamp, nonceStr, prepay_id, signType, paySign}, callbac
 
 const getPayArgs = (OrderId, callback) => {
     const Ip = returnCitySN.cip.replace(/\./g, '_');
-    //  const args = JSON.parse("{\"appId\":\"wxaf1fff843c641aba\",\"nonceStr\":\"2fcf1200e44c4b2fa0432fe64a8896d7\",\"package\":\"prepay_id=wx201608281101416151e3b8\",\"paySign\":\"076FEA6E7A3B126FBA28729457BACC7B\",\"signType\":\"MD5\",\"timeStamp\":\"1472353936\"}");
-    //         pay(args, callback.bind(this, OrderId));
 
     return request.post(basicUrl + `Pay/Order/${OrderId}/IP/${Ip}`)
         .then((res) => {
