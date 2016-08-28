@@ -19,14 +19,21 @@ namespace WebAPIService.Controllers
     public class OrdersController : ApiController
     {
         [Route("Add")]
-        public AddOrderResult Add([FromBody]dynamic data)
+        public int Add([FromBody]dynamic data)
         {
             Logger.Info(Convert.ToString(data), "api/Orders/Add");
-            AddOrderResult result = TryAddOrder(data);
-            if (result.OpenId.Length >= 28)
+            int result = TryAddOrder(data);
+            string openId = data.OpenId;
+
+            if (result > 0)
             {
-              //  PrePay(result);
+                Logger.Info("Add Order success. order_id={0}, openId={1}".FormatedWith(result, openId), "api/Orders/Add");
             }
+            else
+            {
+                Logger.Warn("Add Order FAIL. retuen_code={0}, openId={1}".FormatedWith(result, openId), "api/Orders/Add");
+            }
+
             return result;
         }
 
@@ -79,18 +86,14 @@ namespace WebAPIService.Controllers
         //    var tempStr = string.Join("&", args);
         //}
 
-        private static AddOrderResult TryAddOrder(dynamic data)
+        private static int TryAddOrder(dynamic data)
         {
             try
             {
                 string openId = data.OpenId;
                 if (string.IsNullOrEmpty(openId))
                 {
-                    return new AddOrderResult
-                    {
-                        ErrorCode = 3,
-                        ErrorMsg = "Open Id is empty!"
-                    };
+                    return -3;
                 }
                 string trainNumber = data.TrainNumber;
                 string carriageNumber = data.CarriageNumber;
@@ -112,11 +115,7 @@ namespace WebAPIService.Controllers
                     var goods = DAL.DalFactory.Goods.GetGoods((uint)item.Id);
                     if (goods == null)
                     {
-                        return new AddOrderResult
-                        {
-                            ErrorCode = 1,
-                            ErrorMsg = "Invided goods Id"
-                        };
+                        return -1;
                     }
 
                     orderDetailList.Add(new OrderDetailEntity
@@ -137,11 +136,7 @@ namespace WebAPIService.Controllers
 
                 if (totalPriceFromUI != totalPriceVerify)
                 {
-                    return new AddOrderResult
-                    {
-                        ErrorCode = 2,
-                        ErrorMsg = "Price is wrong!"
-                    };
+                    return -2;
                 }
 
                 var orderId = DalFactory.Orders.AddOrder(new OrderEntity
@@ -165,25 +160,13 @@ namespace WebAPIService.Controllers
                     ManCount = 0
                 }, orderDetailList);
 
-                return new AddOrderResult
-                {
-                    OrderId = orderId,
-                    OpenId = openId,
-                    Detail = sb.ToString(),
-                    TotalFee = totalPriceVerify,
-                    ErrorCode = 0,
-                    ErrorMsg = ""
-                };
+                return Convert.ToInt32(orderId);
 
             }
             catch (Exception ex)
             {
                 Logger.Error(ex, "", "api/Orders/Add");
-                return new AddOrderResult
-                {
-                    ErrorCode = 4,
-                    ErrorMsg = "Unkown error"
-                };
+                return -4;
             }
         }
 
