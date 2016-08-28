@@ -92,7 +92,7 @@ export default class MyOrders extends Component {
 
                     const button = (
                     <Line>
-                        <LinkLabel flex={true} onClick={() => this.props.setCurrentOrderId(order.OrderId)}>{order.OrderId}
+                        订单号：<LinkLabel flex={true} onClick={() => this.props.setCurrentOrderId(order.OrderId)}>{order.OrderId}
                         </LinkLabel>
                         <SmallButton label='删除' onClick={() => {
                             actions.cancelOrder(order.OrderId).then((result) => {

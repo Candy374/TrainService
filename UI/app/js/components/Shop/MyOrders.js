@@ -6,6 +6,7 @@ import Footer from '../common/Footer';
 import {ListItem, SummaryLine,NumberLine} from '../common/GoodsList';
 import  * as Constants from '../../constants/system';
 import {Section, Line, Label, SmallButton} from '../common/Widgets';
+import {Detail} from '../common/Detail';
 
 export default class MyOrders extends Component {
     componentWillMount() {
@@ -96,7 +97,7 @@ export default class MyOrders extends Component {
                 <div className='content'>
                 {status == 2 && <Section>
                     <Line>
-                        <Label flex={true}>{`还需制作${kindList.length}道菜，（${this.state.total}种菜）`}</Label>
+                        <Label flex={true}>{`还需制作${kindList.length}道菜，（${this.state.total}种）`}</Label>
                     {kindList.length > 0 && <SmallButton label={this.state.showAll ? '收起' : '展开详情'} 
                         onClick={() => this.setState({showAll: !this.state.showAll})}/> }                        
                     </Line>
@@ -106,13 +107,11 @@ export default class MyOrders extends Component {
                     }
                 </Section>}
                 {orderMap[status].map((order, index) => {
-                    return (
-                     <Section list={true} key={index} >
-                        {order.SubOrders.map((item, index) => <NumberLine item={item} key={index}/>)}
-                        <SummaryLine left={order.OrderDate} price={order.Amount} />
-                        <Line align='end'>
-                            {order.StatusCode == 1 && 
-                                <SmallButton label='接受订单' onClick={() => {
+                    const button = (
+                    <Line>
+                        <Label flex={true}>{`订单号：${order.OrderId}`}</Label>
+                        {order.StatusCode == 1 && 
+                                <SmallButton label='接单' onClick={() => {
                                    shopActions.takeOrder(order.OrderId).then(() => {                                       
                                        this.summary();
                                        this.updateOrderList();
@@ -124,8 +123,8 @@ export default class MyOrders extends Component {
                                        this.summary();
                                    });                                    
                                 }}/>}
-                        </Line>
-                    </Section>)
+                    </Line>);
+                    return <Detail {...order} key={index} button={button} />;
                 })}
                 </div>
             </Page>

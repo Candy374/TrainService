@@ -70,12 +70,15 @@ export default class MyOrders extends Component {
  
                     return (
                      <Section key={index}>
-                        <Line><Label>{order.ProviderName}</Label></Line>
                         <Detail {...order}/>
                         {order.showDetail &&
-                            <Section list={true} title='商品信息'>                        
+                            <Section list={true}>
+                                <Line>        
+                                    <Label flex={true}>饭店名</Label>
+                                    <Label flex={true}>菜名</Label>
+                                    <Label size='small' align='end'>数量</Label>
+                                </Line>                        
                                 {order.SubOrders.map((item, index) => <NumberLine item={item} key={index}/>)}
-                                <SummaryLine price={order.Amount} left={order.OrderDate}/>
                             </Section>
                         }
                         

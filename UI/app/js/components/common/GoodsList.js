@@ -10,9 +10,10 @@ export const SummaryLine = ({left, label, price, className}) => (
 );
 
 export const NumberLine = ({item}) => (
-    <Line>
+    <Line className='short'>        
+        {item.ProviderName && <Label flex={true}>{item.ProviderName}</Label>}
         <Label flex={true}>{item.Name}</Label>
-        <Label size='small' align='end'>{`x${item.Count}`}</Label>
+        <Label size='small' align='end'>{item.Count}</Label>
     </Line>
 );
 
@@ -41,18 +42,17 @@ const OrderList = ({total, list}) => (
 export const OrderListNoImg = ({total, list, totalLabel, short}) => {
   let arrayList = list instanceof Array ? list : Object.keys(list).map(key => list[key]);
 
-  const lineClass = short ? 'short' : '';
   return (
     <Section list={true}>
       {!short && <Line><Label>已点菜品：</Label></Line>}
       {arrayList.map((item, index) => (
-        <Line key={index} className={lineClass}>
+        <Line key={index} className='short'>
           <Label flex={true}>{item.Name}</Label>
           <Label size='small' align='end'>{`x${item.Count}`}</Label>
           <Label size='small' align='end'>{`￥${item.SellPrice || item.Price}`}</Label>
         </Line>
       ))}
-      <SummaryLine label={totalLabel || '待支付'} price={total} className={lineClass}/>
+      <SummaryLine label={totalLabel || '待支付'} price={total} className='short'/>
     </Section>
   );
 };
