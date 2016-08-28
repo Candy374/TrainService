@@ -20,7 +20,7 @@ namespace WebAPIService.Controllers.API
     public class PayController : ApiController
     {
         [Route("Order/{orderId}/IP/{ip}")]
-        public string PrePay(string orderId, string ip)
+        public object PrePay(string orderId, string ip)
         {
             var order = DalFactory.Orders.GetOrderByOrderId(orderId);
             if (order == null)
@@ -70,6 +70,22 @@ namespace WebAPIService.Controllers.API
 
                 return payApi.GetJsApiParameters(prePayId);
             }
+
+        }
+
+        [Route("Notify")]
+        public string Notify([FromBody]string body)
+        {
+            var notify = new ResultNotify(body);
+            int fee;
+            string orderId;
+            var result = notify.ProcessNotify(out fee, out orderId);
+            if (result.IsSet("return_code") && result.GetValue("return_code").ToString() == "SUCCESS")
+            {
+                //TODO:Update Order
+            }
+
+            return result.ToJson();
 
         }
     }
