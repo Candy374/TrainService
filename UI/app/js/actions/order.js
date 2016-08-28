@@ -55,9 +55,8 @@ const pay = ({appId, timeStamp, nonceStr, prepay_id, signType, paySign}, callbac
 }
 
 const getPayArgs = (OrderId, callback) => {
-    const getPayArgsURL = '';
     const Ip = returnCitySN.cip;
-    return request.post(basicUrl + getPayArgsURL, {OrderId, Ip})
+    return request.get(basicUrl + `Pay/Order/${OrderId}/IP/${Ip}`)
         .then((res) => {
             const args = res.body;
             pay(...args, callback.bind(this, OrderId));

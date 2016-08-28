@@ -14,7 +14,7 @@ export default class MyOrders extends Component {
             showAll: true,
             orders: [],
             status: 1,
-            openId: this.props.openId || 124123
+            openId: this.props.openId || 'ouzHawBv2svApr1IiNxXykpmAuI0'
         };
     }
 

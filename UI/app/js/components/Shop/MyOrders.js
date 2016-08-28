@@ -16,7 +16,7 @@ export default class MyOrders extends Component {
             total: 0,
             prepare: {},
             showAll: false,
-            openId: this.props.openId ||124123
+            openId: this.props.openId || 'ouzHawBv2svApr1IiNxXykpmAuI0'
         };
         this.orders = [];
         this.updateOrderList();
@@ -112,14 +112,14 @@ export default class MyOrders extends Component {
                         <Label flex={true}>{`订单号：${order.OrderId}`}</Label>
                         {order.StatusCode == 1 && 
                                 <SmallButton label='接单' onClick={() => {
-                                   shopActions.takeOrder(order.OrderId).then(() => {                                       
+                                   shopActions.takeOrder(order.OrderId, this.state.openId).then(() => {                                       
                                        this.summary();
                                        this.updateOrderList();
                                    });
                                 }}/>}
                             {order.StatusCode == 2 && 
                                 <SmallButton label='货已备好' onClick={() => {
-                                   shopActions.orderReady(order.OrderId).then(() => {
+                                   shopActions.orderReady(order.OrderId, this.state.openId).then(() => {
                                        this.summary();
                                    });                                    
                                 }}/>}
