@@ -116,7 +116,7 @@ namespace DAL.Entity
         public string PrePayId { get; set; }
         [DataMember]
         [Column(Name = "expired_time", ColumnType = DbType.DateTime)]
-        public DateTime ExpiredTime { get; set; }
+        public DateTime? ExpiredTime { get; set; }
         [DataMember]
         [Column(Name = "last_change_time", ColumnType = DbType.DateTime)]
         public DateTime LastChangeTime { get; set; }

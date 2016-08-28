@@ -127,17 +127,17 @@ namespace WxPayApi
                 XmlElement xe = (XmlElement)xn;
                 m_values[xe.Name] = xe.InnerText;//获取xml的键值对到WxPayData内部的数据中
             }
-			
+
             try
             {
-				//2015-06-29 错误是没有签名
-				if(m_values["return_code"] != "SUCCESS")
-				{
-					return m_values;
-				}
+                //2015-06-29 错误是没有签名
+                if (m_values["return_code"] != "SUCCESS")
+                {
+                    return m_values;
+                }
                 CheckSign();//验证签名,不通过会抛异常
             }
-            catch(WxPayException ex)
+            catch (WxPayException ex)
             {
                 throw new WxPayException(ex.Message);
             }
@@ -178,6 +178,12 @@ namespace WxPayApi
         {
             string jsonStr = JsonMapper.ToJson(m_values);
             return jsonStr;
+        }
+
+        public object ToObj()
+        {
+            var s = ToJson();
+            return JsonMapper.ToObject(s);
         }
 
         /**
@@ -232,11 +238,11 @@ namespace WxPayApi
             //如果没有设置签名，则跳过检测
             if (!IsSet("sign"))
             {
-               Log.Error(this.GetType().ToString(), "WxPayData签名存在但不合法!");
-               throw new WxPayException("WxPayData签名存在但不合法!");
+                Log.Error(this.GetType().ToString(), "WxPayData签名存在但不合法!");
+                throw new WxPayException("WxPayData签名存在但不合法!");
             }
             //如果设置了签名但是签名为空，则抛异常
-            else if(GetValue("sign") == null || GetValue("sign").ToString() == "")
+            else if (GetValue("sign") == null || GetValue("sign").ToString() == "")
             {
                 Log.Error(this.GetType().ToString(), "WxPayData签名存在但不合法!");
                 throw new WxPayException("WxPayData签名存在但不合法!");

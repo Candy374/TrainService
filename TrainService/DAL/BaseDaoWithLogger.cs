@@ -116,11 +116,19 @@ namespace DAL
         //     数据访问框架异常
         public IList<T> SelectList<T>(string sql, StatementParameterCollection parameters) where T : class, new()
         {
-            Logger.Info(sql + "\r\n" + parameters.ToString2());
-            var result = _baseDao.SelectList<T>(sql, parameters);
-            Logger.Info("Result:" + result);
+            try
+            {
+                Logger.Info(sql + "\r\n" + parameters.ToString2());
+                var result = _baseDao.SelectList<T>(sql, parameters);
+                Logger.Info("Result:" + result);
 
-            return result;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, sql, "SelectList");
+                return null;
+            }
         }
 
         //

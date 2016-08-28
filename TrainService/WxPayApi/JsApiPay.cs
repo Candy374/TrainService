@@ -113,6 +113,20 @@ namespace WxPayApi
             return parameters;
         }
 
+        public object GetJsApiParamObj(string prePayId = null)
+        {
+            Log.Debug(this.GetType().ToString(), "JsApiPay::GetJsApiParam is processing...");
+
+            WxPayData jsApiParam = new WxPayData();
+            jsApiParam.SetValue("appId", WxPayConfig.APPID);
+            jsApiParam.SetValue("timeStamp", WxPayApi.GenerateTimeStamp());
+            jsApiParam.SetValue("nonceStr", WxPayApi.GenerateNonceStr());
+            jsApiParam.SetValue("package", "prepay_id=" + prePayId ?? unifiedOrderResult.GetValue("prepay_id"));
+            jsApiParam.SetValue("signType", "MD5");
+            jsApiParam.SetValue("paySign", jsApiParam.MakeSign());
+
+            return jsApiParam.ToObj();
+        }
 
         /**
 	    * 

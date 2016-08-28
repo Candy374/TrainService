@@ -20,8 +20,9 @@ namespace WebAPIService.Controllers.API
     public class PayController : ApiController
     {
         [Route("Order/{orderId}/IP/{ip}")]
-        public string PrePay(string orderId, string ip)
+        public object PrePay(string orderId, string ip)
         {
+            ip = ip.Replace('_', '.');
             var order = DalFactory.Orders.GetOrderByOrderId(orderId);
             if (order == null)
             {
@@ -65,6 +66,13 @@ namespace WebAPIService.Controllers.API
                 return payApi.GetJsApiParameters(prePayId);
             }
 
+        }
+
+        [HttpGet]
+        [Route("Test/{orderId}/IP/{ip}")]
+        public string test(string orderId, string ip)
+        {
+            return orderId + ip;
         }
     }
 }
