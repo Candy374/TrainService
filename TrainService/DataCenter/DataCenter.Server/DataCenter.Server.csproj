@@ -78,9 +78,7 @@
     <Compile Include="Controller\OrderController.cs" />
     <Compile Include="Controller\TestCasesController.cs" />
     <Compile Include="Controller\TestRunsController.cs" />
-    <Compile Include="DataService.cs" />
-    <Compile Include="ImmediateService.cs" />
-    <Compile Include="NameService.cs" />
+    <Compile Include="Object\Cart.cs" />
     <Compile Include="Object\DataLogic.cs" />
     <Compile Include="Object\Project.cs" />
     <Compile Include="Object\ProjectTestResult.cs" />

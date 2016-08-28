@@ -116,6 +116,18 @@ namespace DAL.DAO
             return _baseDao.ExecNonQuery(sql, para) == 1;
         }
 
+        public bool UpdatePrePayInfo(uint orderId, DateTime expiredTime, string prePayId, DateTime lastChangeTime)
+        {
+            var para = new StatementParameterCollection();
+            para.Add(new StatementParameter { Name = "@OId", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
+            para.Add(new StatementParameter { Name = "@ExpiredTime", Direction = ParameterDirection.Input, DbType = DbType.String, Value = expiredTime });
+            para.Add(new StatementParameter { Name = "@PrePayId", Direction = ParameterDirection.Input, DbType = DbType.String, Value = prePayId });
+            para.Add(new StatementParameter { Name = "@LastChangeTime", Direction = ParameterDirection.Input, DbType = DbType.DateTime, Value = lastChangeTime });
+            var sql = "UPDATE orders SET prepay_id=@PrePayId,expired_time=@ExpiredTime WHERE order_id=@OId AND last_change_time=@LastChangeTime LIMIT 1";
+
+            return _baseDao.ExecNonQuery(sql, para) == 1;
+        }
+
         public IList<OrderDetailEntity> GetSubOrdersByProviderId(int id)
         {
             var para = new StatementParameterCollection();

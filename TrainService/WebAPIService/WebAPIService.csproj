@@ -242,7 +242,9 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\API\AddOrderResult.cs" />
+    <Compile Include="Controllers\API\PayController.cs" />
+    <Compile Include="Entity\PayInfoEntity.cs" />
+    <Compile Include="Entity\AddOrderResult.cs" />
     <Compile Include="Controllers\DynamicJsonConverter.cs" />
     <Compile Include="Controllers\API\GoodsController.cs" />
     <Compile Include="Controllers\API\ProviderController.cs" />
@@ -371,6 +373,10 @@
     <ProjectReference Include="..\SimpleLogger\SimpleLogger.csproj">
       <Project>{39dc68df-945e-4b0d-91b8-7abcbb7cd928}</Project>
       <Name>SimpleLogger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WxPayApi\WxPayApi.csproj">
+      <Project>{58ddbf39-133a-4172-b677-37efb5d1572b}</Project>
+      <Name>WxPayApi</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

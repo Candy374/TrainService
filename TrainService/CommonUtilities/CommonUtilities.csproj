@@ -61,6 +61,7 @@
     <Compile Include="ActivityAttribute.cs" />
     <Compile Include="AppConfigHelper.cs" />
     <Compile Include="ConvertExtentions.cs" />
+    <Compile Include="DateTimeHelper.cs" />
     <Compile Include="DirectoryHelper.cs" />
     <Compile Include="EncryptHelper.cs" />
     <Compile Include="EventArgExtensions.cs" />

@@ -22,12 +22,75 @@ namespace WebAPIService.Controllers
         public AddOrderResult Add([FromBody]dynamic data)
         {
             Logger.Info(Convert.ToString(data), "api/Orders/Add");
+            AddOrderResult result = TryAddOrder(data);
+            if (result.OpenId.Length >= 28)
+            {
+              //  PrePay(result);
+            }
+            return result;
+        }
+
+        //private void PrePay(AddOrderResult data)
+        //{
+        //    if (data.OrderId < 1)
+        //    {
+        //        return;
+        //    }
+
+        //    var timeStamp = DateTime.Now.ToUnixTimeStamp();
+        //    var signType = "MD5";
+
+        //    var paramDic = new Dictionary<string, string>();
+
+        //    paramDic["appid"] = "wxaf1fff843c641aba";
+        //    paramDic["nonce_str"] = Guid.NewGuid().ToString("N");
+        //    paramDic["mch_id"] = "1380207502";// 商户号
+        //    paramDic["device_info"] = "WEB";
+        //    paramDic["body"] = "河南宏之途商贸有限公司-外卖";
+        //    paramDic["out_trade_no"] = data.OrderId.ToString();
+        //    paramDic["fee_type"] = "CNY";
+        //    paramDic["total_fee"] = Convert.ToInt32(data.TotalFee * 100).ToString();
+        //    paramDic["spbill_create_ip"] = "";//TODO: 获取网页端的IP
+        //    paramDic["time_start"] = DateTime.Now.ToString("yyyyMMddHHmmss");
+        //    paramDic["time_expire"] = DateTime.Now.AddMinutes(15).ToString("yyyyMMddHHmmss");
+        //    paramDic["notify_url"] = "";//支付回调Url
+        //    paramDic["trade_type"] = "JSAPI";
+        //    paramDic["openid"] = data.OpenId;
+        //    string key = "AFN7SDFSADFH92FWUFN82F72NFNRF824"; //商户的Key
+        //    var sign = Sign(paramDic, key);
+
+        //}
+
+        //private object Sign(Dictionary<string, string> paramDic, string key)
+        //{
+        //    var list = paramDic.Keys.ToList();
+        //    list.Sort();
+        //    var args = new List<string>();
+        //    foreach (var k in list)
+        //    {
+        //        if (string.IsNullOrEmpty(paramDic[k]))
+        //        {
+        //            //空值不参与签名
+        //            continue;
+        //        }
+        //        args.Add("{0}={1}".FormatedWith(k, paramDic[k]));
+        //    }
+
+        //    var tempStr = string.Join("&", args);
+        //}
+
+        private static AddOrderResult TryAddOrder(dynamic data)
+        {
             try
             {
                 string openId = data.OpenId;
                 if (string.IsNullOrEmpty(openId))
                 {
-                    return -3;
+                    return new AddOrderResult
+                    {
+                        ErrorCode = 3,
+                        ErrorMsg = "Open Id is empty!"
+                    };
                 }
                 string trainNumber = data.TrainNumber;
                 string carriageNumber = data.CarriageNumber;
@@ -49,7 +112,11 @@ namespace WebAPIService.Controllers
                     var goods = DAL.DalFactory.Goods.GetGoods((uint)item.Id);
                     if (goods == null)
                     {
-                        return -1;
+                        return new AddOrderResult
+                        {
+                            ErrorCode = 1,
+                            ErrorMsg = "Invided goods Id"
+                        };
                     }
 
                     orderDetailList.Add(new OrderDetailEntity
@@ -70,7 +137,11 @@ namespace WebAPIService.Controllers
 
                 if (totalPriceFromUI != totalPriceVerify)
                 {
-                    return -2;
+                    return new AddOrderResult
+                    {
+                        ErrorCode = 2,
+                        ErrorMsg = "Price is wrong!"
+                    };
                 }
 
                 var orderId = DalFactory.Orders.AddOrder(new OrderEntity
@@ -94,17 +165,30 @@ namespace WebAPIService.Controllers
                     ManCount = 0
                 }, orderDetailList);
 
-                return Convert.ToInt32(orderId);
+                return new AddOrderResult
+                {
+                    OrderId = orderId,
+                    OpenId = openId,
+                    Detail = sb.ToString(),
+                    TotalFee = totalPriceVerify,
+                    ErrorCode = 0,
+                    ErrorMsg = ""
+                };
 
             }
             catch (Exception ex)
             {
                 Logger.Error(ex, "", "api/Orders/Add");
-                return -4;
+                return new AddOrderResult
+                {
+                    ErrorCode = 4,
+                    ErrorMsg = "Unkown error"
+                };
             }
         }
 
-        private void TryRecordLastInput(string openId, string contact, string contactTel)
+
+        private static void TryRecordLastInput(string openId, string contact, string contactTel)
         {
             try
             {
