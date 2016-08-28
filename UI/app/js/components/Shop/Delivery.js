@@ -11,10 +11,10 @@ import Detail from '../common/Detail';
 export default class MyOrders extends Component {
     componentWillMount() {
         this.state = {
-            showAll: false,
+            showAll: true,
             orders: [],
             status: 1,
-            openId: this.props.openId
+            openId: this.props.openId || 124123
         };
     }
 
@@ -47,14 +47,14 @@ export default class MyOrders extends Component {
         const {orders} = this.state;
         // 0：未付款，1：已付款，2：商家已接单，3：商家已配货 
         // 4:快递员已取货 5:已经送到指定位置 6：订单结束 7：订单取消 8：异常状态
-        const footer = {
-            button: {
-                label: this.state.showAll ? '只显示需取货订单' : '显示所有订单',
-                onClick: () => this.setState({showAll: !this.state.showAll})
-            }
-        };
+        // const footer = {
+        //     button: {
+        //         label: this.state.showAll ? '只显示需取货订单' : '显示所有订单',
+        //         onClick: () => this.setState({showAll: !this.state.showAll})
+        //     }
+        // };
         return (
-            <Page flex={true} direction='col' className='order-list' footer={footer}>
+            <Page flex={true} direction='col' className='order-list'>
                { // <div className='tabs'>
                 //     <div className={status == 1 ? 'active' : ''}
                 //          onClick={()=> this.setState({status: 1})}>未完成订单</div>
@@ -71,7 +71,7 @@ export default class MyOrders extends Component {
                     return (
                      <Section key={index}>
                         <Line><Label>{order.ProviderName}</Label></Line>
-                        <Detail {...order} title={`订单号：${order.OrderId}`}/>
+                        <Detail {...order}/>
                         {order.showDetail &&
                             <Section list={true} title='商品信息'>                        
                                 {order.SubOrders.map((item, index) => <NumberLine item={item} key={index}/>)}

@@ -1,13 +1,24 @@
 .tabs {
     display: flex;
-    padding: 1em 1em 0 1em;
     justify-content: space-between;
     background: $tab-background-color;
-    border-bottom: 1px solid $split-color;
+    margin-bottom: 0.8em;
+    text-align: center;
 
     .active {
         color: $tab-active-color;
         border-bottom: 0.2em solid;
-        padding-bottom: 1em;
+    }
+
+    div {
+        flex: 1;
+        border-left: 1px solid $border-color;
+        line-height: 2em;
+        padding-bottom: 0.5em;
+        padding-top: 0.5em;
+
+        &:first-child {
+            border-left: none;
+        }
     }
 }

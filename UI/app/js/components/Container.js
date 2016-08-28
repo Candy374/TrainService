@@ -112,11 +112,11 @@ export default class Container extends Component {
             submitting: true
         });
 
-        actions.submitOrder(data).then(orderId => {
+        actions.submitOrder(data, (orderId) => {
             this.setCurrentOrderId(orderId);
             if (data.OpenId == 'TBD') {
                 actions.redirect(orderId);    
-            }            
+            }
         });
        //this.setCurrentOrderId(18)
     }
@@ -153,13 +153,13 @@ export default class Container extends Component {
                                prePage={this.prePage.bind(this, 'Order')}
                                nextPage={this.nextPage.bind(this, 'Confirm')} 
                                updateChart={this.updateChart}/>);
-            case 'Confirm':
-                return (
-                    <ConfirmPage chart={chart}
-                                 submitting={submitting}
-                                 submitOrder={this.submitOrder}
-                                 prePage={this.prePage.bind(this, 'Info')}
-                                 nextPage={this.nextPage.bind(this, 'Detail')} />);
+            // case 'Confirm':
+            //     return (
+            //         <ConfirmPage chart={chart}
+            //                      submitting={submitting}
+            //                      submitOrder={this.submitOrder}
+            //                      prePage={this.prePage.bind(this, 'Info')}
+            //                      nextPage={this.nextPage.bind(this, 'Detail')} />);
             case 'Detail':
                 return (
                     <OrderDetail setCurrentOrderId={this.setCurrentOrderId}

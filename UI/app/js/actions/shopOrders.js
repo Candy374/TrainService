@@ -2,7 +2,7 @@ import request from 'superagent';
 import  {basicUrl, updateOrderURL, goodsURL} from '../constants/actions';
 
 const udpateOrder = (orderId, data) => {
-    return request.post(basicUrl + updateOrderURL + orderId, data)
+    return request.post(basicUrl + `api/Orders/Update/Order/${orderId}/OpenId/${openId}`, data)
         .then(res => res.body)
         .catch(err => {
             throw err;

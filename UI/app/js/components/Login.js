@@ -14,10 +14,11 @@ export default class Login extends Component {
             this.state[parts[0]] = parts[1];
         });
 
-        if (this.state.state.indexOf('ReLogin') > -1) {
+        const page = this.state.state;
+        if (page && page.indexOf('ReLogin') > -1) {
             const orderId = this.state.state.replace('ReLogin_', '');
             login(this.state.code, 'ReLogin').then((id) => {
-                alert('renew open Id is' + id);
+                // alert('renew open Id is' + id);
                 updateOpenId(orderId).then(id => {
                     this.props.updateOpenId(id);
                 });
@@ -26,10 +27,9 @@ export default class Login extends Component {
                 console.log(err);
             });
         } else {
-            this.props.nextPage(this.state.state);
-            login(this.state.code, this.state.state).then((id) => {
-                //id =123;
-                alert('open Id is' + id);
+            this.props.nextPage(page);
+            login(this.state.code, page).then((id) => {
+                console.log('open Id is' + id);
                 this.props.updateOpenId(id);
             });
         }
