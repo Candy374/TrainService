@@ -56,10 +56,13 @@ const pay = ({appId, timeStamp, nonceStr, prepay_id, signType, paySign}, callbac
 
 const getPayArgs = (OrderId, callback) => {
     const Ip = returnCitySN.cip.replace(/\./g, '_');
+    //  const args = JSON.parse("{\"appId\":\"wxaf1fff843c641aba\",\"nonceStr\":\"2fcf1200e44c4b2fa0432fe64a8896d7\",\"package\":\"prepay_id=wx201608281101416151e3b8\",\"paySign\":\"076FEA6E7A3B126FBA28729457BACC7B\",\"signType\":\"MD5\",\"timeStamp\":\"1472353936\"}");
+    //         pay(args, callback.bind(this, OrderId));
+
     return request.post(basicUrl + `Pay/Order/${OrderId}/IP/${Ip}`)
         .then((res) => {
-            const args = res.body;
-            pay(...args, callback.bind(this, OrderId));
+            const args = JSON.parse(res.body);
+            pay(args, callback.bind(this, OrderId));
         })
         .catch(err => {
             console.log('can not get pay args');
