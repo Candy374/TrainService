@@ -19,13 +19,13 @@ export default class OrderInfo extends Component {
             <input  value={this.props.chart.info[name]}
                     ref={node=> this[name] = node}
                     onChange={() => {
-                        const value = this[name].value;
                         const info = this.props.chart.info;
-                        info[name] = this[name].value;
+                        info[name] =  this[name].value;
                         this.props.updateChart({info});
-
+                    }}
+                    onBlur={() => {
                         let state = this.state;
-                        if (!this.isValid(value, name)) {
+                        if (!this.isValid( this[name].value, name)) {
                             if (state[name + 'Error'] == '') {
                                 let label = this[name].parentElement.children[0].textContent;
                                 state[name + 'Error'] = '请输入正确的' + label.replace('：', '').trim();
