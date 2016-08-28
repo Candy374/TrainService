@@ -125,7 +125,11 @@ export default class Container extends Component {
         this.setState({openId: id});
         
         actions.getUserInfo(id).then((user) => {
-            this.state.chart.info = Object.assign({}, this.state.chart.info, user);
+            const info = this.state.chart.info;
+            info.Contact = user.Contact;
+            info.ContactTel = user.ContactTel;
+            info.TrainNumber = user.TrainNumber;
+            info.CarriageNumber = user.CarriageNumber;
             this.setState({
                 chart: this.state.chart
             });

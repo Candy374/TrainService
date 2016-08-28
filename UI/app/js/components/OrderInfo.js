@@ -76,7 +76,7 @@ export default class OrderInfo extends Component {
                 disabled: this.props.submitting,
                 onClick: this.props.prePage
             }
-    };
+        };
         
         return (
             <Page className='order-info' footer={footer}>
