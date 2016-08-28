@@ -91,21 +91,28 @@ export default class Container extends Component {
             return;
         }
 
-        const {info, goods} = this.state.chart;
-        const list = Object.keys(goods).map(key => {            
-            return {Id: goods[key].GoodsId, Count: goods[key].Count};
-        });
+        const chart = this.state.chart;
+        const {info, goods} = chart;
+        let list;
+        if (list instanceof Array) {
+             list = goods.map(item => ({Id: item.GoodsId, Count: item.Count}));
+        } else {
+            list = Object.keys(goods).map(key => {            
+                return {Id: goods[key].GoodsId, Count: goods[key].Count};
+            });
+        }
+
         const data = {
             OpenId: this.state.openId,
-            TrainNumber: info.TrainNumber,
-            CarriageNumber: '' + info.CarriageNumber,
-            IsDelay: info.IsDelay == 'on',
+            TrainNumber: info.TrainNumber || chart.TrainNumber,
+            CarriageNumber: '' + info.CarriageNumber || chart.CarriageNumber,
+            IsDelay: info.IsDelay || chart.IsDelay,
             OrderType: 0,
             PayWay: 0,
-            Comment: info.Comment,
-            Contact: info.Contact,
-            ContactTel: info.ContactTel,
-            TotalPrice: this.state.chart.total,
+            Comment: info.Comment || chart.Comment,
+            Contact: info.Contact || chart.Contact,
+            ContactTel: info.ContactTel || chart.ContactTel,
+            TotalPrice: info.total || chart.Amount,
             List: list
         };
         this.setState({
@@ -173,6 +180,8 @@ export default class Container extends Component {
                                  id={orderId}/>);
             case 'MyOrders':
                 return <MyOrders openId={openId}
+                                 updateChart={this.updateChart}
+                                 submitOrder={this.submitOrder}
                                  setCurrentOrderId={this.setCurrentOrderId}/>;
 
             case 'Shop': 

@@ -103,7 +103,8 @@ export default class MyOrders extends Component {
                         }}/>
                         {this.getStatus(order.StatusCode) == 0 && 
                             <SmallButton label='立即支付' primary={true} onClick={() => {
-                                this.props.setCurrentOrderId(order.OrderId)                          
+                                order.goods = order.SubOrders;
+                                this.props.updateChart(order, this.props.submitOrder);                                                 
                             }}/>}
                         {this.getStatus(order.StatusCode) == 2 && 
                             <SmallButton label='评价' onClick={() => {

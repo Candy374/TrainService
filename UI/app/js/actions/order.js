@@ -24,14 +24,14 @@ export const redirect = (orderId) => {
     location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxaf1fff843c641aba&redirect_uri=http%3A%2F%2Ftrainservice.techotaku.net%2F%23Login%2F&response_type=code&scope=snsapi_userinfo&state=ReLogin_${orderId}#wechat_redirect`        
 };
 
-const pay = ({appId, timeStamp, nonceStr, prepay_id, signType, paySign}, callback) => {
+const pay = ({appId, timeStamp, nonceStr, _package, signType, paySign}, callback) => {
     function onBridgeReady() {
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest', {
                 appId,     //公众号名称，由商户传入     
                 timeStamp,    //时间戳，自1970年以来的秒数     
                 nonceStr, //随机串     
-                package: `prepay_id=${prepay_id}`,     
+                package: _package,     
                 signType,         //微信签名方式：     
                 paySign //微信签名 
             },
@@ -59,6 +59,7 @@ const getPayArgs = (OrderId, callback) => {
     return request.post(basicUrl + `Pay/Order/${OrderId}/IP/${Ip}`)
         .then((res) => {
             const args = JSON.parse(res.body);
+            args._package = args.package;
             pay(args, callback.bind(this, OrderId));
         })
         .catch(err => {
