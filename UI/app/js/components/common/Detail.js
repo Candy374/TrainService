@@ -2,10 +2,7 @@ import React, {Component} from 'react';
 import {Section, Line, Label, SmallButton} from './Widgets';
 import {ListItem, SummaryLine, OrderListNoImg} from './GoodsList';
 
-const displayTime = (OrderTime) => {
-  const time = new Date(OrderTime);
-  return `${time.toLocaleDateString()} ${time.toTimeString().substr(0,5)}`
-}
+const displayTime = (OrderTime) => OrderTime.replace('T', ' ');
 
 const displayAddress = (TrainNumber, CarriageNumber) => `${TrainNumber} ${CarriageNumber}号餐车`;
 const OrderDetail = ({Contact, ContactTel, TrainNumber, CarriageNumber, title, OrderId, Comment, OrderTime }) => {
