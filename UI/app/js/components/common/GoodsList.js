@@ -57,18 +57,23 @@ export const OrderListNoImg = ({total, list, totalLabel, short}) => {
   );
 };
 
-export const RateItem = ({url, name, rate, updateRate}) => {
-    const getRateClass =(current) => {
-        return current <= rate ? 'active' : 'normal';
-    };
+const Star = ({active})=> {
+  //color = 'red'
+  return (
+    <svg viewBox="200 50 300 300" width='1em' height='1em'>
+      <polygon fill={active ? '#FF9800' : '#fff'} stroke={active ? '#FF9800' : '#eee'} strokeWidth='10'
+              points="350,75 400,150 469,161 408,226 423,301 350,261 277,301 292,226 231,161 310,150" />
+    </svg>)
+};
 
+export const RateItem = ({url, name, rate, updateRate}) => {
     return (
       <Line align={name ? 'start' : 'center'}>
         {name && <Label flex={true}>{name}</Label>}
-        {[1,2,3,4,5].map(rate => (
-            <span className={'star-'+ getRateClass(rate)}
-                    onClick={()=> updateRate(rate)}
-                    key={rate}/>
+        {[1,2,3,4,5].map(current => (
+          <div key={current} onClick={()=> updateRate(current)}>
+            <Star active={current <= rate}/>
+          </div>
         ))}
       </Line>
     );
