@@ -85,7 +85,7 @@ export default class MyOrders extends Component {
                          */}
                 </div>
                 <div className='content'>
-                {orderMap[status].map((order, index) => {
+                {orderMap[status].reverse().map((order, index) => {
                     // if (!showAll && count++ > this.showNum) {
                     //     return null;
                     // }
