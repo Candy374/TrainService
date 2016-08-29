@@ -1,6 +1,6 @@
 import request from 'superagent';
 import  {basicUrl, typeURL, goodsURL, userURL, cancelURL, rateURL,
-  submitURL,orderListURL, orderURL, stationsURL} from '../constants/actions';
+  submitURL,orderListURL, orderURL, stationsURL, deleteURL} from '../constants/actions';
 
 export const getTypes = () => {
     return request.get(basicUrl + typeURL)
@@ -119,11 +119,20 @@ export const getUserInfo = (userId) => {
         });
 };
 
-export const cancelOrder = (orderId) => {
-     return request.post(basicUrl + cancelURL + orderId)
+export const cancelOrder = (orderId, openId) => {
+     return request.post(basicUrl + cancelURL + openId + '/' + orderId)
         .then(res => res.body)
         .catch(err => {
             console.log('Cancel order failed!');
+            console.log(err.message);
+        });
+};
+
+export const deleteOrder = (orderId, opendId) => {
+     return request.get(basicUrl + deleteURL + openId + '/' + orderId)
+        .then(res => res.body)
+        .catch(err => {
+            console.log('Delete order failed!');
             console.log(err.message);
         });
 };

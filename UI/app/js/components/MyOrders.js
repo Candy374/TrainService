@@ -96,16 +96,41 @@ export default class MyOrders extends Component {
                     <Line>
                         订单号：<LinkLabel flex={true} onClick={() => this.props.setCurrentOrderId(order.OrderId)}>{order.OrderId}
                         </LinkLabel>
-                        <SmallButton label='删除' onClick={() => {
-                            actions.cancelOrder(order.OrderId).then((result) => {
+      
+                        {order.StatusCode >= 6 && <SmallButton label='删除' onClick={() => {
+                            actions.deleteOrder(order.OrderId, this.porps.openId).then((result) => {
                                 if (result) {
                                     this.props.setCurrentOrderId(order.OrderId);
                                 }
-                            })                               
+                            });  
                         }}/>
-                        {this.getStatus(order.StatusCode) == 0 && 
+                        }
+                        {order.StatusCode < 6 && 
+                            <SmallButton label='取消订单' onClick={() => {
+                            if (order.StatusCode <= 1) {
+                                actions.cancelOrder(order.OrderId, this.porps.openId).then((result) => {
+                                    if (result) {
+                                        this.props.setCurrentOrderId(order.OrderId);
+                                    }
+                                });                        
+                            } else {
+                                alert(`请联系${Constants.assistPhone}取消订单`);
+                            }
+                        }}/>
+                        }
+                        {order.StatusCode == 0 && 
                             <SmallButton label='立即支付' primary={true} onClick={() => {
                                 order.goods = order.SubOrders;
+                                order.total = order.Amount;
+                                order.info = {
+                                    TrainNumber: order.TrainNumber,
+                                    CarriageNumber: '' + order.CarriageNumber,
+                                    IsDelay: order.IsDelay,
+                                    Comment: order.Comment,
+                                    Contact: order.Contact,
+                                    ContactTel: order.ContactTel
+                                }
+
                                 this.props.updateChart(order, this.props.submitOrder);                                                 
                             }}/>}
                         {this.getStatus(order.StatusCode) == 2 && 

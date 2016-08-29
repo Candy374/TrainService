@@ -9,5 +9,6 @@ export const orderURL = 'orders/Query/Order/';
 export const stationsURL = 'stations';
 export const userURL = 'user/LastInput/';
 export const cancelURL = 'Orders/Cancel/';
+export const deleteURL = 'Orders/Delete/';
 export const rateURL = 'Orders/Rate';
 export const updateOrderURL = 'Orders/Update/SubOrder/';

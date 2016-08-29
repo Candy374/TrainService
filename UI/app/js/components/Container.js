@@ -104,15 +104,15 @@ export default class Container extends Component {
 
         const data = {
             OpenId: this.state.openId,
-            TrainNumber: info ? info.TrainNumber : chart.TrainNumber,
-            CarriageNumber: '' + (info ? info.CarriageNumber : chart.CarriageNumber),
-            IsDelay: info ? info.IsDelay : chart.IsDelay,
+            TrainNumber: info.TrainNumber,
+            CarriageNumber: '' + info.CarriageNumber,
+            IsDelay: info.IsDelay,
             OrderType: 0,
             PayWay: 0,
-            Comment: info ? info.Comment : chart.Comment,
-            Contact: info ? info.Contact : chart.Contact,
-            ContactTel: info ? info.ContactTel : chart.ContactTel,
-            TotalPrice: info ? chart.total : chart.Amount,
+            Comment: info.Comment,
+            Contact: info.Contact,
+            ContactTel: info.ContactTel,
+            TotalPrice: chart.total,
             List: list
         };
         this.setState({

@@ -14,7 +14,7 @@ export default class OrderInfo extends Component {
         }
     }
 
-    renderInput(name) {
+    renderInput(name, type) {
         return (
             <input  value={this.props.chart.info[name]}
                     ref={node=> this[name] = node}
@@ -38,7 +38,7 @@ export default class OrderInfo extends Component {
                             }  
                         }
                     }}
-                    type='text' />
+                    type={type || 'text'} />
         );
     }
 
@@ -91,7 +91,7 @@ export default class OrderInfo extends Component {
                     <Line direction='col'>
                         <div style={{width : '100%'}}>
                         <Label className='must'>餐车车厢号：</Label>
-                        {this.renderInput('CarriageNumber')}
+                        {this.renderInput('CarriageNumber', 'number')}
                         </div>
                         <Label status='error'>{this.state.CarriageNumberError}</Label>
                     </Line>
@@ -118,7 +118,7 @@ export default class OrderInfo extends Component {
                     <Line direction='col'>
                     <div style={{width : '100%'}}>
                         <Label className='must'>手机号：</Label>
-                        {this.renderInput('ContactTel')}
+                        {this.renderInput('ContactTel', 'number')}
                         </div>
                         <Label status='error'>{this.state.ContactTelError}</Label>
                     </Line>
