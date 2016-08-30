@@ -16,7 +16,7 @@ export default class MyOrders extends Component {
             total: 0,
             prepare: {},
             showAll: false,
-            openId: this.props.openId || 'ouzHawBv2svApr1IiNxXykpmAuI0'
+            openId: this.props.openId
         };
         this.orders = [];
         this.updateOrderList();

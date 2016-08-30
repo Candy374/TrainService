@@ -13,7 +13,7 @@ export default class MyOrders extends Component {
             orderMap: {'-1': [], '0':[], '1': [], '2': [], '3': []},
             status: -1,
             showAll: false,
-            openId: this.props.openId || 'ouzHawBv2svApr1IiNxXykpmAuI0'
+            openId: this.props.openId
         };
         // this.showNum = 5;
     }
@@ -69,6 +69,8 @@ export default class MyOrders extends Component {
         // let count = 0;
         // 0：未付款，1：已付款，2：商家已接单，3：商家已配货 
         // 4:快递员已取货 5:已经送到指定位置 6：订单结束 7：订单取消 8：异常状态
+
+        const orderList = orderMap[status].sort((order1, order2) => order1.OrderTime - order2.OrderTime);
         return (
             <Page flex={true} direction='col' className='order-list'>
                 <div className='tabs'>
@@ -85,7 +87,7 @@ export default class MyOrders extends Component {
                          */}
                 </div>
                 <div className='content'>
-                {orderMap[status].map((order, index) => {
+                {orderList.map((order, index) => {
                     // if (!showAll && count++ > this.showNum) {
                     //     return null;
                     // }
@@ -94,16 +96,42 @@ export default class MyOrders extends Component {
                     <Line>
                         订单号：<LinkLabel flex={true} onClick={() => this.props.setCurrentOrderId(order.OrderId)}>{order.OrderId}
                         </LinkLabel>
-                        <SmallButton label='删除' onClick={() => {
-                            actions.cancelOrder(order.OrderId).then((result) => {
+      
+                        {order.StatusCode >= 6 && <SmallButton label='删除' onClick={() => {
+                            actions.deleteOrder(order.OrderId, this.porps.openId).then((result) => {
                                 if (result) {
                                     this.props.setCurrentOrderId(order.OrderId);
                                 }
-                            })                               
+                            });  
                         }}/>
-                        {this.getStatus(order.StatusCode) == 0 && 
+                        }
+                        {order.StatusCode < 6 && 
+                            <SmallButton label='取消订单' onClick={() => {
+                            if (order.StatusCode <= 1) {
+                                actions.cancelOrder(order.OrderId, this.porps.openId).then((result) => {
+                                    if (result) {
+                                        this.props.setCurrentOrderId(order.OrderId);
+                                    }
+                                });                        
+                            } else {
+                                alert(`请联系${Constants.assistPhone}取消订单`);
+                            }
+                        }}/>
+                        }
+                        {order.StatusCode == 0 && 
                             <SmallButton label='立即支付' primary={true} onClick={() => {
-                                this.props.setCurrentOrderId(order.OrderId)                          
+                                order.goods = order.SubOrders;
+                                order.total = order.Amount;
+                                order.info = {
+                                    TrainNumber: order.TrainNumber,
+                                    CarriageNumber: '' + order.CarriageNumber,
+                                    IsDelay: order.IsDelay,
+                                    Comment: order.Comment,
+                                    Contact: order.Contact,
+                                    ContactTel: order.ContactTel
+                                }
+
+                                this.props.updateChart(order, this.props.submitOrder);                                                 
                             }}/>}
                         {this.getStatus(order.StatusCode) == 2 && 
                             <SmallButton label='评价' onClick={() => {

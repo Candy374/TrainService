@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Section, Line} from './Widgets';
+import {assistPhone} from '../../constants/system';
 
 const Comments = ({Comment}) =>(
     <div className='comments'>
@@ -8,7 +9,7 @@ const Comments = ({Comment}) =>(
         感谢您对我们的支持！
       </p>
       <p>
-        如有任何问题、建议或投诉，请拨打电话xxx-xxxx-xxxx
+        {`如有任何问题、建议或投诉，请拨打电话${assistPhone}`}
       </p>
     </div>
 );

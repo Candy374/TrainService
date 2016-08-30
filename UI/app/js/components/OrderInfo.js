@@ -14,18 +14,18 @@ export default class OrderInfo extends Component {
         }
     }
 
-    renderInput(name) {
+    renderInput(name, type) {
         return (
             <input  value={this.props.chart.info[name]}
                     ref={node=> this[name] = node}
                     onChange={() => {
-                        const value = this[name].value;
                         const info = this.props.chart.info;
-                        info[name] = this[name].value;
+                        info[name] =  this[name].value;
                         this.props.updateChart({info});
-
+                    }}
+                    onBlur={() => {
                         let state = this.state;
-                        if (!this.isValid(value, name)) {
+                        if (!this.isValid( this[name].value, name)) {
                             if (state[name + 'Error'] == '') {
                                 let label = this[name].parentElement.children[0].textContent;
                                 state[name + 'Error'] = '请输入正确的' + label.replace('：', '').trim();
@@ -38,7 +38,7 @@ export default class OrderInfo extends Component {
                             }  
                         }
                     }}
-                    type='text' />
+                    type={type || 'text'} />
         );
     }
 
@@ -76,7 +76,7 @@ export default class OrderInfo extends Component {
                 disabled: this.props.submitting,
                 onClick: this.props.prePage
             }
-    };
+        };
         
         return (
             <Page className='order-info' footer={footer}>
@@ -91,7 +91,7 @@ export default class OrderInfo extends Component {
                     <Line direction='col'>
                         <div style={{width : '100%'}}>
                         <Label className='must'>餐车车厢号：</Label>
-                        {this.renderInput('CarriageNumber')}
+                        {this.renderInput('CarriageNumber', 'number')}
                         </div>
                         <Label status='error'>{this.state.CarriageNumberError}</Label>
                     </Line>
@@ -118,7 +118,7 @@ export default class OrderInfo extends Component {
                     <Line direction='col'>
                     <div style={{width : '100%'}}>
                         <Label className='must'>手机号：</Label>
-                        {this.renderInput('ContactTel')}
+                        {this.renderInput('ContactTel', 'number')}
                         </div>
                         <Label status='error'>{this.state.ContactTelError}</Label>
                     </Line>

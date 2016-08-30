@@ -91,28 +91,35 @@ export default class Container extends Component {
             return;
         }
 
-        const {info, goods} = this.state.chart;
-        const list = Object.keys(goods).map(key => {            
-            return {Id: goods[key].GoodsId, Count: goods[key].Count};
-        });
+        const chart = this.state.chart;
+        const {info, goods} = chart;
+        let list;
+        if (list instanceof Array) {
+             list = goods.map(item => ({Id: item.GoodsId, Count: item.Count}));
+        } else {
+            list = Object.keys(goods).map(key => {            
+                return {Id: goods[key].GoodsId, Count: goods[key].Count};
+            });
+        }
+
         const data = {
             OpenId: this.state.openId,
             TrainNumber: info.TrainNumber,
             CarriageNumber: '' + info.CarriageNumber,
-            IsDelay: info.IsDelay == 'on',
+            IsDelay: info.IsDelay,
             OrderType: 0,
             PayWay: 0,
             Comment: info.Comment,
             Contact: info.Contact,
             ContactTel: info.ContactTel,
-            TotalPrice: this.state.chart.total,
+            TotalPrice: chart.total,
             List: list
         };
         this.setState({
             submitting: true
         });
 
-        actions.submitOrder(data, (orderId) => {
+        actions.submitOrder(data, (orderId, success) => {
             this.setCurrentOrderId(orderId);
             if (data.OpenId == 'TBD') {
                 actions.redirect(orderId);    
@@ -124,8 +131,12 @@ export default class Container extends Component {
     updateOpenId(id) {
         this.setState({openId: id});
         
-        actions.getUserInfo(this.state.openId).then((user) => {
-            this.state.chart.info = Object.assign({}, this.state.chart.info, user);
+        actions.getUserInfo(id).then((user) => {
+            const info = this.state.chart.info;
+            info.Contact = user.Contact;
+            info.ContactTel = user.ContactTel;
+            info.TrainNumber = user.TrainNumber;
+            info.CarriageNumber = user.CarriageNumber;
             this.setState({
                 chart: this.state.chart
             });
@@ -169,6 +180,8 @@ export default class Container extends Component {
                                  id={orderId}/>);
             case 'MyOrders':
                 return <MyOrders openId={openId}
+                                 updateChart={this.updateChart}
+                                 submitOrder={this.submitOrder}
                                  setCurrentOrderId={this.setCurrentOrderId}/>;
 
             case 'Shop': 

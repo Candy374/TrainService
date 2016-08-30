@@ -6,6 +6,7 @@ import Detail from './common/Detail';
 import Comments from './common/Comments';
 import OrderStatus from './common/OrderStatus';
 import {Section, Line, Label} from './common/Widgets';
+import {assistPhone} from '../constants/system';
 
 export default class OrderDetail extends Component {
     componentWillMount() {
@@ -45,7 +46,7 @@ export default class OrderDetail extends Component {
     cancelOrder() {
         const order = this.state.order;
         if (order.StatusCode != 0) {
-            alert('请联系xxxxxx取消订单');
+            alert(`请联系${assistPhone}取消订单`);
         } else {
             actions.cancelOrder(order.OrderId).then(this.updateOrder);
         }  
@@ -63,6 +64,7 @@ export default class OrderDetail extends Component {
     getButton() {
       const StatusCode = this.state.order.StatusCode;
       let button;
+
       if (StatusCode == 0) {
         button = {
           label: '立即支付',
