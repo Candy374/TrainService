@@ -124,7 +124,7 @@ export default class Container extends Component {
     updateOpenId(id) {
         this.setState({openId: id});
         
-        actions.getUserInfo(this.openId).then((user) => {
+        actions.getUserInfo(this.state.openId).then((user) => {
             this.state.chart.info = Object.assign({}, this.state.chart.info, user);
             this.setState({
                 chart: this.state.chart

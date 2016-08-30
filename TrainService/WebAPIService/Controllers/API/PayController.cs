@@ -29,6 +29,12 @@ namespace WebAPIService.Controllers.API
                 return "Err:找不到指定订单";
             }
 
+            if (order.UserOpenid.Length < 28)
+            {
+                return "Err:无效的OpenId";
+
+            }
+
             var payInfo = new WxJsPayInfo
             {
                 Body = "河南宏之途商贸有限公司-外卖",
@@ -65,6 +71,22 @@ namespace WebAPIService.Controllers.API
 
                 return payApi.GetJsApiParameters(prePayId);
             }
+
+        }
+
+        [Route("Notify")]
+        public string Notify([FromBody]string body)
+        {
+            var notify = new ResultNotify(body);
+            int fee;
+            string orderId;
+            var result = notify.ProcessNotify(out fee, out orderId);
+            if (result.IsSet("return_code") && result.GetValue("return_code").ToString() == "SUCCESS")
+            {
+                //TODO:Update Order
+            }
+
+            return result.ToJson();
 
         }
 

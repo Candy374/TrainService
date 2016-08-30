@@ -54,7 +54,7 @@ namespace WxPayApi
         {
             var now = DateTime.Now;
             expiredTime = now.Add(_payInfo.Time_expire_span);
-            
+
             //统一下单
             WxPayData data = new WxPayData();
             data.SetValue("body", _payInfo.Body);
@@ -95,7 +95,7 @@ namespace WxPayApi
         * 更详细的说明请参考网页端调起支付API：http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7
         * 
         */
-        public string GetJsApiParameters(string prePayId = null)
+        public object GetJsApiParameters(string prePayId = null)
         {
             Log.Debug(this.GetType().ToString(), "JsApiPay::GetJsApiParam is processing...");
 
@@ -107,9 +107,9 @@ namespace WxPayApi
             jsApiParam.SetValue("signType", "MD5");
             jsApiParam.SetValue("paySign", jsApiParam.MakeSign());
 
-            string parameters = jsApiParam.ToJson();
+            Log.Debug(this.GetType().ToString(), "Get jsApiParam : " + jsApiParam.ToJson());
+            var parameters = jsApiParam.ToObj();
 
-            Log.Debug(this.GetType().ToString(), "Get jsApiParam : " + parameters);
             return parameters;
         }
 

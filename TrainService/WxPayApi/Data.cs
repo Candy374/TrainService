@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using LitJson;
 using LoggerContract;
+using System.Web.Script.Serialization;
 
 namespace WxPayApi
 {
@@ -182,8 +183,10 @@ namespace WxPayApi
 
         public object ToObj()
         {
-            var s = ToJson();
-            return JsonMapper.ToObject(s);
+            var serializer = new JavaScriptSerializer();
+            serializer.RegisterConverters(new[] { new DynamicJsonConverter() });
+
+            return serializer.Deserialize(ToJson(), typeof(object));
         }
 
         /**

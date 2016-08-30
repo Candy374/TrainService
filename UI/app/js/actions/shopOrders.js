@@ -1,7 +1,7 @@
 import request from 'superagent';
 import  {basicUrl, updateOrderURL, goodsURL} from '../constants/actions';
 
-const udpateOrder = (orderId, data) => {
+const udpateOrder = (orderId, openId, data) => {
     return request.post(basicUrl + `api/Orders/Update/Order/${orderId}/OpenId/${openId}`, data)
         .then(res => res.body)
         .catch(err => {
@@ -9,24 +9,24 @@ const udpateOrder = (orderId, data) => {
         });
 };
 
-export const takeOrder = (orderId) => {
+export const takeOrder = (orderId, openId) => {
     const data = { "NewStatus":2 , "OldStatus":1};
-    return udpateOrder(orderId, data);
+    return udpateOrder(orderId, openId, data);
 };
 
-export const orderReady = (orderId) => {
+export const orderReady = (orderId, openId) => {
     const data = { "NewStatus":3 , "OldStatus":2};
-    return udpateOrder(orderId, data);
+    return udpateOrder(orderId, openId, data);
 };
 
-export const expressOrder = (orderId) => {
+export const expressOrder = (orderId, openId) => {
     const data = { "NewStatus":4 , "OldStatus":3};
-    return udpateOrder(orderId, data);
+    return udpateOrder(orderId, openId, data);
 };
 
-export const doneDeliver = (orderId) => {
+export const doneDeliver = (orderId, openId) => {
     const data = { "NewStatus":5 , "OldStatus":4};
-    return udpateOrder(orderId, data);
+    return udpateOrder(orderId, openId, data);
 };
 
 // :

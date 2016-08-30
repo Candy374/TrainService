@@ -13,7 +13,7 @@ export default class MyOrders extends Component {
             orderMap: {'-1': [], '0':[], '1': [], '2': [], '3': []},
             status: -1,
             showAll: false,
-            openId: this.props.openId || 124123
+            openId: this.props.openId || 'ouzHawBv2svApr1IiNxXykpmAuI0'
         };
         // this.showNum = 5;
     }
@@ -92,7 +92,7 @@ export default class MyOrders extends Component {
 
                     const button = (
                     <Line>
-                        <LinkLabel flex={true} onClick={() => this.props.setCurrentOrderId(order.OrderId)}>{order.OrderId}
+                        订单号：<LinkLabel flex={true} onClick={() => this.props.setCurrentOrderId(order.OrderId)}>{order.OrderId}
                         </LinkLabel>
                         <SmallButton label='删除' onClick={() => {
                             actions.cancelOrder(order.OrderId).then((result) => {
