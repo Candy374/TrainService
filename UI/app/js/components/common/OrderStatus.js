@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Section, Line, Label} from '../common/Widgets';
+import {CountDown} from '../common/Detail';
 
-const OrderStatus = ({status}) =>{
+const OrderStatus = ({status, ExpiredTime}) =>{
      // 0：未付款，1：已付款，2：商家已接单，3：商家已配货 
     // 4:快递员已取货 5:已经送到指定位置 6：订单结束 7：订单取消 8：异常状态
     const getClass = (tabStatus) => {
@@ -31,6 +32,7 @@ const OrderStatus = ({status}) =>{
                 <li className={getClass(6)}>订单结束</li>
               </ul>)
             }
+            {status == 0 && <label>请在<CountDown ExpiredTime={ExpiredTime}/>之内下单，逾期订单将自动取消</label>}
         </Section>
     );
 };
