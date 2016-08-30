@@ -22,19 +22,22 @@ namespace WebAPIService.Controllers
         public int Add([FromBody]dynamic data)
         {
             Logger.Info(Convert.ToString(data), "api/Orders/Add");
-            int result = TryAddOrder(data);
+            ReturnData result = TryAddOrder(data);
             string openId = data.OpenId;
 
-            if (result > 0)
+            if (result.Data != null && (int)result.Data > 0)
             {
-                Logger.Info("Add Order success. order_id={0}, openId={1}".FormatedWith(result, openId), "api/Orders/Add");
+                Logger.Info("Add Order success. order_id={0}, openId={1}".FormatedWith(result.Data, openId), "api/Orders/Add");
+
+                return (int)result.Data;
             }
             else
             {
-                Logger.Warn("Add Order FAIL. retuen_code={0}, openId={1}".FormatedWith(result, openId), "api/Orders/Add");
+                Logger.Warn("Add Order FAIL. retuen_code={0}, openId={1}".FormatedWith(result.ErrCode, openId), "api/Orders/Add");
+                throw new Exception(result.ErrMsg);
             }
 
-            return result;
+
         }
 
         //private void PrePay(AddOrderResult data)
@@ -86,14 +89,20 @@ namespace WebAPIService.Controllers
         //    var tempStr = string.Join("&", args);
         //}
 
-        private static int TryAddOrder(dynamic data)
+        private static ReturnData TryAddOrder(dynamic data)
         {
             try
             {
                 string openId = data.OpenId;
                 if (string.IsNullOrEmpty(openId))
                 {
-                    return -3;
+                    return new ReturnData
+                    {
+                        Data = null,
+                        ErrCode = 3,
+                        ErrMsg = "OpenId is empry!",
+                        ShowLevel = 1
+                    };
                 }
                 string trainNumber = data.TrainNumber;
                 string carriageNumber = data.CarriageNumber;
@@ -115,7 +124,12 @@ namespace WebAPIService.Controllers
                     var goods = DAL.DalFactory.Goods.GetGoods((uint)item.Id);
                     if (goods == null)
                     {
-                        return -1;
+                        return new ReturnData
+                        {
+                            Data = null,
+                            ErrCode = 1,
+                            ErrMsg = "Could not found good by goodsId"
+                        };
                     }
 
                     orderDetailList.Add(new OrderDetailEntity
@@ -136,7 +150,13 @@ namespace WebAPIService.Controllers
 
                 if (totalPriceFromUI != totalPriceVerify)
                 {
-                    return -2;
+                    return new ReturnData
+                    {
+                        Data = null,
+                        ErrCode = 2,
+                        ErrMsg = "Amount verification fail!",
+                        ShowLevel = 1
+                    };
                 }
 
                 var orderId = DalFactory.Orders.AddOrder(new OrderEntity
@@ -160,13 +180,25 @@ namespace WebAPIService.Controllers
                     ManCount = 0
                 }, orderDetailList);
 
-                return Convert.ToInt32(orderId);
+                return new ReturnData
+                {
+                    Data = Convert.ToInt32(orderId),
+                    ErrCode = 0,
+                    ErrMsg = "",
+                    ShowLevel = 0
+                };
 
             }
             catch (Exception ex)
             {
                 Logger.Error(ex, "", "api/Orders/Add");
-                return -4;
+                return new ReturnData
+                {
+                    Data = null,
+                    ErrCode = 4,
+                    ErrMsg = ex.Message,
+                    ShowLevel = 1
+                };
             }
         }
 
@@ -220,15 +252,36 @@ namespace WebAPIService.Controllers
                 }
                 else
                 {
-                    return 0;
+                    //return new ReturnData
+                    //{
+                    //    Data = "FAIL",
+                    //    ErrCode = 1,
+                    //    ErrMsg = "Rate goods failed",
+                    //    ShowLevel = 1
+                    //};
+                    throw new Exception("Rate goods failed");
                 }
 
                 return 1;
+                //return new ReturnData
+                //{
+                //    Data = "SUCCESS",
+                //    ErrCode = 0,
+                //    ErrMsg = "",
+                //    ShowLevel = 1
+                //};
             }
             catch (Exception ex)
             {
                 Logger.Error(ex, "", "api/Orders/Rate");
-                return 0;
+                throw;
+                //return new ReturnData
+                //{
+                //    Data = "FAIL",
+                //    ErrCode = 1,
+                //    ErrMsg = ex.Message,
+                //    ShowLevel = 1
+                //};
             }
         }
 
@@ -244,8 +297,34 @@ namespace WebAPIService.Controllers
         [Route("Cancel/{openId}/{orderId}")]
         public int Cancel(string openId, uint orderId)
         {
-            Logger.Info("openId={0}, orderId={1}".FormatedWith(openId, orderId), "api/Orders/Cancel/{openId}/{orderId}");
-            return DalFactory.Orders.CancelOrder(openId, orderId) ? 1 : 0;
+            //Logger.Info("openId={0}, orderId={1}".FormatedWith(openId, orderId), "api/Orders/Cancel/{openId}/{orderId}");
+            //var order = DalFactory.Orders.GetOrderByOrderId(orderId.ToString());
+            //if (order == null)
+            //{
+            //    return 0;
+            //}
+
+            //int oldStatus;
+            //var isCanceled = DalFactory.Orders.CancelOrder(openId, orderId, out oldStatus);
+            //if (isCanceled)
+            //{
+            //    if (oldStatus==1 || oldStatus==2 || oldStatus == 3 || oldStatus == 4 || oldStatus == 5)
+            //    {
+            //        if (DalFactory.)
+            //        {
+
+            //        }
+            //    }
+            //}
+
+            return 0;
+        }
+
+        [Route("Delete/{openId}/{orderId}")]
+        public int Delete(string openId, uint orderId)
+        {
+            Logger.Info("openId={0}, orderId={1}".FormatedWith(openId, orderId), "api/Orders/Delete/{openId}/{orderId}");
+            return DalFactory.Orders.DeleteOrder(openId, orderId) ? 1 : 0;
         }
 
         private UIMyOrdersEntity BuildUIMyOrdersEntityFromOrderEntityList(IList<OrderEntity> list)

@@ -31,6 +31,7 @@ namespace WebAPIService.Entity
             IsDelay = item.IsDelay;
             SubOrders = GetSubOrdersByOrderId(item.OrderId);
             IsRated = item.IsRated;
+            ExpiredTime = item.ExpiredTime ?? DateTime.MinValue;
         }
 
         private List<UISubOrderEntity> GetSubOrdersByOrderId(uint orderId)
@@ -98,6 +99,8 @@ namespace WebAPIService.Entity
         public string CarriageNumber { get; set; }
         [DataMember]
         public bool IsRated { get; set; }
+        [DataMember]
+        public DateTime ExpiredTime { get; set; }
 
     }
 }

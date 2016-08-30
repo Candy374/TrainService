@@ -32,7 +32,7 @@ namespace WxPayApi
         //=======【支付结果通知url】===================================== 
         /* 支付结果通知回调url，用于商户接收支付结果
         */
-        public const string NOTIFY_URL = "http://www.gtlcyzj.com:8080/trainservice/api/Pay/Notify";
+        public const string NOTIFY_URL = "http://www.gtlcyzj.com:8080/trainservice/PayNotify/Index";
 
         //=======【商户系统后台机器IP】===================================== 
         /* 此参数可手动配置也可在程序中自动获取

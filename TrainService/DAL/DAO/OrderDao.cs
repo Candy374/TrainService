@@ -73,7 +73,7 @@ namespace DAL.DAO
             var para = new StatementParameterCollection();
             para.Add(new StatementParameter { Name = "@OpenId", Direction = ParameterDirection.Input, DbType = DbType.String, Value = openId });
 
-            return _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE user_openid=@OpenId", para);
+            return _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE user_openid=@OpenId AND order_status<>99 ORDER BY order_create_time DESC", para);
         }
 
         public IList<OrderEntity> GetOrderByOpenId(string openId, int pageSize, int pageNumber)
@@ -87,7 +87,7 @@ namespace DAL.DAO
             para.Add(new StatementParameter { Name = "@OpenId", Direction = ParameterDirection.Input, DbType = DbType.String, Value = openId });
             para.Add(new StatementParameter { Name = "@StartIndex", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = pageSize * (pageNumber - 1) });
             para.Add(new StatementParameter { Name = "@PageSize", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = pageSize });
-            return _baseDao.SelectList<OrderEntity>("SELECT * FROM orders  WHERE user_openid=@OpenId ORDER BY order_create_time LIMIT @StartIndex,@PageSize", para);
+            return _baseDao.SelectList<OrderEntity>("SELECT * FROM orders  WHERE user_openid=@OpenId  AND order_status<>99 ORDER BY order_create_time DESC LIMIT @StartIndex,@PageSize", para);
         }
 
         public void SetRated(uint orderId)
@@ -102,7 +102,7 @@ namespace DAL.DAO
             var para = new StatementParameterCollection();
             para.Add(new StatementParameter { Name = "@OId", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = Convert.ToUInt32(orderId) });
 
-            return _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id=@OId limit 1", para).FirstOrDefault();
+            return _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id=@OId  AND order_status<>99 limit 1", para).FirstOrDefault();
         }
 
         public bool UpdateOpenId(uint orderId, string oldOpenId, string newOpenId)
@@ -132,8 +132,8 @@ namespace DAL.DAO
         {
             var para = new StatementParameterCollection();
             para.Add(new StatementParameter { Name = "@OId", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
-            para.Add(new StatementParameter { Name = "@ExpiredTime", Direction = ParameterDirection.Input, DbType = DbType.Decimal, Value = userPay });
-            var sql = "UPDATE orders SET prepay_id=@PrePayId,expired_time=@ExpiredTime WHERE order_id=@OId AND last_change_time=@LastChangeTime LIMIT 1";
+            para.Add(new StatementParameter { Name = "@PayFee", Direction = ParameterDirection.Input, DbType = DbType.Decimal, Value = userPay });
+            var sql = "UPDATE orders SET user_pay_fee=@PayFee,order_status=1 WHERE order_id=@OId AND order_status=0 LIMIT 1";
 
             return _baseDao.ExecNonQuery(sql, para) == 1;
         }
@@ -151,11 +151,12 @@ namespace DAL.DAO
             var para = new StatementParameterCollection();
             para.Add(new StatementParameter { Name = "@St", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)status });
 
-            return _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_status=@St", para);
+            return _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_status=@St AND order_status<>99", para);
         }
 
-        public bool CancelOrder(string openId, uint orderId)
+        public bool CancelOrder(string openId, uint orderId, out int oldStatus)
         {
+            oldStatus = -1;
             TransactionOptions transactionOption = new TransactionOptions();
             //设置事务隔离级别
             transactionOption.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
@@ -166,6 +167,12 @@ namespace DAL.DAO
             {
                 var para = new StatementParameterCollection();
                 para.Add(new StatementParameter { Name = "@OID", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
+                var order = _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id=@OId  AND order_status<>99 limit 1", para).FirstOrDefault();
+                if (order != null)
+                {
+                    oldStatus = order.OrderStatus;
+                }
+
                 para.Add(new StatementParameter { Name = "@OpenId", Direction = ParameterDirection.Input, DbType = DbType.String, Value = openId });
                 result = _baseDao.ExecNonQuery("UPDATE orders SET	order_status=7 WHERE order_id=@OID AND order_status IN (0,1) AND user_openid=@OpenId", para);
                 ts.Complete();
@@ -189,7 +196,7 @@ namespace DAL.DAO
         {
             var para = new StatementParameterCollection();
             para.Add(new StatementParameter { Name = "@SubId", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = subOrderId });
-            var query = _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id = (SELECT  order_id FROM order_details WHERE id=@SubId)", para);
+            var query = _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id = (SELECT  order_id FROM order_details WHERE id=@SubId AND order_status<>99)", para);
 
             return query.FirstOrDefault();
         }
@@ -204,6 +211,26 @@ namespace DAL.DAO
 
             return _baseDao.ExecNonQuery(sql, para) == 1;
         }
+
+        public bool DeleteOrder(string openId, uint orderId)
+        {
+            TransactionOptions transactionOption = new TransactionOptions();
+            //设置事务隔离级别
+            transactionOption.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
+            // 设置事务超时时间为30秒
+            transactionOption.Timeout = new TimeSpan(0, 0, 30);
+            var result = 0;
+            using (TransactionScope ts = new TransactionScope(TransactionScopeOption.Required, transactionOption))
+            {
+                var para = new StatementParameterCollection();
+                para.Add(new StatementParameter { Name = "@OID", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
+                para.Add(new StatementParameter { Name = "@OpenId", Direction = ParameterDirection.Input, DbType = DbType.String, Value = openId });
+                result = _baseDao.ExecNonQuery("UPDATE orders SET	order_status=99 WHERE order_id=@OID AND order_status IN (0,6,7) AND user_openid=@OpenId", para);
+                ts.Complete();
+            }
+
+            return result == 1;
+        }
     }
 
     public enum OrderStatus
@@ -216,7 +243,8 @@ namespace DAL.DAO
         已送到指定位置 = 5,
         订单结束 = 6,
         订单取消 = 7,
-        订单异常 = 8
+        订单异常 = 8,
+        Deleted = 9
     }
 
 

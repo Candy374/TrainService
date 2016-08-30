@@ -95,7 +95,7 @@ namespace WxPayApi
         * 更详细的说明请参考网页端调起支付API：http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7
         * 
         */
-        public object GetJsApiParameters(string prePayId = null)
+        public string GetJsApiParameters(string prePayId = null)
         {
             Log.Debug(this.GetType().ToString(), "JsApiPay::GetJsApiParam is processing...");
 
@@ -103,12 +103,12 @@ namespace WxPayApi
             jsApiParam.SetValue("appId", WxPayConfig.APPID);
             jsApiParam.SetValue("timeStamp", WxPayApi.GenerateTimeStamp());
             jsApiParam.SetValue("nonceStr", WxPayApi.GenerateNonceStr());
-            jsApiParam.SetValue("package", "prepay_id=" + prePayId ?? unifiedOrderResult.GetValue("prepay_id"));
+            jsApiParam.SetValue("package", "prepay_id=" + (prePayId ?? unifiedOrderResult.GetValue("prepay_id")));
             jsApiParam.SetValue("signType", "MD5");
             jsApiParam.SetValue("paySign", jsApiParam.MakeSign());
 
-            Log.Debug(this.GetType().ToString(), "Get jsApiParam : " + jsApiParam.ToJson());
-            var parameters = jsApiParam.ToObj();
+            var parameters = jsApiParam.ToJson();
+            Log.Debug(this.GetType().ToString(), "Get jsApiParam : " + parameters);
 
             return parameters;
         }

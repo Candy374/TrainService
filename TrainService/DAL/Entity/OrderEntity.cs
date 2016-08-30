@@ -51,9 +51,29 @@ namespace DAL.Entity
         /// <summary>
         /// 订单状态：0：未付款，1：已付款，2：商家已接单，3：商家已配货 4:快递员已取货 5:已经送到指定位置 6：订单结束 7：订单取消 8：异常状态
         /// </summary>
+        private int _orderStatus = 8;
         [DataMember]
         [Column(Name = "order_status", ColumnType = DbType.Int32)]
-        public int OrderStatus { get; set; }
+        public int OrderStatus
+        {
+            get
+            {
+                if (_orderStatus == 0 && ExpiredTime != null && ExpiredTime.Value > new DateTime(2016, 8, 29))
+                {
+                    if (ExpiredTime <= DateTime.Now)
+                    {
+                        // If order expired
+                        return 7;
+                    }
+                }
+
+                return _orderStatus;
+            }
+            set
+            {
+                _orderStatus = value;
+            }
+        }
 
         [DataMember]
         [Column(Name = "order_msg", ColumnType = DbType.String)]

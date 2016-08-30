@@ -20,7 +20,7 @@ namespace WebAPIService.Controllers.API
     public class PayController : ApiController
     {
         [Route("Order/{orderId}/IP/{ip}")]
-        public object PrePay(string orderId, string ip)
+        public string PrePay(string orderId, string ip)
         {
             ip = ip.Replace('_', '.');
             var order = DalFactory.Orders.GetOrderByOrderId(orderId);

@@ -181,7 +181,7 @@ namespace WxPayApi
             return jsonStr;
         }
 
-        public object ToObj()
+        public dynamic ToObj()
         {
             var serializer = new JavaScriptSerializer();
             serializer.RegisterConverters(new[] { new DynamicJsonConverter() });
