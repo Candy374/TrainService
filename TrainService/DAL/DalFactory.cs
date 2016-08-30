@@ -17,6 +17,9 @@ namespace DAL
         public static readonly AccountDao Account = new AccountDao();
         public static readonly OrderDao Orders = new OrderDao();
         public static readonly StationDao Stations = new StationDao();
+        public static readonly PaymentDao Payment = new PaymentDao();
+
+
         private static Task _task = null;
         private static CancellationTokenSource _cts = new CancellationTokenSource();
         static DalFactory()

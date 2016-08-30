@@ -128,14 +128,33 @@ namespace DAL.DAO
             return _baseDao.ExecNonQuery(sql, para) == 1;
         }
 
-        public bool UpdatePayResult(uint orderId, decimal userPay)
+        public bool UpdatePayResult(uint orderId, decimal userPay, string tradeNo)
         {
-            var para = new StatementParameterCollection();
-            para.Add(new StatementParameter { Name = "@OId", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
-            para.Add(new StatementParameter { Name = "@PayFee", Direction = ParameterDirection.Input, DbType = DbType.Decimal, Value = userPay });
-            var sql = "UPDATE orders SET user_pay_fee=@PayFee,order_status=1 WHERE order_id=@OId AND order_status=0 LIMIT 1";
+            TransactionOptions transactionOption = new TransactionOptions();
+            //设置事务隔离级别
+            transactionOption.IsolationLevel = System.Transactions.IsolationLevel.ReadCommitted;
+            // 设置事务超时时间为30秒
+            transactionOption.Timeout = new TimeSpan(0, 0, 30);
+            using (TransactionScope ts = new TransactionScope(TransactionScopeOption.Required, transactionOption))
+            {
+                var para = new StatementParameterCollection();
+                para.Add(new StatementParameter { Name = "@OId", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
+                para.Add(new StatementParameter { Name = "@PayFee", Direction = ParameterDirection.Input, DbType = DbType.Decimal, Value = userPay });
+                var sql = "UPDATE orders SET user_pay_fee=@PayFee,order_status=1 WHERE order_id=@OId AND order_status=0 LIMIT 1";
 
-            return _baseDao.ExecNonQuery(sql, para) == 1;
+                if (_baseDao.ExecNonQuery(sql, para) == 0)
+                {
+                    return false;
+                }
+
+                if (DalFactory.Payment.AddPayment(orderId, userPay, tradeNo))
+                {
+                    ts.Complete();
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         public IList<OrderDetailEntity> GetSubOrdersByProviderId(int id)

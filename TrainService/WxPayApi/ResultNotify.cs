@@ -16,11 +16,12 @@ namespace WxPayApi
         {
         }
 
-        public override WxPayData ProcessNotify(out int payFee, out string out_trade_no)
+        public override WxPayData ProcessNotify(out int payFee, out string out_trade_no, out string transaction_id)
         {
             WxPayData notifyData = GetNotifyData();
             payFee = 0;
             out_trade_no = null;
+            transaction_id = null;
             //检查支付结果中transaction_id是否存在
             if (!notifyData.IsSet("transaction_id"))
             {
@@ -32,7 +33,7 @@ namespace WxPayApi
                 return res;
             }
 
-            string transaction_id = notifyData.GetValue("transaction_id").ToString();
+            transaction_id = notifyData.GetValue("transaction_id").ToString();
 
             //查询订单，判断订单真实性
             if (!QueryOrder(transaction_id))

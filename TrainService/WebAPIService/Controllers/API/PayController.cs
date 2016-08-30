@@ -73,22 +73,7 @@ namespace WebAPIService.Controllers.API
             }
 
         }
-
-        [Route("Notify")]
-        public string Notify([FromBody]string body)
-        {
-            var notify = new ResultNotify(body);
-            int fee;
-            string orderId;
-            var result = notify.ProcessNotify(out fee, out orderId);
-            if (result.IsSet("return_code") && result.GetValue("return_code").ToString() == "SUCCESS")
-            {
-                //TODO:Update Order
-            }
-
-            return result.ToJson();
-
-        }
+        
 
         [HttpGet]
         [Route("Test/{orderId}/IP/{ip}")]

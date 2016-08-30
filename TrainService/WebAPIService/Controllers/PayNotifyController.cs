@@ -36,22 +36,22 @@ namespace WebAPIService.Controllers
                     var notify = new WxPayApi.ResultNotify(builder.ToString());
 
                     int payFee;
-                    string tradeNo;
-                    var result = notify.ProcessNotify(out payFee, out tradeNo);
+                    string tradeNo, orderIdStr;
+                    var result = notify.ProcessNotify(out payFee, out orderIdStr, out tradeNo);
 
                     if (result.IsSet("return_code") && result.GetValue("return_code").ToString() == "SUCCESS")
                     {
                         uint orderId;
-                        if (!uint.TryParse(tradeNo, out orderId))
+                        if (!uint.TryParse(orderIdStr, out orderId))
                         {
-                            Logger.Critical("Wrong format of order id. Order id = " + tradeNo);
+                            Logger.Critical("Wrong format of order id. Order id = " + orderIdStr);
                             result.SetValue("return_code", "FAIL");
-                            result.SetValue("return_msg", "Wrong format of order id. Order id = " + tradeNo);
+                            result.SetValue("return_msg", "Wrong format of order id. Order id = " + orderIdStr);
 
                             return result.ToXml();
                         }
 
-                        var isUpdateOrderSuccess = DAL.DalFactory.Orders.UpdatePayResult(orderId, Convert.ToDecimal(payFee) / Convert.ToDecimal(100));
+                        var isUpdateOrderSuccess = DAL.DalFactory.Orders.UpdatePayResult(orderId, Convert.ToDecimal(payFee) / Convert.ToDecimal(100), tradeNo);
                         if (!isUpdateOrderSuccess)
                         {
                             Logger.Critical("Receive pay result from WX, but update order failed!");

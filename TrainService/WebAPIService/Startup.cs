@@ -29,6 +29,7 @@ namespace WebAPIService
 
             config.Formatters.Remove(config.Formatters.XmlFormatter);
             appBuilder.UseWebApi(config);
+            Jobs.Start();
         }
     }
 }

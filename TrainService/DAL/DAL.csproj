@@ -62,10 +62,12 @@
     <Compile Include="DalFactory.cs" />
     <Compile Include="DAO\CacheBase.cs" />
     <Compile Include="DAO\OrderDao.cs" />
+    <Compile Include="DAO\PaymentDao.cs" />
     <Compile Include="DAO\StationDao.cs" />
     <Compile Include="DAO\GoodsDao.cs" />
     <Compile Include="DAO\AccountDao.cs" />
     <Compile Include="DAO\TagsDao.cs" />
+    <Compile Include="Entity\PaymentEntity.cs" />
     <Compile Include="Entity\SubOrderSummaryEntity.cs" />
     <Compile Include="Entity\OrderDetailEntity.cs" />
     <Compile Include="Entity\OrderEntity.cs" />
@@ -85,6 +87,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonUtilities\CommonUtilities.csproj">
+      <Project>{6a4353da-2b3c-493c-a371-d492d591f16e}</Project>
+      <Name>CommonUtilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LoggerContract\LoggerContract.csproj">
       <Project>{e1f22109-ce3b-48e9-9007-608440d35bda}</Project>
       <Name>LoggerContract</Name>

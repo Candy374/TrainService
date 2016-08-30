@@ -50,6 +50,6 @@ namespace WxPayApi
         }
 
         //派生类需要重写这个方法，进行不同的回调处理
-        public abstract WxPayData ProcessNotify(out int payFee,out string orderId);
+        public abstract WxPayData ProcessNotify(out int payFee,out string orderId, out string transaction_id);
     }
 }

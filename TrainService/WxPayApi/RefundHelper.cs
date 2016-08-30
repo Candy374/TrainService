@@ -6,9 +6,17 @@ using System.Threading.Tasks;
 
 namespace WxPayApi
 {
-    public static  class RefundHelper
+    public static class RefundHelper
     {
-        public static string Refund(string transaction_id, string out_trade_no, string total_fee, string refund_fee)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="transaction_id"></param>
+        /// <param name="out_trade_no"></param>
+        /// <param name="total_fee">such as 10.50</param>
+        /// <param name="refund_fee">such as 10.50</param>
+        /// <returns></returns>
+        public static string Refund(string transaction_id, string out_trade_no, decimal total_fee, decimal refund_fee)
         {
             Log.Info("Refund", "Refund is processing...");
 
@@ -22,15 +30,21 @@ namespace WxPayApi
                 data.SetValue("out_trade_no", out_trade_no);
             }
 
-            data.SetValue("total_fee", int.Parse(total_fee));//订单总金额
-            data.SetValue("refund_fee", int.Parse(refund_fee));//退款金额
+            data.SetValue("total_fee", Convert.ToInt32(total_fee * 100));//订单总金额
+            data.SetValue("refund_fee", Convert.ToInt32(refund_fee * 100));//退款金额
             data.SetValue("out_refund_no", WxPayApi.GenerateOutTradeNo());//随机生成商户退款单号
             data.SetValue("op_user_id", WxPayConfig.MCHID);//操作员，默认为商户号
 
             WxPayData result = WxPayApi.Refund(data);//提交退款申请给API，接收返回数据
 
             Log.Info("Refund", "Refund process complete, result : " + result.ToXml());
-            return result.ToPrintStr();
+
+            if (result.IsSet("refund_id"))
+            {
+                return result.GetValue("refund_id").ToString();
+            }
+
+            return null;
         }
 
         /***
@@ -41,10 +55,9 @@ namespace WxPayApi
         * @param out_trade_no 商户订单号
         * @return 退款查询结果（xml格式）
         */
-        public static string RefundQuery(string refund_id, string out_refund_no, string transaction_id, string out_trade_no)
+        public static decimal RefundQuery(string refund_id, string out_refund_no, string transaction_id, string out_trade_no)
         {
             Log.Info("RefundQuery", "RefundQuery is processing...");
-
             WxPayData data = new WxPayData();
             if (!string.IsNullOrEmpty(refund_id))
             {
@@ -66,7 +79,14 @@ namespace WxPayApi
             WxPayData result = WxPayApi.RefundQuery(data);//提交退款查询给API，接收返回数据
 
             Log.Info("RefundQuery", "RefundQuery process complete, result : " + result.ToXml());
-            return result.ToPrintStr();
+
+            if (result.IsSet("refund_fee_0"))
+            {
+                var fee = Convert.ToDecimal(result.GetValue("refund_fee_0").ToString());
+                return fee / 100m;
+            }
+
+            return 0m;
         }
     }
 }

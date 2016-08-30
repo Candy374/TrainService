@@ -297,25 +297,22 @@ namespace WebAPIService.Controllers
         [Route("Cancel/{openId}/{orderId}")]
         public int Cancel(string openId, uint orderId)
         {
-            //Logger.Info("openId={0}, orderId={1}".FormatedWith(openId, orderId), "api/Orders/Cancel/{openId}/{orderId}");
-            //var order = DalFactory.Orders.GetOrderByOrderId(orderId.ToString());
-            //if (order == null)
-            //{
-            //    return 0;
-            //}
+            Logger.Info("openId={0}, orderId={1}".FormatedWith(openId, orderId), "api/Orders/Cancel/{openId}/{orderId}");
+            var order = DalFactory.Orders.GetOrderByOrderId(orderId.ToString());
+            if (order == null)
+            {
+                return 0;
+            }
 
-            //int oldStatus;
-            //var isCanceled = DalFactory.Orders.CancelOrder(openId, orderId, out oldStatus);
-            //if (isCanceled)
-            //{
-            //    if (oldStatus==1 || oldStatus==2 || oldStatus == 3 || oldStatus == 4 || oldStatus == 5)
-            //    {
-            //        if (DalFactory.)
-            //        {
-
-            //        }
-            //    }
-            //}
+            int oldStatus;
+            var isCanceled = DalFactory.Orders.CancelOrder(openId, orderId, out oldStatus);
+            if (isCanceled)
+            {
+                if (oldStatus == 1 || oldStatus == 2 || oldStatus == 3 || oldStatus == 4 || oldStatus == 5)
+                {
+                    DalFactory.Payment.SetRefundAmount(order.OrderId, order.UserPayFee);
+                }
+            }
 
             return 0;
         }
