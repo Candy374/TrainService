@@ -16,9 +16,6 @@ export default class MyOrders extends Component {
             openId: this.props.openId
         };
         // this.showNum = 5;
-    }
-
-    componentDidMount() {        
         this.getOrderList();
     }
 
@@ -69,8 +66,6 @@ export default class MyOrders extends Component {
         // let count = 0;
         // 0：未付款，1：已付款，2：商家已接单，3：商家已配货 
         // 4:快递员已取货 5:已经送到指定位置 6：订单结束 7：订单取消 8：异常状态
-
-        const orderList = orderMap[status].sort((order1, order2) => order1.OrderTime - order2.OrderTime);
         return (
             <Page flex={true} direction='col' className='order-list'>
                 <div className='tabs'>
@@ -87,7 +82,7 @@ export default class MyOrders extends Component {
                          */}
                 </div>
                 <div className='content'>
-                {orderList.map((order, index) => {
+                {orderMap[status].map((order, index) => {
                     // if (!showAll && count++ > this.showNum) {
                     //     return null;
                     // }

@@ -150,7 +150,7 @@ export default class OrderDetail extends Component {
 
           return (
             <Page footer={footer} className='order-detail'>
-              <OrderStatus status={order.StatusCode}/>
+              <OrderStatus status={order.StatusCode} ExpiredTime={order.ExpiredTime}/>
               <OrderListNoImg total={order.Amount} list={order.SubOrders} totalLabel='共计'/>
               <Detail {...order}/>
               <Comments />
