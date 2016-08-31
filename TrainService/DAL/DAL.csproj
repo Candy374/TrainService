@@ -63,11 +63,13 @@
     <Compile Include="DAO\CacheBase.cs" />
     <Compile Include="DAO\OrderDao.cs" />
     <Compile Include="DAO\PaymentDao.cs" />
+    <Compile Include="DAO\TimeTableDao.cs" />
     <Compile Include="DAO\StationDao.cs" />
     <Compile Include="DAO\GoodsDao.cs" />
     <Compile Include="DAO\AccountDao.cs" />
     <Compile Include="DAO\TagsDao.cs" />
     <Compile Include="Entity\PaymentEntity.cs" />
+    <Compile Include="Entity\TimeTableEntity.cs" />
     <Compile Include="Entity\SubOrderSummaryEntity.cs" />
     <Compile Include="Entity\OrderDetailEntity.cs" />
     <Compile Include="Entity\OrderEntity.cs" />

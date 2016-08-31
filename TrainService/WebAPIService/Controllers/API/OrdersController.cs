@@ -298,6 +298,11 @@ namespace WebAPIService.Controllers
         public int Cancel(string openId, uint orderId)
         {
             Logger.Info("openId={0}, orderId={1}".FormatedWith(openId, orderId), "api/Orders/Cancel/{openId}/{orderId}");
+            if (string.IsNullOrEmpty(openId) || openId.ToUpper() == "TBD")
+            {
+                throw new ArgumentNullException("OpenId is " + (openId ?? "<null>"));
+            }
+
             var order = DalFactory.Orders.GetOrderByOrderId(orderId.ToString());
             if (order == null)
             {
@@ -314,9 +319,10 @@ namespace WebAPIService.Controllers
                 }
             }
 
-            return 0;
+            return 1;
         }
 
+        [HttpPost]
         [Route("Delete/{openId}/{orderId}")]
         public int Delete(string openId, uint orderId)
         {
@@ -372,6 +378,29 @@ namespace WebAPIService.Controllers
 
             return order;
         }
+
+        [Route("Query/ProviderId/{providerId}/Status/{status}")]
+        public object GetSubOrdersByProviderId(int providerId, int status)
+        {
+            var list = DalFactory.Orders.GetSubOrdersByProviderId(providerId, status);
+            SortedDictionary<uint, List<OrderDetailEntity>> dic = new SortedDictionary<uint, List<OrderDetailEntity>>();
+            foreach (var item in list)
+            {
+                if (!dic.ContainsKey(item.OrderId))
+                {
+                    dic.Add(item.OrderId, new List<OrderDetailEntity>());
+                }
+
+                dic[item.OrderId].Add(item);
+            }
+
+            return dic;
+        }
+        //[Route("Peek/{subOrderId}/By/{openId}")]
+        //public int PeekOrder(uint subOrderId, string openId)
+        //{
+
+        //}
 
         [Route("Update/SubOrder/{subOrderId}")]
         public int ChangeSubOrderStatus(uint subOrderId, [FromBody]dynamic data)

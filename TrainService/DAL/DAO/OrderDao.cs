@@ -147,6 +147,13 @@ namespace DAL.DAO
                     return false;
                 }
 
+                var sql2 = "UPDATE order_details SET status=1 WHERE order_id=@OId";
+
+                if (_baseDao.ExecNonQuery(sql2, para) == 0)
+                {
+                    return false;
+                }
+
                 if (DalFactory.Payment.AddPayment(orderId, userPay, tradeNo))
                 {
                     ts.Complete();
@@ -157,12 +164,13 @@ namespace DAL.DAO
             }
         }
 
-        public IList<OrderDetailEntity> GetSubOrdersByProviderId(int id)
+        public IList<OrderDetailEntity> GetSubOrdersByProviderId(int id, int status)
         {
             var para = new StatementParameterCollection();
             para.Add(new StatementParameter { Name = "@PId", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = id });
+            para.Add(new StatementParameter { Name = "@St", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = status });
 
-            return _baseDao.SelectList<OrderDetailEntity>("SELECT * FROM order_details WHERE provider_id=@PId AND STATUS =1", para);
+            return _baseDao.SelectList<OrderDetailEntity>("SELECT * FROM order_details WHERE provider_id=@PId AND status=@St", para);
         }
 
         public IList<OrderEntity> GetOrdersByStatus(OrderStatus status)
@@ -194,10 +202,22 @@ namespace DAL.DAO
 
                 para.Add(new StatementParameter { Name = "@OpenId", Direction = ParameterDirection.Input, DbType = DbType.String, Value = openId });
                 result = _baseDao.ExecNonQuery("UPDATE orders SET	order_status=7 WHERE order_id=@OID AND order_status IN (0,1) AND user_openid=@OpenId", para);
+                if (result != 1)
+                {
+                    return false;
+                }
+
+                result = _baseDao.ExecNonQuery("UPDATE order_details SET status=7 WHERE order_id=@OID", para);
+                if (result < 1)
+                {
+                    return false;
+                }
+
                 ts.Complete();
+
             }
 
-            return result == 1;
+            return true;
         }
 
         public bool ChangeSubOrderStatus(uint subOrderId, OrderStatus newStatus, OrderStatus oldStatus)
@@ -244,11 +264,22 @@ namespace DAL.DAO
                 var para = new StatementParameterCollection();
                 para.Add(new StatementParameter { Name = "@OID", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
                 para.Add(new StatementParameter { Name = "@OpenId", Direction = ParameterDirection.Input, DbType = DbType.String, Value = openId });
-                result = _baseDao.ExecNonQuery("UPDATE orders SET	order_status=99 WHERE order_id=@OID AND order_status IN (0,6,7) AND user_openid=@OpenId", para);
+                result = _baseDao.ExecNonQuery("UPDATE orders SET	order_status=99 WHERE order_id=@OID AND order_status IN (0,6,7) AND user_openid=@OpenId LIMIT 1", para);
+                if (result != 1)
+                {
+                    return false;
+                }
+
+                result = _baseDao.ExecNonQuery("UPDATE order_details SET status=99 WHERE order_id=@OID", para);
+                if (result < 1)
+                {
+                    return false;
+                }
+
                 ts.Complete();
             }
 
-            return result == 1;
+            return true;
         }
     }
 
@@ -263,7 +294,7 @@ namespace DAL.DAO
         订单结束 = 6,
         订单取消 = 7,
         订单异常 = 8,
-        Deleted = 9
+        Deleted = 99
     }
 
 

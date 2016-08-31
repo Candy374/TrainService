@@ -132,7 +132,7 @@ namespace DAL.Entity
         [Column(Name = "is_rated", ColumnType = DbType.Boolean)]
         public bool IsRated { get; set; }
         [DataMember]
-        [Column(Name = "prepay_id", ColumnType = DbType.String, Length = 24)]
+        [Column(Name = "prepay_id", ColumnType = DbType.String, Length = 48)]
         public string PrePayId { get; set; }
         [DataMember]
         [Column(Name = "expired_time", ColumnType = DbType.DateTime)]
