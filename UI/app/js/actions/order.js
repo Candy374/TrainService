@@ -108,7 +108,7 @@ export const getOrderList = (userId) => {
 export const getOrderDetail = (orderId) => {
     return request.get(basicUrl + orderURL + orderId)
         .then(res => {
-            log('get order detail' + res.body);
+            log('get order detail' + res.body && res.body.StatusCode);
             return res.body
         })
         .catch(err => {
@@ -138,7 +138,7 @@ export const getUserInfo = (userId) => {
 export const cancelOrder = (orderId, openId) => {
      return request.post(basicUrl + cancelURL + openId + '/' + orderId)
         .then(res => {
-            log('cancel order: ' + res.body);
+            log('cancel order: ' + res.body && res.body.StatusCode);
             return res.body;
         })
         .catch(err => {

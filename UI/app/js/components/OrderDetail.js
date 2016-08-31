@@ -17,6 +17,7 @@ export default class OrderDetail extends Component {
         };
         this.updateOrder = this.updateOrder.bind(this);
         this.updateOrder();
+        this.updated = false;
     }
 
     updateOrder() {
@@ -27,11 +28,12 @@ export default class OrderDetail extends Component {
               rate: false,
               submitting: false
             });
-          } else {            
+          } else {         
+            this.updated = true;   
             this.setState({
               order,
               rate: false,
-              submitting: true
+              submitting: !this.updated
             });
             setTimeout(this.updateOrder.bind(this), 10 * 1000);
           }         
