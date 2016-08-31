@@ -33,7 +33,7 @@ export default class Container extends Component {
         } 
 
         const station = {
-            MinPrice:30,
+            MinPrice:1,
             Name:"郑州东",
             PicUrl:'',
             StationCode:"ZZD",
