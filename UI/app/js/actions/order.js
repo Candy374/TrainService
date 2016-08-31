@@ -97,6 +97,7 @@ export const getOrderList = (userId) => {
         .then(res => {
             const list = res.body && res.body.Orders;
             log('get order list: ' + list)
+            list.map(item => log(`${item.OrderId} : ${item.StatusCode}`));
             return list;
         })
         .catch(err => {
@@ -112,8 +113,8 @@ export const getOrderDetail = (orderId) => {
             return res.body
         })
         .catch(err => {
-            console.log('Can not get order detail!');
-            console.log(err.message);
+            log('Can not get order detail!');
+            log(err.message);
         });
 };
 
@@ -121,8 +122,8 @@ export const getStations = () => {
     return request.get(basicUrl + stationsURL)
         .then(res => res.body)
         .catch(err => {
-            console.log('Can not get station list!');
-            console.log(err.message);
+            log('Can not get station list!');
+            log(err.message);
         });
 };
 
@@ -142,13 +143,13 @@ export const cancelOrder = (orderId, openId) => {
             return res.body;
         })
         .catch(err => {
-            console.log('Cancel order failed!');
-            console.log(err.message);
+            log('Cancel order failed!');
+            log(err.message);
         });
 };
 
 export const deleteOrder = (orderId, openId) => {
-     return request.del(basicUrl + deleteURL + openId + '/' + orderId)
+     return request.get(basicUrl + deleteURL + openId + '/' + orderId)
         .then(res =>{
             log('Delete order: ' + res.body);
             return res.body;
@@ -166,7 +167,7 @@ export const submitRates = (data) => {
             return res.body;
         })
         .catch(err => {
-            console.log('submit rate failed!');
-            console.log(err.message);
+            log('submit rate failed!');
+            log(err.message);
         });
 };
