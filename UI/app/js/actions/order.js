@@ -2,12 +2,22 @@ import request from 'superagent';
 import  {basicUrl, typeURL, goodsURL, userURL, cancelURL, rateURL,
   submitURL,orderListURL, orderURL, stationsURL, deleteURL} from '../constants/actions';
 
+const level = 'alert';
+const log = (msg) => {
+    if (level == 'alert') {
+        alert(msg)
+    } else {
+        console.log(msg)
+    }
+    
+};
+
 export const getTypes = () => {
     return request.get(basicUrl + typeURL)
         .then(res => res.body)
         .catch(err => {
-            console.log('Can not get tags');
-            console.log(err.message);
+            log('Can not get tags');
+            log(err.message);
         });
 };
 
@@ -15,8 +25,8 @@ export const getGoodsList = () => {
     return request.get(encodeURI(basicUrl + goodsURL))
         .then(res => res.body)
         .catch(err => {
-            console.log('Can not get goods list');
-            console.log(err.message);
+            log('Can not get goods list');
+            log(err.message);
         });
 };
 
@@ -25,13 +35,6 @@ export const redirect = (orderId) => {
 };
 
 const pay = ({appId, timeStamp, nonceStr, _package, signType, paySign}, callback) => {
-    alert('appid: ' + appId);
-    alert('timeStamp: ' + timeStamp);
-    alert('nonceStr: ' + nonceStr);
-    alert('package: ' + _package);
-
-    alert('signType: ' + signType);
-    alert('paySign: ' + paySign);
     function onBridgeReady() {
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest', {
@@ -43,6 +46,7 @@ const pay = ({appId, timeStamp, nonceStr, _package, signType, paySign}, callback
                 paySign //微信签名 
             },
             function (res) {
+                log('订单支付完成' + res.err_msg);
                 callback(res.err_msg == "get_brand_wcpay_request：ok"); // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
             }
         );
@@ -69,8 +73,8 @@ export const getPayArgs = (OrderId, callback) => {
             pay(args, callback.bind(this, OrderId));
         })
         .catch(err => {
-            console.log('can not get pay args');
-            console.log(err.message);
+            log('can not get pay args');
+            log(err.message);
         });
 }
 
@@ -83,24 +87,30 @@ export const submitOrder = (data, callback) => {
             return getPayArgs(res.body, callback);
         })
         .catch(err => {
-            console.log('submit failed!');
-            console.log(err.message);
+            log('submit failed!');
+            log(err.message);
         });
 };
 
 export const getOrderList = (userId) => {
-    // alert('openId is ' + userId);
     return request.get(basicUrl + orderListURL + userId)
-        .then(res => res.body && res.body.Orders)
+        .then(res => {
+            const list = res.body && res.body.Orders;
+            log('get order list: ' + list)
+            return list;
+        })
         .catch(err => {
-            console.log('Can not get order history!');
-            console.log(err.message);
+            log('Can not get order history!');
+            log(err.message);
         });
 };
 
 export const getOrderDetail = (orderId) => {
     return request.get(basicUrl + orderURL + orderId)
-        .then(res => res.body)
+        .then(res => {
+            log('get order detail' + res.body);
+            return res.body
+        })
         .catch(err => {
             console.log('Can not get order detail!');
             console.log(err.message);
@@ -120,14 +130,17 @@ export const getUserInfo = (userId) => {
     return request.get(basicUrl + userURL + userId)
         .then(res => res.body)
         .catch(err => {
-            console.log('Can not get user info!');
-            console.log(err.message);
+            log('Can not get user info!');
+            log(err.message);
         });
 };
 
 export const cancelOrder = (orderId, openId) => {
      return request.post(basicUrl + cancelURL + openId + '/' + orderId)
-        .then(res => res.body)
+        .then(res => {
+            log('cancel order: ' + res.body);
+            return res.body;
+        })
         .catch(err => {
             console.log('Cancel order failed!');
             console.log(err.message);
@@ -136,16 +149,22 @@ export const cancelOrder = (orderId, openId) => {
 
 export const deleteOrder = (orderId, openId) => {
      return request.del(basicUrl + deleteURL + openId + '/' + orderId)
-        .then(res => res.body)
+        .then(res =>{
+            log('Delete order: ' + res.body);
+            return res.body;
+        })
         .catch(err => {
-            console.log('Delete order failed!');
-            console.log(err.message);
+            log('Delete order failed!');
+            log(err.message);
         });
 };
 
 export const submitRates = (data) => {
      return request.post(basicUrl + rateURL, data)
-        .then(res => res.body)
+        .then(res => {
+            log('submit rate: ' + res.body);
+            return res.body;
+        })
         .catch(err => {
             console.log('submit rate failed!');
             console.log(err.message);
