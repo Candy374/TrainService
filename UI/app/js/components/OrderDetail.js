@@ -21,22 +21,17 @@ export default class OrderDetail extends Component {
     }
 
     updateOrder() {
-        actions.getOrderDetail(this.props.id).then(order => {          
-          if (this.state.submitting && order.StatusCode != 0) {
-            this.setState({
-              order,
-              rate: false,
-              submitting: false
-            });
-          } else {           
-            this.setState({
-              order,
-              rate: false,
-              submitting: !this.updated
-            });
-            setTimeout(this.updateOrder.bind(this), 10 * 1000);            
-            this.updated = true; 
-          }         
+        actions.getOrderDetail(this.props.id).then(order => {
+            if (!this.updated && this.state.submitting && order.StatusCode == 0) {
+              setTimeout(this.updateOrder.bind(this), 10 * 1000); 
+              this.updated = true;
+            } else {               
+              this.setState({
+                  order,
+                  rate: false,
+                  submitting: this.updated ? false : this.state.submitting
+              });
+            }
         });
     }
 

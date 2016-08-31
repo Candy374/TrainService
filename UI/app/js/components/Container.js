@@ -123,10 +123,11 @@ export default class Container extends Component {
             if (!success) {               
                 this.setState({
                     submitting: false
-                });
+                }, () => this.setCurrentOrderId(orderId));
+            } else {
+                this.setCurrentOrderId(orderId);
             }
-
-            this.setCurrentOrderId(orderId);
+           
             if (data.OpenId == 'TBD') {
                 actions.redirect(orderId);    
             }
