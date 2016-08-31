@@ -28,14 +28,14 @@ export default class OrderDetail extends Component {
               rate: false,
               submitting: false
             });
-          } else {         
-            this.updated = true;   
+          } else {           
             this.setState({
               order,
               rate: false,
               submitting: !this.updated
             });
-            setTimeout(this.updateOrder.bind(this), 10 * 1000);
+            setTimeout(this.updateOrder.bind(this), 10 * 1000);            
+            this.updated = true; 
           }         
         });
     }
