@@ -32,7 +32,7 @@ export default class MyOrders extends Component {
 
         actions.getOrderList(this.state.openId).then((orderList)=>{
             if (orderList) {
-                const orderMap = this.state.orderMap;
+                const orderMap = [];
                 let defaultStatus = -1;
                 orderList.map(order => {               
                     orderMap['-1'].push(order);
