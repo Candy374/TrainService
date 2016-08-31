@@ -149,7 +149,7 @@ export const cancelOrder = (orderId, openId) => {
 };
 
 export const deleteOrder = (orderId, openId) => {
-     return request.get(basicUrl + deleteURL + openId + '/' + orderId)
+     return request.post(basicUrl + deleteURL + openId + '/' + orderId)
         .then(res =>{
             log('Delete order: ' + res.body);
             return res.body;
