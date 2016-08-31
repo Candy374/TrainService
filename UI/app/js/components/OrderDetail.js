@@ -12,18 +12,29 @@ export default class OrderDetail extends Component {
     componentWillMount() {
         this.state = {
             order: null,
-            rate: false
+            rate: false,
+            submitting: this.props.submitting
         };
         this.updateOrder = this.updateOrder.bind(this);
         this.updateOrder();
     }
 
     updateOrder() {
-        actions.getOrderDetail(this.props.id).then(order => {
+        actions.getOrderDetail(this.props.id).then(order => {          
+          if (this.state.submitting && order.StatusCode != 0) {
             this.setState({
               order,
-              rate: false
+              rate: false,
+              submitting: false
             });
+          } else {            
+            this.setState({
+              order,
+              rate: false,
+              submitting: true
+            });
+            setTimeout(this.updateOrder.bind(this), 10 * 1000);
+          }         
         });
     }
 

@@ -120,6 +120,12 @@ export default class Container extends Component {
         });
 
         actions.submitOrder(data, (orderId, success) => {
+            if (!success) {               
+                this.setState({
+                    submitting: false
+                });
+            }
+
             this.setCurrentOrderId(orderId);
             if (data.OpenId == 'TBD') {
                 actions.redirect(orderId);    
@@ -177,6 +183,7 @@ export default class Container extends Component {
                                  updateChart={this.updateChart}
                                  submitOrder={this.submitOrder}
                                  nextPage={this.nextPage.bind(this)}
+                                 submitting={submitting}
                                  id={orderId}/>);
             case 'MyOrders':
                 return <MyOrders openId={openId}
