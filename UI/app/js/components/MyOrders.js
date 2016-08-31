@@ -27,6 +27,7 @@ export default class MyOrders extends Component {
 
     getOrderList() {
         if (!this.state.openId) {
+            alert('no open id, will not update order list')
             return;
         }
 
@@ -115,18 +116,9 @@ export default class MyOrders extends Component {
                         }
                         {order.StatusCode == 0 && 
                             <SmallButton label='立即支付' primary={true} onClick={() => {
-                                order.goods = order.SubOrders;
-                                order.total = order.Amount;
-                                order.info = {
-                                    TrainNumber: order.TrainNumber,
-                                    CarriageNumber: '' + order.CarriageNumber,
-                                    IsDelay: order.IsDelay,
-                                    Comment: order.Comment,
-                                    Contact: order.Contact,
-                                    ContactTel: order.ContactTel
-                                }
-
-                                this.props.updateChart(order, this.props.submitOrder);                                                 
+                                this.props.updateChart(order, () => {
+                                    actions.getPayArgs(order.OrderId, this.getOrderList);
+                                });                                                 
                             }}/>}
                         {this.getStatus(order.StatusCode) == 2 && 
                             <SmallButton label='评价' onClick={() => {

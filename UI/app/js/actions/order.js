@@ -52,7 +52,7 @@ const pay = ({appId, timeStamp, nonceStr, _package, signType, paySign}, callback
     }
 }
 
-const getPayArgs = (OrderId, callback) => {
+export const getPayArgs = (OrderId, callback) => {
     const Ip = returnCitySN.cip.replace(/\./g, '_');
 
     return request.post(basicUrl + `Pay/Order/${OrderId}/IP/${Ip}`)
