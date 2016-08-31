@@ -185,6 +185,7 @@ export default class Container extends Component {
                                  submitOrder={this.submitOrder}
                                  nextPage={this.nextPage.bind(this)}
                                  submitting={submitting}
+                                 openId={openId}
                                  id={orderId}/>);
             case 'MyOrders':
                 return <MyOrders openId={openId}
