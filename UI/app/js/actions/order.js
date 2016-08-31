@@ -25,6 +25,13 @@ export const redirect = (orderId) => {
 };
 
 const pay = ({appId, timeStamp, nonceStr, _package, signType, paySign}, callback) => {
+    alert('appid: ' + appId);
+    alert('timeStamp: ' + timeStamp);
+    alert('nonceStr: ' + nonceStr);
+    alert('package: ' + _package);
+
+    alert('signType: ' + signType);
+    alert('paySign: ' + paySign);
     function onBridgeReady() {
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest', {

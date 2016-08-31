@@ -68,7 +68,9 @@ export default class OrderDetail extends Component {
       if (StatusCode == 0) {
         button = {
           label: '立即支付',
-          onClick: this.props.submitOrder,
+          onClick: () => {
+            actions.getPayArgs(this.state.order.OrderId, this.getOrderList); 
+          },
           disabled: this.state.submitting
         }
       } else if (StatusCode < 4) {
