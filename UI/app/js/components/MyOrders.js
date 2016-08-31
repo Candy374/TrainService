@@ -93,9 +93,9 @@ export default class MyOrders extends Component {
                         </LinkLabel>
       
                         {order.StatusCode >= 6 && <SmallButton label='删除' onClick={() => {
-                            actions.deleteOrder(order.OrderId, this.porps.openId).then((result) => {
+                            actions.deleteOrder(order.OrderId, this.state.openId).then((result) => {
                                 if (result) {
-                                    this.props.setCurrentOrderId(order.OrderId);
+                                    this.getOrderList();
                                 }
                             });  
                         }}/>
@@ -103,9 +103,9 @@ export default class MyOrders extends Component {
                         {order.StatusCode < 6 && 
                             <SmallButton label='取消订单' onClick={() => {
                             if (order.StatusCode <= 1) {
-                                actions.cancelOrder(order.OrderId, this.porps.openId).then((result) => {
+                                actions.cancelOrder(order.OrderId, this.state.openId).then((result) => {
                                     if (result) {
-                                        this.props.setCurrentOrderId(order.OrderId);
+                                        this.getOrderList();
                                     }
                                 });                        
                             } else {

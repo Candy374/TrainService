@@ -45,7 +45,7 @@ export default class OrderDetail extends Component {
 
     cancelOrder() {
         const order = this.state.order;
-        if (order.StatusCode != 0) {
+        if (order.StatusCode > 1) {
             alert(`请联系${assistPhone}取消订单`);
         } else {
             actions.cancelOrder(order.OrderId).then(this.updateOrder);

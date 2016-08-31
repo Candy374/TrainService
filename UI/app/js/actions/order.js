@@ -127,8 +127,8 @@ export const cancelOrder = (orderId, openId) => {
         });
 };
 
-export const deleteOrder = (orderId, opendId) => {
-     return request.get(basicUrl + deleteURL + openId + '/' + orderId)
+export const deleteOrder = (orderId, openId) => {
+     return request.del(basicUrl + deleteURL + openId + '/' + orderId)
         .then(res => res.body)
         .catch(err => {
             console.log('Delete order failed!');

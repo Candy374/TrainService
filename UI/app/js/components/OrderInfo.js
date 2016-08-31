@@ -96,7 +96,7 @@ export default class OrderInfo extends Component {
                         <Label status='error'>{this.state.CarriageNumberError}</Label>
                     </Line>
                     <Line>
-                        <Label>如果您所在列车已晚点运行请勾选右侧</Label>
+                        <Label flex={true}>如果您所在列车已晚点运行请勾选右侧</Label>
                         <input  value={this.props.chart.info.IsDelay} 
                                 checked={this.props.chart.info.IsDelay}
                                 ref={node=> this.IsDelay = node}
