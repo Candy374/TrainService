@@ -27,7 +27,6 @@ export default class MyOrders extends Component {
 
     getOrderList() {
         if (!this.state.openId) {
-            alert('no open id, will not update order list')
             return;
         }
 
