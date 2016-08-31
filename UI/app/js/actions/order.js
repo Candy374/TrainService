@@ -34,7 +34,7 @@ export const redirect = (orderId) => {
     location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxaf1fff843c641aba&redirect_uri=http%3A%2F%2Ftrainservice.techotaku.net%2F%23Login%2F&response_type=code&scope=snsapi_userinfo&state=ReLogin_${orderId}#wechat_redirect`        
 };
 
-const pay = ({appId, timeStamp, nonceStr, _package, signType, paySign}, callback) => {
+const pay = ({appId, timeStamp, nonceStr, _package, signType, paySign}, OrderId, callback) => {
     function onBridgeReady() {
         WeixinJSBridge.invoke(
             'getBrandWCPayRequest', {
@@ -47,7 +47,7 @@ const pay = ({appId, timeStamp, nonceStr, _package, signType, paySign}, callback
             },
             function (res) {
                 log('订单支付完成' + res.err_msg);
-                callback(res.err_msg == "get_brand_wcpay_request：ok"); // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
+                callback(OrderId, res.err_msg == "get_brand_wcpay_request：ok"); // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
             }
         );
     }
@@ -65,12 +65,11 @@ const pay = ({appId, timeStamp, nonceStr, _package, signType, paySign}, callback
 
 export const getPayArgs = (OrderId, callback) => {
     const Ip = returnCitySN.cip.replace(/\./g, '_');
-
     return request.post(basicUrl + `Pay/Order/${OrderId}/IP/${Ip}`)
         .then((res) => {
             const args = JSON.parse(res.body);
             args._package = args.package;
-            pay(args, callback.bind(this, OrderId));
+            pay(args, OrderId, callback);
         })
         .catch(err => {
             log('can not get pay args');
