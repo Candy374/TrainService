@@ -4,13 +4,15 @@ import Page from './common/Page.js';
 import Comments from './common/Comments.js';
 import {Section, Line, Label, Button} from './common/Widgets';
 import {OrderListNoImg} from './common/GoodsList';
+import {getTrainTime} from '../actions/order';
 
 export default class OrderInfo extends Component {
     componentWillMount() {
         this.state = {
             TrainNumberError: '',
             CarriageNumberError: '',
-            ContactTelError: ''
+            ContactTelError: '',
+            validTrain: false
         }
     }
 
@@ -45,6 +47,13 @@ export default class OrderInfo extends Component {
     isValid(value, type) {
         switch(type) {
             case 'TrainNumber':
+                getTrainTime(this.props.chart.station.StationCode, value).then(msg => {
+                    this.setState({
+                        TrainNumberError: msg != 'OK' && msg,
+                        validTrain: msg == 'OK'
+                    });
+                });
+                
                 //value 长度小于5， 字母开头或者全数字
                 return value.length <= 7 && value.match(/(G|D|C)\d+$/i);
             case 'CarriageNumber':
@@ -57,7 +66,7 @@ export default class OrderInfo extends Component {
     }
 
     isInfoReady(info) {
-        return info.TrainNumber && info.CarriageNumber && info.Contact && info.ContactTel &&
+        return info.TrainNumber && info.CarriageNumber && info.Contact && info.ContactTel && this.validTrain &&
             !this.state.TrainNumberError && !this.state.CarriageNumberError && !this.state.ContactTelError;
     }
 
@@ -96,7 +105,7 @@ export default class OrderInfo extends Component {
                         <Label status='error'>{this.state.CarriageNumberError}</Label>
                     </Line>
                     <Line>
-                        <Label>如果您所在列车已晚点运行请勾选右侧</Label>
+                        <Label flex={true}>如果您所在列车已晚点运行请勾选右侧</Label>
                         <input  value={this.props.chart.info.IsDelay} 
                                 checked={this.props.chart.info.IsDelay}
                                 ref={node=> this.IsDelay = node}

@@ -12,18 +12,26 @@ export default class OrderDetail extends Component {
     componentWillMount() {
         this.state = {
             order: null,
-            rate: false
+            rate: false,
+            submitting: this.props.submitting
         };
         this.updateOrder = this.updateOrder.bind(this);
         this.updateOrder();
+        this.updated = false;
     }
 
     updateOrder() {
         actions.getOrderDetail(this.props.id).then(order => {
-            this.setState({
-              order,
-              rate: false
-            });
+            if (!this.updated && this.state.submitting && order.StatusCode == 0) {
+              setTimeout(this.updateOrder.bind(this), 10 * 1000); 
+              this.updated = true;
+            } else {               
+              this.setState({
+                  order,
+                  rate: false,
+                  submitting: this.updated ? false : this.state.submitting
+              });
+            }
         });
     }
 
@@ -45,10 +53,10 @@ export default class OrderDetail extends Component {
 
     cancelOrder() {
         const order = this.state.order;
-        if (order.StatusCode != 0) {
+        if (order.StatusCode > 1) {
             alert(`请联系${assistPhone}取消订单`);
         } else {
-            actions.cancelOrder(order.OrderId).then(this.updateOrder);
+            actions.cancelOrder(order.OrderId, this.props.openId).then(this.updateOrder);
         }  
     }
 
@@ -68,7 +76,9 @@ export default class OrderDetail extends Component {
       if (StatusCode == 0) {
         button = {
           label: '立即支付',
-          onClick: this.props.submitOrder,
+          onClick: () => {
+            actions.getPayArgs(this.state.order.OrderId, this.getOrderList); 
+          },
           disabled: this.state.submitting
         }
       } else if (StatusCode < 4) {

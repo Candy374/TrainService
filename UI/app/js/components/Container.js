@@ -21,7 +21,7 @@ const _extend = Object.assign || function(target) {
     
 export default class Container extends Component {
     componentWillMount() {
-        let page = 'Booking';
+        let page = 'Order';
         if (location.hash.indexOf('#MyOrders') == 0) {
             page = 'MyOrders';
         } else if (location.hash.indexOf('#Shop') == 0) {
@@ -33,7 +33,7 @@ export default class Container extends Component {
         } 
 
         const station = {
-            MinPrice:30,
+            MinPrice:1,
             Name:"郑州东",
             PicUrl:'',
             StationCode:"ZZD",
@@ -120,7 +120,14 @@ export default class Container extends Component {
         });
 
         actions.submitOrder(data, (orderId, success) => {
-            this.setCurrentOrderId(orderId);
+            if (!success) {               
+                this.setState({
+                    submitting: false
+                }, () => this.setCurrentOrderId(orderId));
+            } else {
+                this.setCurrentOrderId(orderId);
+            }
+           
             if (data.OpenId == 'TBD') {
                 actions.redirect(orderId);    
             }
@@ -177,6 +184,8 @@ export default class Container extends Component {
                                  updateChart={this.updateChart}
                                  submitOrder={this.submitOrder}
                                  nextPage={this.nextPage.bind(this)}
+                                 submitting={submitting}
+                                 openId={openId}
                                  id={orderId}/>);
             case 'MyOrders':
                 return <MyOrders openId={openId}

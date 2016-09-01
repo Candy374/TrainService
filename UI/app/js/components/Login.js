@@ -33,6 +33,8 @@ export default class Login extends Component {
                 this.props.updateOpenId(id);
             });
         }
+        //this.props.updateOpenId('ouzHawBv2svApr1IiNxXykpmAuI0');
+        //this.props.nextPage(page)
     }
 
     render() {
