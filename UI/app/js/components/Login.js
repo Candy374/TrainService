@@ -15,24 +15,26 @@ export default class Login extends Component {
         });
 
         const page = this.state.state;
-        if (page && page.indexOf('ReLogin') > -1) {
-            const orderId = this.state.state.replace('ReLogin_', '');
-            login(this.state.code, 'ReLogin').then((id) => {
-                // alert('renew open Id is' + id);
-                updateOpenId(orderId).then(id => {
-                    this.props.updateOpenId(id);
-                });
-            }, err => {
-                alert('服务器出现错误， 请重新打开');
-                console.log(err);
-            });
-        } else {
-            this.props.nextPage(page);
-            login(this.state.code, page).then((id) => {
-                console.log('open Id is' + id);
-                this.props.updateOpenId(id);
-            });
-        }
+        // if (page && page.indexOf('ReLogin') > -1) {
+        //     const orderId = this.state.state.replace('ReLogin_', '');
+        //     login(this.state.code, 'ReLogin').then((id) => {
+        //         // alert('renew open Id is' + id);
+        //         updateOpenId(orderId).then(id => {
+        //             this.props.updateOpenId(id);
+        //         });
+        //     }, err => {
+        //         alert('服务器出现错误， 请重新打开');
+        //         console.log(err);
+        //     });
+        // } else {
+        //     this.props.nextPage(page);
+        //     login(this.state.code, page).then((id) => {
+        //         console.log('open Id is' + id);
+        //         this.props.updateOpenId(id);
+        //     });
+        // }
+        this.props.updateOpenId('ouzHawBv2svApr1IiNxXykpmAuI0');
+        this.props.nextPage(page)
     }
 
     render() {

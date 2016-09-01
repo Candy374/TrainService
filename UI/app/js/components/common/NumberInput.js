@@ -1,21 +1,15 @@
 import React, {Component} from 'react';
+import {Add, Minus} from './Icons';
 
 const NumberInput = ({updateCount, count}) => (
     <div className='number-input'>
         <button onClick={() => updateCount(Math.max(count - 1, 0))}
             style={{visibility: count == 0 ? 'hidden' : 'visible'}}>
-            <svg width="1.5em" height="1.5em" viewport="0 0 20 20">
-                <circle cx="12" cy="12" r="12" className='circle'></circle>
-                <line x1="2" y1="12" x2="22" y2="12" className="line"></line>
-            </svg>
+            <Minus />
         </button>       
         <label style={{visibility: count == 0 ? 'hidden' : 'visible'}}>{count}</label>              
         <button onClick={() => updateCount(Math.max(count + 1, 0))}>
-            <svg width="1.5em" height="1.5em" viewport="0 0 20 20">
-                <circle cx="12" cy="12" r="12" className='circle'></circle>
-                <line x1="12" y1="2" x2="12" y2="22" className="line"></line>
-                <line x1="2" y1="12" x2="22" y2="12" className="line"></line>
-            </svg>
+            <Add />
         </button>
     </div>
 );

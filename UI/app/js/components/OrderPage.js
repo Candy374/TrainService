@@ -5,13 +5,16 @@ import * as actions from '../actions/order.js';
 import NumberInput from './common/NumberInput';
 import  * as Constants from '../constants/system';
 import {Section, Line, DescLine, Label, Img, Price} from './common/Widgets';
+import {OrderListNoImg} from './common/GoodsList';
+import {Chart} from './common/Icons';
 
 export default class OrderPage extends Component {
     componentWillMount() {
         this.state = {
             goodsTypes: [],
             goodsList: [],
-            activeType: 1
+            activeType: 1,
+            showChart: false
         };
         this.chart = {};
         this.foodMap = {};
@@ -67,7 +70,7 @@ export default class OrderPage extends Component {
     }
     
     render() {       
-        const {goods: chart, total, station } = this.props.chart;
+        const {goods: chart, total, station, count } = this.props.chart;
         const footer = {
             button: {
                 label: '去结算',
@@ -76,11 +79,26 @@ export default class OrderPage extends Component {
             },
             
             left: (<label className='total'>
+                    <Chart label={count}
+                           onClick={() => count && this.setState({showChart: true})}/>
                     <Price price={total}/>
                     {total < station.MinPrice && 
                         <span className='desc'>{`差${station.MinPrice - total}元起送`}</span>}
                 </label>)
         };
+        if (this.state.showChart) {
+            footer.left = {
+                type: 'button',
+                label: '修改菜品',
+                onClick: () => this.setState({showChart: false})
+            }
+
+            return (
+                <Page footer={footer} className='order-info'>
+                    <OrderListNoImg total={total} list={chart}/>
+                </Page>
+            );
+        }
 
         return (
             <Page footer={footer} className='order-content'>

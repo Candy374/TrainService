@@ -21,7 +21,7 @@ const _extend = Object.assign || function(target) {
     
 export default class Container extends Component {
     componentWillMount() {
-        let page = 'Booking';
+        let page = 'Order';
         if (location.hash.indexOf('#MyOrders') == 0) {
             page = 'MyOrders';
         } else if (location.hash.indexOf('#Shop') == 0) {
