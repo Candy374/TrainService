@@ -2,7 +2,7 @@ import request from 'superagent';
 import  {basicUrl, typeURL, goodsURL, userURL, cancelURL, rateURL,
   submitURL,orderListURL, orderURL, stationsURL, deleteURL} from '../constants/actions';
 
-const level = 'alert';
+const level = 'info';
 const log = (msg) => {
     if (level == 'alert') {
         alert(msg)
@@ -170,3 +170,16 @@ export const submitRates = (data) => {
             log(err.message);
         });
 };
+
+export const getTrainTime = (station_code, trainNumber) => {
+    // Stations/{station_code}/TrainSchedule/{trainNumber}/ArriveTime
+    return request.get(basicUrl + `Stations/${station_code}/TrainSchedule/${trainNumber}/ArriveTime`)
+        .then(res => {
+            log('train time: ' + res.body);
+            return res.body;
+        })
+        .catch(err => {
+            log('get train time failed!');
+            log(err.message);
+        });
+}
