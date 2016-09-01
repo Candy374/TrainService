@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System;
 
 namespace DAL.DAO
 {
@@ -28,6 +29,17 @@ namespace DAL.DAO
         public ProviderEntity GetProviderByOpenId(string openId)
         {
             return CachedTable.Where(p => p.OpenIdList.Contains(openId)).FirstOrDefault();
+        }
+
+        public List<string> GetOpenIdsByProviderId(int providerId)
+        {
+            var provider = CachedTable.Where(p => Convert.ToInt32(p.ProviderId) == providerId).FirstOrDefault();
+            if (provider == null)
+            {
+                return new List<string>();
+            }
+
+            return provider.OpenIdList;
         }
     }
 }

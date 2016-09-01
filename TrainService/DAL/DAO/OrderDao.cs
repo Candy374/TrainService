@@ -97,10 +97,10 @@ namespace DAL.DAO
             _baseDao.ExecNonQuery("UPDATE orders SET is_rated=TRUE WHERE order_id=@OID", para);
         }
 
-        public OrderEntity GetOrderByOrderId(string orderId)
+        public OrderEntity GetOrderByOrderId(uint orderId)
         {
             var para = new StatementParameterCollection();
-            para.Add(new StatementParameter { Name = "@OId", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = Convert.ToUInt32(orderId) });
+            para.Add(new StatementParameter { Name = "@OId", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
 
             return _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id=@OId  AND order_status<>99 limit 1", para).FirstOrDefault();
         }
@@ -137,17 +137,25 @@ namespace DAL.DAO
             transactionOption.Timeout = new TimeSpan(0, 0, 30);
             using (TransactionScope ts = new TransactionScope(TransactionScopeOption.Required, transactionOption))
             {
+                if (!IsStatusChangeAcceptable(OrderStatus.已支付, OrderStatus.未付款))
+                {
+                    return false;
+                }
+
                 var para = new StatementParameterCollection();
                 para.Add(new StatementParameter { Name = "@OId", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
                 para.Add(new StatementParameter { Name = "@PayFee", Direction = ParameterDirection.Input, DbType = DbType.Decimal, Value = userPay });
-                var sql = "UPDATE orders SET user_pay_fee=@PayFee,order_status=1 WHERE order_id=@OId AND order_status=0 LIMIT 1";
+                para.Add(new StatementParameter { Name = "@OldSt", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)OrderStatus.未付款 });
+                para.Add(new StatementParameter { Name = "@NewSt", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)OrderStatus.已支付 });
+
+                var sql = "UPDATE orders SET user_pay_fee=@PayFee,order_status=@NewSt WHERE order_id=@OId AND order_status=@OldSt LIMIT 1";
 
                 if (_baseDao.ExecNonQuery(sql, para) == 0)
                 {
                     return false;
                 }
 
-                var sql2 = "UPDATE order_details SET status=1 WHERE order_id=@OId";
+                var sql2 = "UPDATE order_details SET status=@NewSt WHERE order_id=@OId";
 
                 if (_baseDao.ExecNonQuery(sql2, para) == 0)
                 {
@@ -194,20 +202,29 @@ namespace DAL.DAO
             {
                 var para = new StatementParameterCollection();
                 para.Add(new StatementParameter { Name = "@OID", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
-                var order = _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id=@OId  AND order_status<>99 limit 1", para).FirstOrDefault();
-                if (order != null)
+                para.Add(new StatementParameter { Name = "@CancelStatus", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)OrderStatus.订单取消 });
+                para.Add(new StatementParameter { Name = "@DeleteStatus", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)OrderStatus.Deleted });
+
+                var order = _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id=@OId  AND order_status<>@DeleteStatus limit 1", para).FirstOrDefault();
+                if (order == null)
                 {
-                    oldStatus = order.OrderStatus;
+                    throw new Exception("Invild Order Id");
+                }
+
+                oldStatus = order.OrderStatus;
+                if (!IsStatusChangeAcceptable(OrderStatus.订单取消, (OrderStatus)oldStatus))
+                {
+                    throw new Exception("Wrong status change process");
                 }
 
                 para.Add(new StatementParameter { Name = "@OpenId", Direction = ParameterDirection.Input, DbType = DbType.String, Value = openId });
-                result = _baseDao.ExecNonQuery("UPDATE orders SET	order_status=7 WHERE order_id=@OID AND order_status IN (0,1) AND user_openid=@OpenId", para);
+                result = _baseDao.ExecNonQuery("UPDATE orders SET	order_status=@CancelStatus WHERE order_id=@OID AND user_openid=@OpenId", para);
                 if (result != 1)
                 {
                     return false;
                 }
 
-                result = _baseDao.ExecNonQuery("UPDATE order_details SET status=7 WHERE order_id=@OID", para);
+                result = _baseDao.ExecNonQuery("UPDATE order_details SET status=@CancelStatus WHERE order_id=@OID", para);
                 if (result < 1)
                 {
                     return false;
@@ -222,6 +239,11 @@ namespace DAL.DAO
 
         public bool ChangeSubOrderStatus(uint subOrderId, OrderStatus newStatus, OrderStatus oldStatus)
         {
+            if (!IsStatusChangeAcceptable(newStatus, oldStatus))
+            {
+                throw new Exception("Wrong status change process");
+            }
+
             var para = new StatementParameterCollection();
             para.Add(new StatementParameter { Name = "@newSt", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)newStatus });
             para.Add(new StatementParameter { Name = "@oldSt", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)oldStatus });
@@ -231,17 +253,40 @@ namespace DAL.DAO
             return _baseDao.ExecNonQuery(sql, para) == 1;
         }
 
+        public int ChangeSubOrderStatusByOrderId(uint orderId, OrderStatus newStatus, OrderStatus oldStatus)
+        {
+            if (!IsStatusChangeAcceptable(newStatus, oldStatus))
+            {
+                throw new Exception("Wrong status change process");
+            }
+
+            var para = new StatementParameterCollection();
+            para.Add(new StatementParameter { Name = "@newSt", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)newStatus });
+            para.Add(new StatementParameter { Name = "@oldSt", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)oldStatus });
+            para.Add(new StatementParameter { Name = "@OID", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
+            var sql = "UPDATE order_details SET status=@newSt WHERE order_id=@OID AND status=@oldSt";
+
+            return _baseDao.ExecNonQuery(sql, para);
+        }
+
         public OrderEntity GetOrderBySubOrderId(uint subOrderId)
         {
             var para = new StatementParameterCollection();
             para.Add(new StatementParameter { Name = "@SubId", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = subOrderId });
-            var query = _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id = (SELECT  order_id FROM order_details WHERE id=@SubId AND order_status<>99)", para);
+            para.Add(new StatementParameter { Name = "@DeleteStatus", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)OrderStatus.Deleted });
+
+            var query = _baseDao.SelectList<OrderEntity>("SELECT * FROM orders WHERE order_id = (SELECT  order_id FROM order_details WHERE id=@SubId AND order_status<>@DeleteStatus)", para);
 
             return query.FirstOrDefault();
         }
 
         public bool ChangeOrderStatus(uint orderId, OrderStatus newStatus, OrderStatus oldStatus)
         {
+            if (!IsStatusChangeAcceptable(newStatus, oldStatus))
+            {
+                throw new Exception("Wrong status change process");
+            }
+
             var para = new StatementParameterCollection();
             para.Add(new StatementParameter { Name = "@newSt", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)newStatus });
             para.Add(new StatementParameter { Name = "@oldSt", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)oldStatus });
@@ -261,16 +306,28 @@ namespace DAL.DAO
             var result = 0;
             using (TransactionScope ts = new TransactionScope(TransactionScopeOption.Required, transactionOption))
             {
+                var order = GetOrderByOrderId(orderId);
+                if (order == null)
+                {
+                    throw new Exception("Invild OrderID");
+                }
+
+                if (!IsStatusChangeAcceptable(OrderStatus.Deleted, (OrderStatus)order.OrderStatus))
+                {
+                    throw new Exception("Wrong status change process");
+                }
+
                 var para = new StatementParameterCollection();
                 para.Add(new StatementParameter { Name = "@OID", Direction = ParameterDirection.Input, DbType = DbType.UInt32, Value = orderId });
                 para.Add(new StatementParameter { Name = "@OpenId", Direction = ParameterDirection.Input, DbType = DbType.String, Value = openId });
-                result = _baseDao.ExecNonQuery("UPDATE orders SET	order_status=99 WHERE order_id=@OID AND order_status IN (0,6,7) AND user_openid=@OpenId LIMIT 1", para);
+                para.Add(new StatementParameter { Name = "@DeleteStatus", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)OrderStatus.Deleted });
+                result = _baseDao.ExecNonQuery("UPDATE orders SET	order_status=@DeleteStatus WHERE order_id=@OID AND user_openid=@OpenId LIMIT 1", para);
                 if (result != 1)
                 {
                     return false;
                 }
 
-                result = _baseDao.ExecNonQuery("UPDATE order_details SET status=99 WHERE order_id=@OID", para);
+                result = _baseDao.ExecNonQuery("UPDATE order_details SET status=@DeleteStatus WHERE order_id=@OID", para);
                 if (result < 1)
                 {
                     return false;
@@ -280,6 +337,28 @@ namespace DAL.DAO
             }
 
             return true;
+        }
+
+        public OrderDetailEntity GetSubOrderById(uint subOrderId)
+        {
+            return _baseDao.SelectList<OrderDetailEntity>("SELECT * FROM order_details WHERE id=" + subOrderId).FirstOrDefault();
+        }
+
+        private bool IsStatusChangeAcceptable(OrderStatus newStatus, OrderStatus oldStatus)
+        {
+            var isAcceptable = (newStatus == OrderStatus.订单异常)
+                || (oldStatus == OrderStatus.未付款 && newStatus == OrderStatus.已支付)
+                || (oldStatus == OrderStatus.已支付 && newStatus == OrderStatus.商家接单)
+                || (oldStatus == OrderStatus.未付款 && newStatus == OrderStatus.订单取消)
+                || (oldStatus == OrderStatus.已支付 && newStatus == OrderStatus.订单取消)
+                || (oldStatus == OrderStatus.商家接单 && newStatus == OrderStatus.商家已配货)
+                || (oldStatus == OrderStatus.商家已配货 && newStatus == OrderStatus.快递已取货)
+                || (oldStatus == OrderStatus.快递已取货 && newStatus == OrderStatus.已送到指定位置)
+                || (oldStatus == OrderStatus.已送到指定位置 && newStatus == OrderStatus.订单结束)
+                || (oldStatus == OrderStatus.订单结束 && newStatus == OrderStatus.Deleted)
+                || (oldStatus == OrderStatus.订单取消 && newStatus == OrderStatus.Deleted);
+
+            return isAcceptable;
         }
     }
 

@@ -11,6 +11,7 @@ using System.Text;
 using WebAPIService.Entity;
 using LoggerContract;
 using CommonUtilities;
+using DAL.DAO;
 
 namespace WebAPIService.Controllers
 {
@@ -18,6 +19,8 @@ namespace WebAPIService.Controllers
     [RoutePrefix("api/Orders")]
     public class OrdersController : ApiController
     {
+
+
         [Route("Add")]
         public int Add([FromBody]dynamic data)
         {
@@ -303,7 +306,7 @@ namespace WebAPIService.Controllers
                 throw new ArgumentNullException("OpenId is " + (openId ?? "<null>"));
             }
 
-            var order = DalFactory.Orders.GetOrderByOrderId(orderId.ToString());
+            var order = DalFactory.Orders.GetOrderByOrderId(orderId);
             if (order == null)
             {
                 return 0;
@@ -365,7 +368,7 @@ namespace WebAPIService.Controllers
         }
 
         [Route("Query/Order/{orderId}")]
-        public UIMyOrderEntity GetByOrderId(string orderId)
+        public UIMyOrderEntity GetByOrderId(uint orderId)
         {
             Logger.Info("orderId={0}".FormatedWith(orderId), "api/Orders/Query/Order/{orderId}");
             var item = DalFactory.Orders.GetOrderByOrderId(orderId);
@@ -396,24 +399,128 @@ namespace WebAPIService.Controllers
 
             return dic;
         }
-        //[Route("Peek/{subOrderId}/By/{openId}")]
-        //public int PeekOrder(uint subOrderId, string openId)
-        //{
-
-        //}
 
         [Route("Update/SubOrder/{subOrderId}")]
         public int ChangeSubOrderStatus(uint subOrderId, [FromBody]dynamic data)
         {
             int newStatus = data.NewStatus;
             int oldStatus = data.OldStatus;
+
+            string openId = data.OpenId;
+            var subOrder = DalFactory.Orders.GetSubOrderById(subOrderId);
+            if (subOrder == null)
+            {
+                throw new Exception("Invaild SubOrderID");
+            }
+            var openIds = DalFactory.Provider.GetOpenIdsByProviderId(subOrder.ProviderId);
+            if (!openIds.Contains(openId))
+            {
+                throw new Exception("You don't have permission to update the subOrder");
+            }
+
             var result = DalFactory.Orders.ChangeSubOrderStatus(subOrderId, (DAL.DAO.OrderStatus)newStatus, (DAL.DAO.OrderStatus)oldStatus);
-            //if (result && newStatus == 2)
-            //{
-            //    OrderEntity order = DalFactory.Orders.GetOrderBySubOrderId(subOrderId);
-            //}
+            if (result)
+            {
+                OnSubOrderStatusChanged(subOrderId, subOrder.OrderId, (DAL.DAO.OrderStatus)oldStatus, (DAL.DAO.OrderStatus)newStatus);
+            }
 
             return result ? 1 : 0;
+        }
+
+        [Route("Update/Order/{orderId}")]
+        public int ChangeOrderStatus(uint orderId, [FromBody]dynamic data)
+        {
+            int newStatus = data.NewStatus;
+            int oldStatus = data.OldStatus;
+            string openId = data.OpenId;
+            if (string.IsNullOrEmpty(openId) || openId.ToUpper() == "TBD")
+            {
+                throw new ArgumentNullException("OpenId is " + (openId ?? "<null>"));
+            }
+
+            var order = DalFactory.Orders.GetOrderByOrderId(orderId);
+            if (order == null)
+            {
+                return 0;
+            }
+
+            if (order.OrderStatus != oldStatus)
+            {
+                throw new Exception("OldStatus is changed, Please refresh data.");
+            }
+
+            var isStatusChanged = DalFactory.Orders.ChangeOrderStatus(
+                orderId, (DAL.DAO.OrderStatus)newStatus, (DAL.DAO.OrderStatus)oldStatus);
+
+            OnOrderStatusChanged(orderId, (DAL.DAO.OrderStatus)newStatus, (DAL.DAO.OrderStatus)oldStatus);
+
+            return 1;
+
+        }
+
+        private void OnOrderStatusChanged(uint orderId, DAL.DAO.OrderStatus newStatus, DAL.DAO.OrderStatus oldStatus)
+        {
+            if (newStatus == DAL.DAO.OrderStatus.已支付
+                || newStatus == DAL.DAO.OrderStatus.订单取消
+                || newStatus == DAL.DAO.OrderStatus.已送到指定位置
+                || newStatus == DAL.DAO.OrderStatus.订单结束)
+            {
+                DalFactory.Orders.ChangeSubOrderStatusByOrderId(orderId, newStatus, oldStatus);
+            }
+        }
+
+        private void OnSubOrderStatusChanged(uint subOrderId, uint orderId, DAL.DAO.OrderStatus oldStatus, DAL.DAO.OrderStatus newStatus)
+        {
+            var order = DalFactory.Orders.GetOrderByOrderId(orderId);
+            if (order.OrderStatus == (int)DAL.DAO.OrderStatus.已支付 && newStatus == DAL.DAO.OrderStatus.商家接单)
+            {
+                DalFactory.Orders.ChangeOrderStatus(orderId, DAL.DAO.OrderStatus.已支付, DAL.DAO.OrderStatus.商家接单);
+                return;
+            }
+
+            if (order.OrderStatus == (int)DAL.DAO.OrderStatus.商家接单 && newStatus == DAL.DAO.OrderStatus.商家已配货)
+            {
+                var subOrders = DalFactory.Orders.GetSubOrders(Convert.ToInt32(orderId));
+                var canChangeStatus = true;
+                foreach (var item in subOrders)
+                {
+                    var s = (DAL.DAO.OrderStatus)item.Status;
+                    if (s != DAL.DAO.OrderStatus.商家已配货 && s != DAL.DAO.OrderStatus.快递已取货 && s != DAL.DAO.OrderStatus.已送到指定位置)
+                    {
+                        canChangeStatus = false;
+                        break;
+                    }
+                }
+
+                if (canChangeStatus)
+                {
+                    DalFactory.Orders.ChangeOrderStatus(orderId, DAL.DAO.OrderStatus.商家已配货, DAL.DAO.OrderStatus.商家接单);
+                }
+
+                return;
+            }
+
+            if (order.OrderStatus == (int)DAL.DAO.OrderStatus.商家已配货 && newStatus == DAL.DAO.OrderStatus.快递已取货)
+            {
+                var subOrders = DalFactory.Orders.GetSubOrders(Convert.ToInt32(orderId));
+                var canChangeStatus = true;
+                foreach (var item in subOrders)
+                {
+                    var s = (DAL.DAO.OrderStatus)item.Status;
+                    if ( s != DAL.DAO.OrderStatus.快递已取货 && s != DAL.DAO.OrderStatus.已送到指定位置)
+                    {
+                        canChangeStatus = false;
+                        break;
+                    }
+                }
+
+                if (canChangeStatus)
+                {
+                    DalFactory.Orders.ChangeOrderStatus(orderId, DAL.DAO.OrderStatus.快递已取货, DAL.DAO.OrderStatus.商家已配货);
+                }
+
+                return;
+            }
         }
 
         [Route("Update/Order/{orderId}/OpenId/{openId}")]

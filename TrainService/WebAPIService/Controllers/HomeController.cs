@@ -28,16 +28,10 @@ namespace WebAPIService.Controllers
         }
 
 
-        public ActionResult OrderDetail(string orderId)
+        public ActionResult OrderDetail(uint orderId)
         {
-            int id;
-            if (!int.TryParse(orderId, out id))
-            {
-                return HttpNotFound();
-            }
-
             var model = DAL.DalFactory.Orders.GetOrderByOrderId(orderId);
-            ViewBag.SubOrders = DAL.DalFactory.Orders.GetSubOrders(id);
+            ViewBag.SubOrders = DAL.DalFactory.Orders.GetSubOrders(Convert.ToInt32(orderId));
             return View(model);
         }
     }

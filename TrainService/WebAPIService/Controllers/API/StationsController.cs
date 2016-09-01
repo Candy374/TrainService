@@ -26,13 +26,47 @@ namespace WebAPIService.Controllers
         [Route("Stations/{stationCode}/TrainSchedule/{trainNumber}/ArriveTime")]
         public string GetTrainArriveTime(string stationCode, string trainNumber)
         {
-            var result= DAL.DalFactory.TimeTable.Query(stationCode, trainNumber);
-            if (result!=null)
+            var result = DAL.DalFactory.TimeTable.Query(stationCode, trainNumber);
+            if (result != null)
             {
                 return result.ArriveTime;
             }
 
             return "-";
+        }
+
+        [Route("Stations/{stationCode}/TrainSchedule/{trainNumber}/TimeCheck")]
+        public string CheckTrainArriveTime(string stationCode, string trainNumber)
+        {
+            var result = DAL.DalFactory.TimeTable.Query(stationCode, trainNumber);
+            if (result != null)
+            {
+                string arriveTime;
+                if (result.ArriveTime == "----")
+                {
+                    arriveTime = DateTime.Now.ToString("yyyy-MM-dd") + " " + result.LeaveTime + ":00";
+                }
+                else
+                {
+                    arriveTime = DateTime.Now.ToString("yyyy-MM-dd") + " " + result.ArriveTime + ":00";
+                }
+
+                var arrTime = DateTime.Parse(arriveTime);
+
+                if (result.ArriveTime == "----")
+                {
+                    arrTime = arrTime.AddMinutes(-15);
+                }
+
+                if (arrTime - DateTime.Now < new TimeSpan(0, 45, 0))
+                {
+                    return "Err1:此车次正点到达车站的时间距离现在小于45分钟，无法配送";
+                }
+
+                return "OK";
+            }
+
+            return "Err2:查询不到该列车信息";
         }
 
         [Route("Stations/{stationCode}/Upload")]
@@ -43,7 +77,7 @@ namespace WebAPIService.Controllers
             List<DAL.Entity.TimeTableEntity> list = new List<DAL.Entity.TimeTableEntity>();
             foreach (var item in data)
             {
-                if (item.station_telecode!=stationCode)
+                if (item.station_telecode != stationCode)
                 {
                     continue;
                 }
