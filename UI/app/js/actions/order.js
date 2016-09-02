@@ -173,7 +173,7 @@ export const submitRates = (data) => {
 
 export const getTrainTime = (station_code, trainNumber) => {
     // Stations/{station_code}/TrainSchedule/{trainNumber}/ArriveTime
-    return request.get(basicUrl + `Stations/${station_code}/TrainSchedule/${trainNumber}/ArriveTime`)
+    return request.post(basicUrl + `Stations/${station_code}/TrainSchedule/${trainNumber}/TimeCheck`)
         .then(res => {
             log('train time: ' + res.body);
             return res.body;
@@ -182,4 +182,4 @@ export const getTrainTime = (station_code, trainNumber) => {
             log('get train time failed!');
             log(err.message);
         });
-}
+};

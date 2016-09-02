@@ -44,18 +44,26 @@ export default class OrderInfo extends Component {
         );
     }
 
+    validTrain(number = this.props.chart.info.TrainNumber) {
+      getTrainTime(this.props.chart.station.StationCode, number).then(msg => {
+        this.setState({
+          TrainNumberError: msg != 'OK' && msg,
+          validTrain: msg == 'OK'
+        });
+      });
+    }
+
     isValid(value, type) {
         switch(type) {
-            case 'TrainNumber':
-                getTrainTime(this.props.chart.station.StationCode, value).then(msg => {
-                    this.setState({
-                        TrainNumberError: msg != 'OK' && msg,
-                        validTrain: msg == 'OK'
-                    });
-                });
-                
-                //value 长度小于5， 字母开头或者全数字
-                return value.length <= 7 && value.match(/(G|D|C)\d+$/i);
+            case 'TrainNumber': {
+              if (!this.props.chart.info.IsDelay) {
+                this.validTrain(value);
+              } else if (!this.state.validTrain) {
+                this.setState({validTrain: true})
+              }
+              //value 长度小于5， 字母开头或者全数字
+              return value.length <= 7 && value.match(/(G|D|C)\d+$/i);
+            }
             case 'CarriageNumber':
                 // less than 16
                 return value/1 < 16 && value/1 > 0;
@@ -66,7 +74,7 @@ export default class OrderInfo extends Component {
     }
 
     isInfoReady(info) {
-        return info.TrainNumber && info.CarriageNumber && info.Contact && info.ContactTel && this.validTrain &&
+        return info.TrainNumber && info.CarriageNumber && info.Contact && info.ContactTel && this.state.validTrain &&
             !this.state.TrainNumberError && !this.state.CarriageNumberError && !this.state.ContactTelError;
     }
 
@@ -106,12 +114,23 @@ export default class OrderInfo extends Component {
                     </Line>
                     <Line>
                         <Label flex={true}>如果您所在列车已晚点运行请勾选右侧</Label>
-                        <input  value={this.props.chart.info.IsDelay} 
-                                checked={this.props.chart.info.IsDelay}
+                        <input  value={chart.info.IsDelay}
+                                checked={chart.info.IsDelay}
                                 ref={node=> this.IsDelay = node}
                                 onChange={() => {
-                                    info.IsDelay = this.IsDelay.checked;
-                                    this.props.updateChart({info});
+                                    chart.info.IsDelay = this.IsDelay.checked;
+                                    if (chart.info.IsDelay) {
+                                       if (this.state.TrainNumberError.indexOf('小于45分钟') > -1) {
+                                          this.setState({
+                                            TrainNumberError: '',
+                                            validTrain: true
+                                          });
+                                       }
+                                    } else {
+                                      this.validTrain();
+                                    }
+
+                                    this.props.updateChart({info: chart.info});
                                 }}
                                 type='checkbox' />
                     </Line>

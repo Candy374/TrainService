@@ -33,11 +33,11 @@ export default class Container extends Component {
         } 
 
         const station = {
-            MinPrice:1,
-            Name:"郑州东",
-            PicUrl:'',
-            StationCode:"ZZD",
-            StationId:1
+          StationId: 1,
+          Name: "郑州东",
+          StationCode: "ZAF",
+          MinPrice: 1,
+          PicUrl: "/imgs/ZZD_samll.jpg"
         };
         this.state = {
             page,
