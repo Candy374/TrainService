@@ -16,10 +16,10 @@ export default class MyOrders extends Component {
             total: 0,
             prepare: {},
             showAll: false,
-            openId: this.props.openId
+            openId: this.props.openId,
+            providerId: this.props.providerId
         };
         this.orders = [];
-        this.updateOrderList();
     }
 
     componentDidMount() {        
@@ -30,27 +30,32 @@ export default class MyOrders extends Component {
         if(nextProps.openId && nextProps.openId != this.state.openId) {
             this.setState({openId: nextProps.openId}, this.updateOrderList);
         }
+
+        if(nextProps.providerId && nextProps.providerId != this.state.providerId) {
+          this.setState({providerId: nextProps.providerId}, this.updateOrderList);
+        }
     }
     
 
     updateOrderList() {
-        if (!this.state.openId) {
+        if (!this.state.openId || !this.state.providerId) {
             return;
         }
 
-        actions.getOrderList(this.state.openId).then((orderList)=>{
-            if (orderList) {
-                const orderMap = {'1': [], '2': [], '3': []};
-                orderList.map(order => {
-                    this.orders[order.OrderId] = {checked: false};
-                    if (orderMap[order.StatusCode]) {
-                        orderMap[order.StatusCode].push(order);
-                    }
-                });
+        shopActions.getWaitingOrder(this.state.providerId).then(waitingOrder => {
+            const orderMap = this.state.orderMap;
+            orderMap['1'] = waitingOrder;
+            this.setState({
+              orderMap
+            });
+        }).then(() => {
+            return shopActions.getReadyOrder(this.state.providerId).then(readyOrder => {
+                const orderMap = this.state.orderMap;
+                orderMap['2'] = readyOrder;
                 this.setState({
-                    orderMap
+                  orderMap
                 });
-            }
+            });
         });
     }
 

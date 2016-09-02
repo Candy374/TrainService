@@ -1,8 +1,8 @@
 import request from 'superagent';
 import  {basicUrl, updateOrderURL, goodsURL} from '../constants/actions';
 
-const udpateOrder = (orderId, openId, data) => {
-    return request.post(basicUrl + `api/Orders/Update/Order/${orderId}/OpenId/${openId}`, data)
+const updateOrder = (orderId, data) => {
+    return request.post(basicUrl + `Orders/Update/Order/${orderId}`, data)
         .then(res => res.body)
         .catch(err => {
             throw err;
@@ -10,23 +10,68 @@ const udpateOrder = (orderId, openId, data) => {
 };
 
 export const takeOrder = (orderId, openId) => {
-    const data = { "NewStatus":2 , "OldStatus":1};
-    return udpateOrder(orderId, openId, data);
+    const data = { NewStatus:2 , OldStatus:1, OpenId: openId};
+    return updateOrder(orderId, data);
 };
 
 export const orderReady = (orderId, openId) => {
-    const data = { "NewStatus":3 , "OldStatus":2};
-    return udpateOrder(orderId, openId, data);
+    const data = { "NewStatus":3 , "OldStatus":2, OpenId: openId};
+    return updateOrder(orderId, data);
 };
 
 export const expressOrder = (orderId, openId) => {
-    const data = { "NewStatus":4 , "OldStatus":3};
-    return udpateOrder(orderId, openId, data);
+    const data = { "NewStatus":4 , "OldStatus":3, OpenId: openId};
+    return updateOrder(orderId, data);
 };
 
 export const doneDeliver = (orderId, openId) => {
-    const data = { "NewStatus":5 , "OldStatus":4};
-    return udpateOrder(orderId, openId, data);
+    const data = { "NewStatus":5 , "OldStatus":4, OpenId: openId};
+    return updateOrder(orderId, data);
+};
+
+export const doneOrder = (orderId, openId) => {
+  const data = { "NewStatus":6 , "OldStatus":5, OpenId: openId};
+  return updateOrder(orderId, data);
+};
+
+export const getProviderId = (code) => {
+  return request.get(basicUrl + `Provider/Find/Code/${code}`)
+    .then(res => res.body)
+    .catch(err => {
+      alert('服务器出现错误， 请重新打开');
+    });
+};
+
+export const getWaitingOrder = (providerId) => {
+  return request.get(basicUrl + `Orders/Query/ProviderId/${providerId}/Status/1`)
+    .then(res => res.body)
+    .catch(err => {
+      console.log('get waiting order failed');
+    });
+};
+
+export const getReadyOrder = (providerId) => {
+  return request.get(basicUrl + `Orders/Query/ProviderId/${providerId}/Status/2`)
+    .then(res => res.body)
+    .catch(err => {
+      console.log('get ready order failed');
+    });
+};
+
+export const getDeliverReadyOrder = () => {
+  return request.get(basicUrl + `Orders/Query/ProviderId/ALL/Status/3`)
+    .then(res => res.body)
+    .catch(err => {
+      console.log('get deliver ready order failed');
+    });
+};
+
+export const getDeliverDoneOrders = () => {
+  return request.get(basicUrl + `Orders/Query/ProviderId/ALL/Status/4`)
+    .then(res => res.body)
+    .catch(err => {
+      console.log('get deliver done order failed');
+    });
 };
 
 // :

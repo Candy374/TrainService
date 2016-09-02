@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Page from './common/Page';
 import {login, updateOpenId} from '../actions/login';
+import {getProviderId} from '../actions/shopOrders';
 
 export default class Login extends Component {
     componentWillMount() {
@@ -15,9 +16,10 @@ export default class Login extends Component {
         });
 
         const page = this.state.state;
+        const code = this.state.code;
         if (page && page.indexOf('ReLogin') > -1) {
             const orderId = this.state.state.replace('ReLogin_', '');
-            login(this.state.code, 'ReLogin').then((id) => {
+            login(code, 'ReLogin').then((id) => {
                 // alert('renew open Id is' + id);
                 updateOpenId(orderId).then(id => {
                     this.props.updateOpenId(id);
@@ -28,12 +30,15 @@ export default class Login extends Component {
             });
         } else {
             this.props.nextPage(page);
-            login(this.state.code, page).then((id) => {
-                console.log('open Id is' + id);
-                this.props.updateOpenId(id);
+            login(code, page).then((id) => {
+                console.log('provider Id is' + id);
+                this.props.updateProviderId(id);
             });
+
+            getProviderId(code);
         }
         //this.props.updateOpenId('ouzHawBv2svApr1IiNxXykpmAuI0');
+        //this.props.updateProviderId(3);
         //this.props.nextPage(page)
     }
 

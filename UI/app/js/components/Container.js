@@ -33,11 +33,11 @@ export default class Container extends Component {
         } 
 
         const station = {
-            MinPrice:1,
-            Name:"郑州东",
-            PicUrl:'',
-            StationCode:"ZZD",
-            StationId:1
+          StationId: 1,
+          Name: "郑州东",
+          StationCode: "ZAF",
+          MinPrice: 1,
+          PicUrl: "/imgs/ZZD_samll.jpg"
         };
         this.state = {
             page,
@@ -57,7 +57,8 @@ export default class Container extends Component {
             orderId: null,
             stations: [station],
             submitting: false,
-            openId: null
+            openId: null,
+            providerId: null
         };
         this.updateChart = this.updateChart.bind(this);
         this.submitOrder = this.submitOrder.bind(this);
@@ -150,8 +151,12 @@ export default class Container extends Component {
         });
     }
 
+    updateProviderId(id) {
+      this.setState({providerId: id});
+    }
+
     render() {
-        const {openId, stations, chart, submitting, orderId } = this.state;
+        const {openId, stations, chart, submitting, orderId, providerId } = this.state;
         switch(this.state.page){
             case 'Booking':
                 return (
@@ -194,13 +199,14 @@ export default class Container extends Component {
                                  setCurrentOrderId={this.setCurrentOrderId}/>;
 
             case 'Shop': 
-                return <ShopOrders openId={openId}/>;
+                return <ShopOrders providerId={providerId} openId={openId}/>;
 
             case 'Deliver': 
                 return <Delivery openId={openId}/>;
 
             case 'Login': 
-                return <Login updateOpenId={this.updateOpenId.bind(this)}
+                return <Login updateProviderId={this.updateProviderId.bind(this)}
+                              updateOpenId={this.updateOpenId.bind(this)}
                               nextPage={this.nextPage.bind(this)}/>;
         }
     }
