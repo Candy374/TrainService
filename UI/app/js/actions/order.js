@@ -61,7 +61,7 @@ const pay = ({appId, timeStamp, nonceStr, _package, signType, paySign}, OrderId,
     } else {
         onBridgeReady();
     }
-}
+};
 
 export const getPayArgs = (OrderId, callback) => {
     const Ip = returnCitySN.cip.replace(/\./g, '_');
@@ -75,7 +75,7 @@ export const getPayArgs = (OrderId, callback) => {
             log('can not get pay args');
             log(err.message);
         });
-}
+};
 
 export const submitOrder = (data, callback) => {
     if (!data.OpenId) {
@@ -95,7 +95,7 @@ export const getOrderList = (userId) => {
     return request.get(basicUrl + orderListURL + userId)
         .then(res => {
             const list = res.body && res.body.Orders;
-            log('get order list: ' + list)
+            log('get order list: ' + list);
             list.map(item => log(`${item.OrderId} : ${item.StatusCode}`));
             return list;
         })
