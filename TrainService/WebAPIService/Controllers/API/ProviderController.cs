@@ -19,7 +19,11 @@ namespace WebAPIService.Controllers
         {
             Logger.Info("providerId=" + providerId, "api/Provider/Find/ID/{providerId}");
 
-            return DAL.DalFactory.Provider.Search(providerId);
+            var o = DAL.DalFactory.Provider.Search(providerId);
+
+            o.OpenIds = "";
+
+            return o;
         }
 
         [Route("Find/Code/{code}")]
@@ -41,7 +45,14 @@ namespace WebAPIService.Controllers
         public IEnumerable<DAL.Entity.ProviderEntity> GetByName(string providerName)
         {
             Logger.Info("providerName=" + providerName, "api/Provider/Find/Name/{providerName}");
-            return DAL.DalFactory.Provider.Search(providerName);
+            var list = DAL.DalFactory.Provider.Search(providerName).ToList();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i].OpenIds = "";
+            }
+
+            return list;
         }
     }
 }

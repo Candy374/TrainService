@@ -233,7 +233,7 @@ namespace WebAPIService.Controllers
             {
 
 
-                //{  orderId : 123 , rates: ["SubId":3, "goodsId" : 1 , "rate" : 5] , [ "goodsId" : 2 , "rate" : 3 ] }
+                //{  orderId : 123 , Rates: ["SubId":3, "GoodsId" : 1 , "Rate" : 5] , [ "goodsId" : 2 , "rate" : 3 ] }
                 uint orderId = rateInfo.OrderId;
                 Dictionary<uint, int> goodsRates = new Dictionary<uint, int>();
                 Dictionary<uint, int> subOrderRates = new Dictionary<uint, int>();
@@ -309,7 +309,7 @@ namespace WebAPIService.Controllers
             var order = DalFactory.Orders.GetOrderByOrderId(orderId);
             if (order == null)
             {
-                return 0;
+                throw new Exception("Could not find Order");
             }
 
             int oldStatus;
@@ -382,11 +382,28 @@ namespace WebAPIService.Controllers
             return order;
         }
 
-        [Route("Query/ProviderId/{providerId}/Status/{status}")]
-        public object GetSubOrdersByProviderId(int providerId, int status)
+        [Route("Query/ProviderId/{provider}/Status/{status}")]
+        public object GetSubOrdersByProviderId(string provider, int status)
         {
-            var list = DalFactory.Orders.GetSubOrdersByProviderId(providerId, status);
+            IList<OrderDetailEntity> list;
+            if (provider.ToUpper() == "ALL")
+            {
+                list = DalFactory.Orders.GetSubOrdersByStatus(status);
+            }
+            else
+            {
+                int providerId;
+                if (!int.TryParse(provider, out providerId))
+                {
+                    throw new ArgumentException("provider is not id!");
+                }
+
+                list = DalFactory.Orders.GetSubOrdersByProviderId(providerId, status);
+            }
+
             SortedDictionary<uint, List<OrderDetailEntity>> dic = new SortedDictionary<uint, List<OrderDetailEntity>>();
+            var r = new List<dynamic>();
+
             foreach (var item in list)
             {
                 if (!dic.ContainsKey(item.OrderId))
@@ -397,7 +414,36 @@ namespace WebAPIService.Controllers
                 dic[item.OrderId].Add(item);
             }
 
-            return dic;
+            foreach (var k in dic.Keys)
+            {
+                var d = new List<dynamic>();
+                decimal amount = 0;
+                foreach (var j in dic[k])
+                {
+                    d.Add(new
+                    {
+                        ID = j.ID,
+                        GoodsId = j.GoodsId,
+                        DisplayName = j.DisplayName,
+                        Count = j.Count,
+                        PurchasePrice = j.PurchasePrice
+                    });
+                    amount += j.PurchasePrice;
+                }
+
+                var o = DalFactory.Orders.GetOrderByOrderId(k);
+                
+                r.Add(new
+                {
+                    OrderId = k,
+                    Amount = amount,
+                    TrainNumber = o.TrainNumber,
+                    ExpectTime=DalFactory.TimeTable.Query("ZAF",o.TrainNumber),
+                    List =d
+                });
+            }
+
+            return r;
         }
 
         [Route("Update/SubOrder/{subOrderId}")]
@@ -441,7 +487,7 @@ namespace WebAPIService.Controllers
             var order = DalFactory.Orders.GetOrderByOrderId(orderId);
             if (order == null)
             {
-                return 0;
+                throw new Exception("Could not find Order");
             }
 
             if (order.OrderStatus != oldStatus)
@@ -507,7 +553,7 @@ namespace WebAPIService.Controllers
                 foreach (var item in subOrders)
                 {
                     var s = (DAL.DAO.OrderStatus)item.Status;
-                    if ( s != DAL.DAO.OrderStatus.快递已取货 && s != DAL.DAO.OrderStatus.已送到指定位置)
+                    if (s != DAL.DAO.OrderStatus.快递已取货 && s != DAL.DAO.OrderStatus.已送到指定位置)
                     {
                         canChangeStatus = false;
                         break;

@@ -12,8 +12,8 @@ namespace WebAPIService.Controllers
     [RoutePrefix("api")]
     public class TagsController : ApiController
     {
-        [Route("Tags")]
-        public IEnumerable<object> Get()
+        [Route("Tags/{goodsType}")]
+        public IEnumerable<object> Get(int goodsType)
         {
             return _Get();
         }

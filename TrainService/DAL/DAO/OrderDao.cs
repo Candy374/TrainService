@@ -1,5 +1,6 @@
 ﻿using Arch.Data;
 using Arch.Data.DbEngine;
+using CommonUtilities;
 using DAL.Entity;
 using System;
 using System.Collections.Generic;
@@ -179,6 +180,29 @@ namespace DAL.DAO
             para.Add(new StatementParameter { Name = "@St", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = status });
 
             return _baseDao.SelectList<OrderDetailEntity>("SELECT * FROM order_details WHERE provider_id=@PId AND status=@St", para);
+        }
+
+        public IList<OrderDetailEntity> GetSubOrdersByProviderId(int id, int status, DateTime startTiem, DateTime endTime)
+        {
+            var para = new StatementParameterCollection();
+            para.Add(new StatementParameter { Name = "@PId", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = id });
+            para.Add(new StatementParameter { Name = "@St", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = status });
+
+            var timeFormat = "yyyy-MM-dd HH:mm:ss";
+
+            return _baseDao.SelectList<OrderDetailEntity>((
+                "SELECT * FROM order_details WHERE provider_id=@PId AND status=@St " +
+                "AND UNIX_TIMESTAMP(create_time)>=UNIX_TIMESTAMP('{0}') AND " +
+                "UNIX_TIMESTAMP(create_time)<=UNIX_TIMESTAMP('{1}')")
+                .FormatedWith(startTiem.ToString(timeFormat), endTime.ToString(timeFormat)), para);
+        }
+
+        public IList<OrderDetailEntity> GetSubOrdersByStatus(int status)
+        {
+            var para = new StatementParameterCollection();
+            para.Add(new StatementParameter { Name = "@St", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = status });
+
+            return _baseDao.SelectList<OrderDetailEntity>("SELECT * FROM order_details WHERE status=@St", para);
         }
 
         public IList<OrderEntity> GetOrdersByStatus(OrderStatus status)

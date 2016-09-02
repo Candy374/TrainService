@@ -17,7 +17,7 @@ namespace DAL.DAO
 
         public IEnumerable<ProviderEntity> Search(string providerName)
         {
-            return CachedTable.Where(d => d.Name == providerName);
+            return CachedTable.Where(d => d.Name.Contains(providerName));
         }
 
         public IEnumerable<ProviderEntity> FuzzySearch(string providerName)

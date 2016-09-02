@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -12,6 +12,8 @@ namespace WebAPIService
     {
         public static void Register(HttpConfiguration config)
         {
+			config.Formatters.Add(new RAML.Api.Core.XmlSerializerFormatter());
+			config.Formatters.Remove(config.Formatters.XmlFormatter);
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
