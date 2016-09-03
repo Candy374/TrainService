@@ -47,7 +47,7 @@ export default class OrderInfo extends Component {
     validTrain(number = this.props.chart.info.TrainNumber) {
       getTrainTime(this.props.chart.station.StationCode, number).then(msg => {
         this.setState({
-          TrainNumberError: msg != 'OK' && msg,
+          TrainNumberError: msg != 'OK' ? msg : '',
           validTrain: msg == 'OK'
         });
       });
