@@ -1,38 +1,55 @@
 import request from 'superagent';
-import  {basicUrl, updateOrderURL, goodsURL} from '../constants/actions';
+import  {basicUrl, updateOrderURL, goodsURL, log} from '../constants/actions';
 
 const updateOrder = (order, data) => {
     data.SubOrderIds = order.SubOrders.map(subOrder => subOrder.Id);
     return request.post(basicUrl + updateOrderURL, data)
-        .then(res => res.body)
-        .catch(err => {
-            throw err;
-        });
+        .then(res => res.body);
 };
 
 export const takeOrder = (order, openId) => {
     const data = { NewStatus:2 , OldStatus:1, OpenId: openId};
-    return updateOrder(order, data);
+    return updateOrder(order, data)
+        .catch(err => {
+            log('take order failed!');
+            log(err.message);
+        });
 };
 
 export const orderReady = (order, openId) => {
     const data = { "NewStatus":3 , "OldStatus":2, OpenId: openId};
-    return updateOrder(order, data);
+    return updateOrder(order, data)
+        .catch(err => {
+            log('take order failed!');
+            log(err.message);
+        });
 };
 
 export const expressOrder = (order, openId) => {
     const data = { "NewStatus":4 , "OldStatus":3, OpenId: openId};
-    return updateOrder(order, data);
+    return updateOrder(order, data)
+        .catch(err => {
+            log('express order failed!');
+            log(err.message);
+        });
 };
 
 export const doneDeliver = (order, openId) => {
     const data = { "NewStatus":5 , "OldStatus":4, OpenId: openId};
-    return updateOrder(order, data);
+    return updateOrder(order, data)
+        .catch(err => {
+            log('done deliver failed!');
+            log(err.message);
+        });
 };
 
 export const doneOrder = (order, openId) => {
   const data = { "NewStatus":6 , "OldStatus":5, OpenId: openId};
-  return updateOrder(order, data);
+  return updateOrder(order, data)
+      .catch(err => {
+            log('done order failed!');
+            log(err.message);
+        });
 };
 
 export const getProviderId = (code) => {
