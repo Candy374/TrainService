@@ -12,3 +12,13 @@ export const cancelURL = 'Orders/Cancel/';
 export const deleteURL = 'Orders/Delete/';
 export const rateURL = 'Orders/Rate';
 export const updateOrderURL = 'Orders/Update/SubOrder/';
+
+const level = 'info';
+export const log = (msg) => {
+    if (level == 'alert') {
+        alert(msg)
+    } else {
+        console.log(msg)
+    }
+    
+};
