@@ -1,5 +1,5 @@
 import request from 'superagent';
-import  {basicUrl, typeURL, goodsURL, userURL, cancelURL, rateURL, log
+import  {basicUrl, typeURL, goodsURL, userURL, cancelURL, rateURL, log,
   submitURL,orderListURL, orderURL, stationsURL, deleteURL} from '../constants/actions';
 
 export const getTypes = (goodsType = 1) => {
