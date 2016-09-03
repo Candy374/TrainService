@@ -33,13 +33,16 @@ export default class MyOrders extends Component {
             return;
         }
 
-        actions.getOrderList(this.state.openId).then((orderList)=>{
-            if (orderList) {
-                const orders = orderList.filter(order => order.StatusCode >= 3 && order.StatusCode < 5);
-                this.setState({
-                    orders
-                });
-            }
+        shopActions.getDeliverReadyOrder().then((orderList)=>{
+            this.setState({
+                orders: this.state.orders.concat(orderList)
+            });
+        });
+
+        shopActions.getDeliverDoneOrders().then((orderList)=>{
+            this.setState({
+                orders: this.state.orders.concat(orderList)
+            });
         });
     }
 
@@ -85,13 +88,13 @@ export default class MyOrders extends Component {
                         <Line align='end'>                        
                             {order.StatusCode == 3 && 
                                 <SmallButton label='已取餐' onClick={() => {
-                                    shopActions.expressOrder(order.OrderId).then(() => {
+                                    shopActions.expressOrder(order, this.state.openId).then(() => {
                                        this.updateOrder();
                                    });                            
                                 }}/>}
                             {order.StatusCode == 4 && 
                                 <SmallButton label='货已送到' onClick={() => {
-                                    shopActions.doneDeliver(order.OrderId).then(() => {
+                                    shopActions.doneDeliver(order, this.state.openId).then(() => {
                                        this.updateOrder();
                                     });                                
                                 }}/>} 

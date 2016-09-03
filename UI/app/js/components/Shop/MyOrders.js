@@ -115,19 +115,19 @@ export default class MyOrders extends Component {
                     const button = (
                     <Line>
                         <Label flex={true}>{`订单号：${order.OrderId}`}</Label>
-                        {order.StatusCode == 1 && 
-                                <SmallButton label='接单' onClick={() => {
-                                   shopActions.takeOrder(order.OrderId, this.state.openId).then(() => {                                       
-                                       this.summary();
-                                       this.updateOrderList();
-                                   });
-                                }}/>}
-                            {order.StatusCode == 2 && 
-                                <SmallButton label='货已备好' onClick={() => {
-                                   shopActions.orderReady(order.OrderId, this.state.openId).then(() => {
-                                       this.summary();
-                                   });                                    
-                                }}/>}
+                        {status == 1 && 
+                            <SmallButton label='接单' onClick={() => {
+                                shopActions.takeOrder(order, this.state.openId).then(() => {                                       
+                                    this.summary();
+                                    this.updateOrderList();
+                                });
+                            }}/>}
+                        {status == 2 && 
+                            <SmallButton label='货已备好' onClick={() => {
+                                shopActions.orderReady(order, this.state.openId).then(() => {
+                                    this.summary();
+                                });                                    
+                            }}/>}
                     </Line>);
                     return <Detail {...order} key={index} button={button} />;
                 })}

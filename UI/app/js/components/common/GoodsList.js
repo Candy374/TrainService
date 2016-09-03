@@ -52,7 +52,7 @@ export const OrderListNoImg = ({total, list, totalLabel, short}) => {
             <Line key={index} className='short'>
               <Label flex={true}>{item.Name}</Label>
               <Label size='small' align='end'>{`x${item.Count}`}</Label>
-              <Label size='small' align='end'>{`￥${item.SellPrice || item.Price}`}</Label>
+              <Label size='small' align='end'>{`￥${item.SellPrice || item.Price || item.PurchasePrice}`}</Label>
             </Line>
             );
           }
