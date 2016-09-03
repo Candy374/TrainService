@@ -12,8 +12,8 @@ const log = (msg) => {
     
 };
 
-export const getTypes = () => {
-    return request.get(basicUrl + typeURL)
+export const getTypes = (goodsType = 1) => {
+    return request.get(basicUrl + typeURL + goodsType)
         .then(res => res.body)
         .catch(err => {
             log('Can not get tags');

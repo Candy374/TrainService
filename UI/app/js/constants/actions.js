@@ -1,7 +1,7 @@
 import * as Constants from './system';
 
 export const basicUrl = `${Constants.basicUrl}/api/`;
-export const typeURL = 'tags';
+export const typeURL = 'Tags/';
 export const goodsURL = 'goods/郑州东/0';
 export const submitURL = 'Orders/add';
 export const orderListURL = 'orders/Query/All/';
