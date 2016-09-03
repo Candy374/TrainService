@@ -31,15 +31,20 @@ export default class Login extends Component {
         } else {
             this.props.nextPage(page);
             login(code, page).then((id) => {
-                console.log('provider Id is' + id);
-                this.props.updateProviderId(id);
+                console.log('open Id is' + id);
+                this.props.updateOpenId(id);
             });
 
-            getProviderId(code);
+            if (page == 'Shop') {
+                getProviderId(code).then(providerId => {
+                    this.props.updateProviderId(providerId);
+                });
+            }
         }
-        //this.props.updateOpenId('ouzHawBv2svApr1IiNxXykpmAuI0');
-        //this.props.updateProviderId(3);
-        //this.props.nextPage(page)
+        // this.props.updateOpenId('ouzHawBv2svApr1IiNxXykpmAuI0');
+        // this.props.updateOpenId('ouzHawP6e4hKHYhLVJO0sej3Akng');
+        // this.props.updateProviderId(3);
+        // this.props.nextPage(page)
     }
 
     render() {
