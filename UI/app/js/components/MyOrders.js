@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import * as actions from '../actions/order';
+import {doneOrder} from '../actions/shopOrders';
 import Page from './common/Page';
 import Footer from './common/Footer';
 import {ListItem, SummaryLine, OrderListNoImg} from './common/GoodsList';
@@ -94,6 +95,14 @@ export default class MyOrders extends Component {
       
                         {order.StatusCode >= 6 && <SmallButton label='删除' onClick={() => {
                             actions.deleteOrder(order.OrderId, this.state.openId).then((result) => {
+                                if (result) {
+                                    this.getOrderList();
+                                }
+                            });  
+                        }}/>
+                        }
+                         {order.StatusCode == 5 && <SmallButton label='确认收货' onClick={() => {
+                            doneOrder(order.OrderId, this.state.openId).then((result) => {
                                 if (result) {
                                     this.getOrderList();
                                 }
