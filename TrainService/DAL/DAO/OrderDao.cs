@@ -277,6 +277,21 @@ namespace DAL.DAO
             return _baseDao.ExecNonQuery(sql, para) == 1;
         }
 
+        public bool BulkChangeSubOrdersStatus(List<uint> subOrderIds, OrderStatus newStatus, OrderStatus oldStatus)
+        {
+            if (!IsStatusChangeAcceptable(newStatus, oldStatus))
+            {
+                throw new Exception("Wrong status change process");
+            }
+
+            var para = new StatementParameterCollection();
+            para.Add(new StatementParameter { Name = "@newSt", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)newStatus });
+            para.Add(new StatementParameter { Name = "@oldSt", Direction = ParameterDirection.Input, DbType = DbType.Int32, Value = (int)oldStatus });
+            var sql = "UPDATE order_details SET status=@newSt WHERE id in ({0}) AND status=@oldSt".FormatedWith(string.Join(",", subOrderIds));
+
+            return _baseDao.ExecNonQuery(sql, para) == subOrderIds.Count;
+        }
+
         public int ChangeSubOrderStatusByOrderId(uint orderId, OrderStatus newStatus, OrderStatus oldStatus)
         {
             if (!IsStatusChangeAcceptable(newStatus, oldStatus))

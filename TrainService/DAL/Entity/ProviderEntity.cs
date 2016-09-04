@@ -51,13 +51,11 @@ namespace DAL.Entity
         /// <summary>
         /// bank account type
         /// </summary>
-        [DataMember]
         [Column(Name = "account_type", ColumnType = DbType.Int32)]
         public int BankType { get; set; }
         /// <summary>
         /// account number
         /// </summary>
-        [DataMember]
         [Column(Name = "account", ColumnType = DbType.String, Length = 50)]
         public string BankAccount { get; set; }
         /// <summary>
@@ -68,7 +66,7 @@ namespace DAL.Entity
         public bool IsOpening { get; set; }
 
 
-        [DataMember]
+        //[DataMember]
         [Column(Name = "openids", ColumnType = DbType.String)]
         public string OpenIds
         {
@@ -82,7 +80,7 @@ namespace DAL.Entity
             }
         }
 
-        [DataMember]
+       // [DataMember]
         public List<string> OpenIdList { get; private set; }
     }
 }

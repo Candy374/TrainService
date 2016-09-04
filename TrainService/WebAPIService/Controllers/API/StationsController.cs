@@ -38,25 +38,12 @@ namespace WebAPIService.Controllers
         [Route("Stations/{stationCode}/TrainSchedule/{trainNumber}/TimeCheck")]
         public string CheckTrainArriveTime(string stationCode, string trainNumber)
         {
+            return "OK";
+
             var result = DAL.DalFactory.TimeTable.Query(stationCode, trainNumber);
             if (result != null)
             {
-                string arriveTime;
-                if (result.ArriveTime == "----")
-                {
-                    arriveTime = DateTime.Now.ToString("yyyy-MM-dd") + " " + result.LeaveTime + ":00";
-                }
-                else
-                {
-                    arriveTime = DateTime.Now.ToString("yyyy-MM-dd") + " " + result.ArriveTime + ":00";
-                }
-
-                var arrTime = DateTime.Parse(arriveTime);
-
-                if (result.ArriveTime == "----")
-                {
-                    arrTime = arrTime.AddMinutes(-15);
-                }
+                DateTime arrTime = GetArriveTime(result);
 
                 if (arrTime - DateTime.Now < new TimeSpan(0, 45, 0))
                 {
@@ -67,6 +54,28 @@ namespace WebAPIService.Controllers
             }
 
             return "Err2:查询不到该列车信息";
+        }
+
+        public static DateTime GetArriveTime(DAL.Entity.TimeTableEntity result)
+        {
+            string arriveTime;
+            if (result.ArriveTime == "----")
+            {
+                arriveTime = DateTime.Now.ToString("yyyy-MM-dd") + " " + result.LeaveTime + ":00";
+            }
+            else
+            {
+                arriveTime = DateTime.Now.ToString("yyyy-MM-dd") + " " + result.ArriveTime + ":00";
+            }
+
+            var arrTime = DateTime.Parse(arriveTime);
+
+            if (result.ArriveTime == "----")
+            {
+                arrTime = arrTime.AddMinutes(-15);
+            }
+
+            return arrTime;
         }
 
         [Route("Stations/{stationCode}/Upload")]

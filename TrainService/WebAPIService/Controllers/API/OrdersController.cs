@@ -420,54 +420,88 @@ namespace WebAPIService.Controllers
                 decimal amount = 0;
                 foreach (var j in dic[k])
                 {
+                    var p = DalFactory.Provider.Search(Convert.ToUInt32(j.ProviderId));
                     d.Add(new
                     {
-                        ID = j.ID,
+                        Id = j.ID,
                         GoodsId = j.GoodsId,
-                        DisplayName = j.DisplayName,
+                        Name = j.DisplayName,
                         Count = j.Count,
-                        PurchasePrice = j.PurchasePrice
+                        PurchasePrice = j.PurchasePrice,
+                        Provider = p
                     });
                     amount += j.PurchasePrice;
                 }
 
                 var o = DalFactory.Orders.GetOrderByOrderId(k);
-                
+                var train = DalFactory.TimeTable.Query("ZAF", o.TrainNumber);
+                if (train == null)
+                {
+                    throw new Exception("Could not find train:" + o.TrainNumber);
+                }
+
                 r.Add(new
                 {
                     OrderId = k,
                     Amount = amount,
                     TrainNumber = o.TrainNumber,
-                    ExpectTime=DalFactory.TimeTable.Query("ZAF",o.TrainNumber),
-                    List =d
+                    ExpectTime = StationsController.GetArriveTime(train),
+                    SubOrders = d
                 });
             }
 
             return r;
         }
 
-        [Route("Update/SubOrder/{subOrderId}")]
-        public int ChangeSubOrderStatus(uint subOrderId, [FromBody]dynamic data)
+        [Route("Update/SubOrder")]
+        public int ChangeSubOrderStatus([FromBody]dynamic data)
         {
             int newStatus = data.NewStatus;
             int oldStatus = data.OldStatus;
 
             string openId = data.OpenId;
-            var subOrder = DalFactory.Orders.GetSubOrderById(subOrderId);
-            if (subOrder == null)
+
+            List<uint> subOrderIds = new List<uint>();
+            List<OrderDetailEntity> subOrders = new List<OrderDetailEntity>();
+            foreach (uint id in data.SubOrderIds)
             {
-                throw new Exception("Invaild SubOrderID");
-            }
-            var openIds = DalFactory.Provider.GetOpenIdsByProviderId(subOrder.ProviderId);
-            if (!openIds.Contains(openId))
-            {
-                throw new Exception("You don't have permission to update the subOrder");
+                subOrderIds.Add(id);
             }
 
-            var result = DalFactory.Orders.ChangeSubOrderStatus(subOrderId, (DAL.DAO.OrderStatus)newStatus, (DAL.DAO.OrderStatus)oldStatus);
+            // Auth verification
+            foreach (var sid in subOrderIds)
+            {
+                var subOrder = DalFactory.Orders.GetSubOrderById(sid);
+                subOrders.Add(subOrder);
+                if (subOrder == null)
+                {
+                    throw new Exception("Invaild SubOrderID");
+                }
+                var openIds = DalFactory.Provider.GetOpenIdsByProviderId(subOrder.ProviderId);
+                if (!openIds.Contains(openId))
+                {
+                    if (newStatus == 4)
+                    {
+                        var user = DalFactory.Account.CachedTable.Where(a => a.OpenId == openId).FirstOrDefault();
+                        if (user != null)
+                        {
+                            if (user.GroupID == 103)
+                            {
+                                continue;
+                            }
+                        }
+                    }
+                    throw new Exception("You don't have permission to update the subOrder");
+                }
+            }
+
+            var result = DalFactory.Orders.BulkChangeSubOrdersStatus(subOrderIds, (DAL.DAO.OrderStatus)newStatus, (DAL.DAO.OrderStatus)oldStatus);
             if (result)
             {
-                OnSubOrderStatusChanged(subOrderId, subOrder.OrderId, (DAL.DAO.OrderStatus)oldStatus, (DAL.DAO.OrderStatus)newStatus);
+                foreach (var item in subOrders)
+                {
+                    OnSubOrderStatusChanged(item.ID, item.OrderId, (DAL.DAO.OrderStatus)oldStatus, (DAL.DAO.OrderStatus)newStatus);
+                }
             }
 
             return result ? 1 : 0;
@@ -520,7 +554,7 @@ namespace WebAPIService.Controllers
             var order = DalFactory.Orders.GetOrderByOrderId(orderId);
             if (order.OrderStatus == (int)DAL.DAO.OrderStatus.已支付 && newStatus == DAL.DAO.OrderStatus.商家接单)
             {
-                DalFactory.Orders.ChangeOrderStatus(orderId, DAL.DAO.OrderStatus.已支付, DAL.DAO.OrderStatus.商家接单);
+                DalFactory.Orders.ChangeOrderStatus(orderId, DAL.DAO.OrderStatus.商家接单, DAL.DAO.OrderStatus.已支付);
                 return;
             }
 

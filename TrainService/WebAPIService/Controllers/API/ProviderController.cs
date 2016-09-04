@@ -21,8 +21,6 @@ namespace WebAPIService.Controllers
 
             var o = DAL.DalFactory.Provider.Search(providerId);
 
-            o.OpenIds = "";
-
             return o;
         }
 
@@ -46,11 +44,6 @@ namespace WebAPIService.Controllers
         {
             Logger.Info("providerName=" + providerName, "api/Provider/Find/Name/{providerName}");
             var list = DAL.DalFactory.Provider.Search(providerName).ToList();
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                list[i].OpenIds = "";
-            }
 
             return list;
         }
