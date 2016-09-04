@@ -30,9 +30,9 @@ export const orderReady = (order, openId) => {
         });
 };
 
-export const expressOrder = (orderId, openId) => {
+export const expressOrder = (order, openId) => {
     const data = { "NewStatus":4 , "OldStatus":3, OpenId: openId};
-    return updateOrder(orderId, data)
+    return updateSubOrder(order, data)
         .catch(err => {
             log('express order failed!');
             log(err.message);

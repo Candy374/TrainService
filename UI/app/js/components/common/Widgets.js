@@ -3,7 +3,7 @@ import {basicUrl} from '../../constants/system';
 
 export {Button, SmallButton} from './Button';
  
-export const Label = ({size, children, flex, align, className, status, type, onClick}) => {
+export const Label = ({size, children, flex, align, className, status, type, onClick, done}) => {
     const classes = [`width-${size || 'medium'}`, `align-${align || 'start'}`];
     if (flex) {
         classes.push('flex');
@@ -23,6 +23,10 @@ export const Label = ({size, children, flex, align, className, status, type, onC
 
     if (onClick) {
         classes.push('link');
+    }
+
+    if (done) {
+        classes.push('done');
     }
     
     return  <label className={classes.join(' ')} onClick={onClick}>{children}</label>;
