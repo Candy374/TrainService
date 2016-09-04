@@ -1,19 +1,9 @@
 import request from 'superagent';
-import  {basicUrl, typeURL, goodsURL, userURL, cancelURL, rateURL,
+import  {basicUrl, typeURL, goodsURL, userURL, cancelURL, rateURL, log,
   submitURL,orderListURL, orderURL, stationsURL, deleteURL} from '../constants/actions';
 
-const level = 'info';
-const log = (msg) => {
-    if (level == 'alert') {
-        alert(msg)
-    } else {
-        console.log(msg)
-    }
-    
-};
-
-export const getTypes = () => {
-    return request.get(basicUrl + typeURL)
+export const getTypes = (goodsType = 1) => {
+    return request.get(basicUrl + typeURL + goodsType)
         .then(res => res.body)
         .catch(err => {
             log('Can not get tags');
@@ -67,6 +57,7 @@ export const getPayArgs = (OrderId, callback) => {
     const Ip = returnCitySN.cip.replace(/\./g, '_');
     return request.post(basicUrl + `Pay/Order/${OrderId}/IP/${Ip}`)
         .then((res) => {
+            log(res.body);
             const args = JSON.parse(res.body);
             args._package = args.package;
             pay(args, OrderId, callback);
@@ -96,7 +87,8 @@ export const getOrderList = (userId) => {
         .then(res => {
             const list = res.body && res.body.Orders;
             log('get order list: ' + list);
-            list.map(item => log(`${item.OrderId} : ${item.StatusCode}`));
+            const desc = list.map(item => `${item.OrderId} : ${item.StatusCode}`).join('\n');
+            log(desc);
             return list;
         })
         .catch(err => {

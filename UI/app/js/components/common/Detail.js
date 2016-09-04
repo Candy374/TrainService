@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import {Section, Line, Label, SmallButton} from './Widgets';
 import {ListItem, SummaryLine, OrderListNoImg} from './GoodsList';
 
-const displayAddress = (TrainNumber, CarriageNumber) => `${TrainNumber} ${CarriageNumber}号餐车`;
+const displayAddress = (TrainNumber, CarriageNumber) => {
+  return CarriageNumber ? `${TrainNumber} ${CarriageNumber}号餐车` : TrainNumber;
+}
 const OrderDetail = ({Contact, ContactTel, TrainNumber, CarriageNumber, title, OrderId, Comment, OrderTime }) => {
 
   return (

@@ -26,11 +26,11 @@ export const Add = () => (
 
 export const Chart = ({label, onClick})=> (
   <label style={{float: 'left', position: 'relative'}} onClick={onClick}>
-    <span style={{position: 'absolute', left: 17, zIndex: 1}}>{label || 0}</span>
-    <svg viewBox="-20 0 600 600" width="2em" height="2em" style={{position: 'absolute'}}>
+    <span style={{position: 'absolute', left: 16, zIndex: 1, top: -25}}>{label || 0}</span>
+    <svg viewBox="-20 0 600 600" width="2em" height="2em" style={{position: 'absolute', top: -25}}>
     <title>test</title>
       <polygon stroke="#fff" fill='transparent' strokeWidth="30" points="100,270 150,450 450,450 500,270"></polygon>
-      <circle cx="400" cy="200" r="200" fill="red">1</circle>
+      <circle cx="360" cy="200" r="200" fill="red">1</circle>
       <line x1="0" y1="135" x2="50" y2="135" stroke="#fff" strokeWidth="30"></line>
       <line x1="50" y1="135" x2="100" y2="270" stroke="#fff" strokeWidth="30"></line>
       <circle cx="400" cy="500" r="60" fill="#fff"></circle>

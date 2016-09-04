@@ -27,18 +27,17 @@ export default class OrderInfo extends Component {
                     }}
                     onBlur={() => {
                         let state = this.state;
-                        if (!this.isValid( this[name].value, name)) {
+                        if (!this.isValid(this[name].value, name)) {
                             if (state[name + 'Error'] == '') {
                                 let label = this[name].parentElement.children[0].textContent;
                                 state[name + 'Error'] = '请输入正确的' + label.replace('：', '').trim();
-                                this.setState(state);   
                             }                         
                         } else {
                             if (state[name + 'Error'] != '') {
                                 state[name + 'Error'] = '';
-                                this.setState(state);
                             }  
                         }
+                        this.setState(state);
                     }}
                     type={type || 'text'} />
         );
@@ -47,20 +46,22 @@ export default class OrderInfo extends Component {
     validTrain(number = this.props.chart.info.TrainNumber) {
       getTrainTime(this.props.chart.station.StationCode, number).then(msg => {
         this.setState({
-          TrainNumberError: msg != 'OK' && msg,
+          TrainNumberError: msg != 'OK' ? msg : '',
           validTrain: msg == 'OK'
         });
       });
     }
 
-    isValid(value, type) {
+    isValid(value, type, checkTrainTime = true) {
         switch(type) {
             case 'TrainNumber': {
-              if (!this.props.chart.info.IsDelay) {
-                this.validTrain(value);
-              } else if (!this.state.validTrain) {
-                this.setState({validTrain: true})
-              }
+                if (checkTrainTime) {
+                    if (!this.props.chart.info.IsDelay) {
+                        this.validTrain(value);
+                    } else if (!this.state.validTrain) {
+                        this.setState({validTrain: true})
+                    }
+                }
               //value 长度小于5， 字母开头或者全数字
               return value.length <= 7 && value.match(/(G|D|C)\d+$/i);
             }
@@ -74,7 +75,9 @@ export default class OrderInfo extends Component {
     }
 
     isInfoReady(info) {
-        return info.TrainNumber && info.CarriageNumber && info.Contact && info.ContactTel && this.state.validTrain &&
+        return this.isValid(info.TrainNumber, 'TrainNumber', false) && 
+                this.isValid(info.CarriageNumber, 'CarriageNumber') && 
+                this.isValid(info.ContactTel, 'ContactTel') && info.Contact && this.state.validTrain &&
             !this.state.TrainNumberError && !this.state.CarriageNumberError && !this.state.ContactTelError;
     }
 

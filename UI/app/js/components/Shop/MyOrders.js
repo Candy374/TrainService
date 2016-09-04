@@ -65,7 +65,7 @@ export default class MyOrders extends Component {
             order.SubOrders.map(subOrder => {
                 prepare[subOrder.GoodsId] = {
                     Name: subOrder.Name,
-                    Count: prepare[subOrder.Id] ? prepare[subOrder.Id].count + subOrder.Count: subOrder.Count
+                    Count: prepare[subOrder.GoodsId] ? prepare[subOrder.GoodsId].Count + subOrder.Count: subOrder.Count
                 }
             });    
         });
@@ -96,8 +96,9 @@ export default class MyOrders extends Component {
                              this.summary();
                              this.setState({status: 2})
                             }}>待配货</div>
-                    <div className={status == 3 ? 'active' : ''}
+                    {/*<div className={status == 3 ? 'active' : ''}
                          onClick={()=> this.setState({status: 3})}>待取货</div>
+                         */}
                 </div>
                 <div className='content'>
                 {status == 2 && <Section>
@@ -115,19 +116,20 @@ export default class MyOrders extends Component {
                     const button = (
                     <Line>
                         <Label flex={true}>{`订单号：${order.OrderId}`}</Label>
-                        {order.StatusCode == 1 && 
-                                <SmallButton label='接单' onClick={() => {
-                                   shopActions.takeOrder(order.OrderId, this.state.openId).then(() => {                                       
-                                       this.summary();
-                                       this.updateOrderList();
-                                   });
-                                }}/>}
-                            {order.StatusCode == 2 && 
-                                <SmallButton label='货已备好' onClick={() => {
-                                   shopActions.orderReady(order.OrderId, this.state.openId).then(() => {
-                                       this.summary();
-                                   });                                    
-                                }}/>}
+                        {status == 1 && 
+                            <SmallButton label='接单' onClick={() => {
+                                shopActions.takeOrder(order, this.state.openId).then(() => {                                       
+                                    this.summary();
+                                    this.updateOrderList();
+                                });
+                            }}/>}
+                        {status == 2 && 
+                            <SmallButton label='货已备好' onClick={() => {
+                                shopActions.orderReady(order, this.state.openId).then(() => {
+                                    this.summary();
+                                    this.updateOrderList();
+                                });                                    
+                            }}/>}
                     </Line>);
                     return <Detail {...order} key={index} button={button} />;
                 })}

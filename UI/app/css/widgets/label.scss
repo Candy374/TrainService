@@ -11,4 +11,8 @@ label {
     &.link {
         text-decoration: underline;
     }
+
+    &.done {
+        text-decoration: line-through;
+    }
 }
