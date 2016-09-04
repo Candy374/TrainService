@@ -139,7 +139,7 @@ export default class MyOrders extends Component {
                                             <Line key={index} className='short'>
                                                 <input type='checkbox' value={checked} checked={checked}
                                                        onChange={(event) => this.setItem(order.OrderId, provider.ProviderId, dish.Id, event.target.checked)}/>
-                                                <Label done={checked}>{dish.Name}</Label>
+                                                <Label done={checked} flex={true}>{dish.Name}</Label>
                                                 <Label align='end'>{dish.Count}</Label>
                                             </Line>);
                                         })
