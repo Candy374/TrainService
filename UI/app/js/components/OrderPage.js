@@ -105,8 +105,8 @@ export default class OrderPage extends Component {
                             return (
                                 <div className='item' key={food.GoodsId}>
                                     <Line className='short'>
-                                        <Label flex={true}>{food.Name}</Label>
-                                        <Label >{`￥${food.SellPrice}`}</Label>
+                                        <Label flex={true} size='auto'>{food.Name}</Label>
+                                        <Label size='small'>{`￥${food.SellPrice}`}</Label>
                                         <NumberInput count={food.Count} updateCount={(Count) => this.add(food, Count)}/>
                                     </Line>
                                 </div>
