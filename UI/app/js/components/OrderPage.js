@@ -5,9 +5,8 @@ import * as actions from '../actions/order.js';
 import NumberInput from './common/NumberInput';
 import  * as Constants from '../constants/system';
 import {Section, Line, DescLine, Label, Img, Price} from './common/Widgets';
-import {OrderListNoImg} from './common/GoodsList';
+import {SummaryLine} from './common/GoodsList';
 import {Chart} from './common/Icons';
-
 export default class OrderPage extends Component {
     componentWillMount() {
         this.state = {
@@ -55,7 +54,11 @@ export default class OrderPage extends Component {
     add(food, Count){
         const chart = this.props.chart;
         food.Count = Count;
-        chart.goods[food.GoodsId] = food;
+        if (Count == 0) {
+            delete chart.goods[food.GoodsId];
+        } else {
+            chart.goods[food.GoodsId] = food;
+        }
         let total = 0;
         let count = 0;
         Object.keys(chart.goods).map(key => {
@@ -95,7 +98,22 @@ export default class OrderPage extends Component {
 
             return (
                 <Page footer={footer} className='order-info'>
-                    <OrderListNoImg total={total} list={chart}/>
+                    <div className='list'>
+                        {Object.keys(chart).map((key) => {
+                            const food = chart[key];
+                            food.Count = chart[food.GoodsId] && chart[food.GoodsId].Count || food.Count || 0;
+                            return (
+                                <div className='item' key={food.GoodsId}>
+                                    <Line className='short'>
+                                        <Label flex={true}>{food.Name}</Label>
+                                        <Label >{`￥${food.SellPrice}`}</Label>
+                                        <NumberInput count={food.Count} updateCount={(Count) => this.add(food, Count)}/>
+                                    </Line>
+                                </div>
+                            )
+                        })}
+                        <SummaryLine label='共计' price={total} className='short'/>
+                    </div>  
                 </Page>
             );
         }
