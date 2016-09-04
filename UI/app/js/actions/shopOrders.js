@@ -1,15 +1,20 @@
 import request from 'superagent';
-import  {basicUrl, updateOrderURL, goodsURL, log} from '../constants/actions';
+import  {basicUrl, updateOrderURL, updateSubOrderURL, goodsURL, log} from '../constants/actions';
 
-const updateOrder = (order, data) => {
+const updateSubOrder = (order, data) => {
     data.SubOrderIds = order.SubOrders.map(subOrder => subOrder.Id);
-    return request.post(basicUrl + updateOrderURL, data)
+    return request.post(basicUrl + updateSubOrderURL, data)
+        .then(res => res.body);
+};
+
+const updateOrder = (orderId, data) => {
+    return request.post(basicUrl + updateOrderURL + orderId, data)
         .then(res => res.body);
 };
 
 export const takeOrder = (order, openId) => {
     const data = { NewStatus:2 , OldStatus:1, OpenId: openId};
-    return updateOrder(order, data)
+    return updateSubOrder(order, data)
         .catch(err => {
             log('take order failed!');
             log(err.message);
@@ -18,34 +23,34 @@ export const takeOrder = (order, openId) => {
 
 export const orderReady = (order, openId) => {
     const data = { "NewStatus":3 , "OldStatus":2, OpenId: openId};
-    return updateOrder(order, data)
+    return updateSubOrder(order, data)
         .catch(err => {
             log('take order failed!');
             log(err.message);
         });
 };
 
-export const expressOrder = (order, openId) => {
+export const expressOrder = (orderId, openId) => {
     const data = { "NewStatus":4 , "OldStatus":3, OpenId: openId};
-    return updateOrder(order, data)
+    return updateOrder(orderId, data)
         .catch(err => {
             log('express order failed!');
             log(err.message);
         });
 };
 
-export const doneDeliver = (order, openId) => {
+export const doneDeliver = (orderId, openId) => {
     const data = { "NewStatus":5 , "OldStatus":4, OpenId: openId};
-    return updateOrder(order, data)
+    return updateOrder(orderId, data)
         .catch(err => {
             log('done deliver failed!');
             log(err.message);
         });
 };
 
-export const doneOrder = (order, openId) => {
+export const doneOrder = (orderId, openId) => {
   const data = { "NewStatus":6 , "OldStatus":5, OpenId: openId};
-  return updateOrder(order, data)
+  return updateOrder(orderId, data)
       .catch(err => {
             log('done order failed!');
             log(err.message);

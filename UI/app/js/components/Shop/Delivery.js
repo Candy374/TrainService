@@ -125,13 +125,13 @@ export default class MyOrders extends Component {
                         <Line align='end'>
                         {status == 1 ? 
                             <SmallButton label='已取餐' onClick={() => {
-                                    shopActions.expressOrder(order, this.state.openId).then(() => {
+                                    shopActions.expressOrder(order.OrderId, this.state.openId).then(() => {
                                        this.updateOrder();
                                    });                            
                                 }}/>
                                 : 
                             <SmallButton label='货已送到' onClick={() => {
-                                    shopActions.doneDeliver(order, this.state.openId).then(() => {
+                                    shopActions.doneDeliver(order.OrderId, this.state.openId).then(() => {
                                     this.updateOrder();
                                     });                                
                                 }}/>

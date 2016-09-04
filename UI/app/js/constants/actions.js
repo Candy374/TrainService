@@ -11,8 +11,8 @@ export const userURL = 'user/LastInput/';
 export const cancelURL = 'Orders/Cancel/';
 export const deleteURL = 'Orders/Delete/';
 export const rateURL = 'Orders/Rate';
-export const updateOrderURL = 'Orders/Update/SubOrder/';
-
+export const updateSubOrderURL = 'Orders/Update/SubOrder/';
+export const updateOrderURL = 'Orders/Update/Order/';
 const level = 'info';
 export const log = (msg) => {
     if (level == 'alert') {
