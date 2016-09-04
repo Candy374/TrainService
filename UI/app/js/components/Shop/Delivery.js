@@ -8,13 +8,36 @@ import  * as Constants from '../../constants/system';
 import {Section, Line, Label, SmallButton} from '../common/Widgets';
 import Detail from '../common/Detail';
 
+const formatList = (list) => {
+    const providers = {};
+    list.map(order => {
+        order.SubOrders.map(order => {
+            const provider = order.Provider;
+            if (!providers[provider.ProviderId]) {
+                providers[provider.ProviderId] = provider;
+                providers[provider.ProviderId].goods = [];
+            }
+
+            providers[provider.ProviderId].goods.push({
+                Name: order.Name,
+                Count: order.Count
+            });
+        });
+        order.providers = Object.keys(providers).map(key => providers[key]);
+    })
+
+    
+    return list;
+}
+
 export default class MyOrders extends Component {
     componentWillMount() {
         this.state = {
             showAll: true,
-            orders: [],
-            status: 1,
-            openId: this.props.openId
+            dishReadyList: [],
+            diliveringList: [],
+            openId: this.props.openId,
+            status: 1
         };
     }
 
@@ -33,21 +56,20 @@ export default class MyOrders extends Component {
             return;
         }
 
-        shopActions.getDeliverReadyOrder().then((orderList)=>{
-            this.setState({
-                orders: this.state.orders.concat(orderList)
-            });
-        });
-
-        shopActions.getDeliverDoneOrders().then((orderList)=>{
-            this.setState({
-                orders: this.state.orders.concat(orderList)
+        shopActions.getDeliverReadyOrder().then((dishReadyList) => {
+            shopActions.getDeliverDoneOrders().then((diliveringList)=>{
+                const status = dishReadyList.length > 0 ? 1 : 2;
+                this.setState({
+                    dishReadyList: formatList(dishReadyList), 
+                    diliveringList: formatList(diliveringList), 
+                    status
+                });
             });
         });
     }
 
     render() {
-        const {orders} = this.state;
+        const {dishReadyList, diliveringList, status} = this.state;
         // 0：未付款，1：已付款，2：商家已接单，3：商家已配货 
         // 4:快递员已取货 5:已经送到指定位置 6：订单结束 7：订单取消 8：异常状态
         // const footer = {
@@ -56,60 +78,68 @@ export default class MyOrders extends Component {
         //         onClick: () => this.setState({showAll: !this.state.showAll})
         //     }
         // };
+        const list = status == 1 ? dishReadyList : diliveringList;
         return (
             <Page flex={true} direction='col' className='order-list'>
-               { // <div className='tabs'>
-                //     <div className={status == 1 ? 'active' : ''}
-                //          onClick={()=> this.setState({status: 1})}>未完成订单</div>
-                //     <div className={status == 2 ? 'active' : ''}
-                //          onClick={()=> this.setState({status: 2})}>已完成配送</div>
-                // </div>
-               }
-                <div className='content'>
-                {orders.map((order, index) => {
-                    if (!this.state.showAll && order.StatusCode != 3) {
-                        return;
-                    }
- 
+               <div className='tabs'>
+                    <div className={status == 1 ? 'active' : ''}
+                            onClick={()=> this.setState({status: 1})}>新订单</div>
+                    <div className={status == 2  ? 'active' : ''}
+                        onClick={()=> this.setState({status: 2})}>正在配送</div>
+               </div>
+               <div className='content'>               
+                {list.map((order, index) => {
                     return (
                      <Section key={index}>
-                        <Detail {...order}/>
-                        {order.showDetail &&
-                            <Section list={true}>
-                                <Line>        
-                                    <Label flex={true}>饭店名</Label>
-                                    <Label flex={true}>菜名</Label>
-                                    <Label size='small' align='end'>数量</Label>
-                                </Line>                        
-                                {order.SubOrders.map((item, index) => <NumberLine item={item} key={index}/>)}
-                            </Section>
+                        <Line>
+                            <Label flex={true}>{`单号：${order.OrderId}`}</Label>
+                            <Label align='end'>{`时间：${order.ExpectTime}`}</Label>
+                        </Line>
+                        {
+                            order.providers.map(provider => {
+                                <Section>
+                                    <Line>
+                                        <Label>{provider.Name}</Label>
+                                        <Label>{provider.TelphoneNumber}</Label>
+                                        <Label align='end'>{provider.Location}</Label>
+                                    </Line>
+                                    
+                                    {
+                                        provider.goods.map(dish => {
+                                            <Line>
+                                                <Label>{dish.Name}</Label>
+                                                <Label align='end'>{dish.Count}</Label>
+                                            </Line>
+                                        })
+                                    }
+                                </Section>
+                            })
                         }
-                        
-                        <Line align='end'>                        
-                            {order.StatusCode == 3 && 
-                                <SmallButton label='已取餐' onClick={() => {
+
+                        <Line>     
+                            <Label align='end'>{`共${order.Amount}道菜`}</Label>
+                        </Line>   
+                        <Line>     
+                            <Label >{`收货地址：${order.TrainNumber}`}</Label>
+                        </Line>  
+                        {status == 1 ? 
+                            <SmallButton label='已取餐' onClick={() => {
                                     shopActions.expressOrder(order, this.state.openId).then(() => {
                                        this.updateOrder();
                                    });                            
-                                }}/>}
-                            {order.StatusCode == 4 && 
-                                <SmallButton label='货已送到' onClick={() => {
+                                }}/>
+                                : 
+                            <SmallButton label='货已送到' onClick={() => {
                                     shopActions.doneDeliver(order, this.state.openId).then(() => {
-                                       this.updateOrder();
+                                    this.updateOrder();
                                     });                                
-                                }}/>} 
-                                
-                            <SmallButton label={order.showDetail ? '收起' : '查看详情'} 
-                                        onClick={() => {
-                                          order.showDetail = !order.showDetail;
-                                          this.setState({orders: this.state.orders})
-                                        }}/>
-                        </Line>
-                    </Section>)
-                })}
-                </div>
+                                }}/>
+                        }
+                    </Section>); 
+                    })  
+                }
+               </div>
             </Page>
-            );
-        
+        );        
     }
 }
