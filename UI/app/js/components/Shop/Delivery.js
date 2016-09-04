@@ -9,21 +9,23 @@ import {Section, Line, Label, SmallButton} from '../common/Widgets';
 import Detail from '../common/Detail';
 
 const formatList = (list) => {
-    const providers = {};
     list.map(order => {
+        const providers = {};
+        let count = 0;
         order.SubOrders.map(order => {
             const provider = order.Provider;
             if (!providers[provider.ProviderId]) {
                 providers[provider.ProviderId] = provider;
                 providers[provider.ProviderId].goods = [];
             }
-
+            count += order.Count;
             providers[provider.ProviderId].goods.push({
                 Name: order.Name,
                 Count: order.Count
             });
         });
         order.providers = Object.keys(providers).map(key => providers[key]);
+        order.Count = count;
     })
 
     
@@ -93,11 +95,15 @@ export default class MyOrders extends Component {
                      <Section key={index}>
                         <Line>
                             <Label flex={true}>{`单号：${order.OrderId}`}</Label>
-                            <Label align='end'>{`时间：${order.ExpectTime}`}</Label>
-                        </Line>
+                            <Label >{`共${order.Count}道菜`}</Label>
+                        </Line>                        
+                        <Line>     
+                            <Label flex={true}>{`收货地址：${order.TrainNumber}`}</Label>                            
+                            <Label align='end'>{`送达时间：${order.ExpectTime}`}</Label>
+                        </Line>  
                         {
-                            order.providers.map(provider => {
-                                <Section>
+                            order.providers.map((provider, index) => (
+                                <Section key={index}>
                                     <Line>
                                         <Label>{provider.Name}</Label>
                                         <Label>{provider.TelphoneNumber}</Label>
@@ -105,23 +111,18 @@ export default class MyOrders extends Component {
                                     </Line>
                                     
                                     {
-                                        provider.goods.map(dish => {
-                                            <Line>
+                                        provider.goods.map((dish, index) => (
+                                            <Line key={index} className='short'>
+                                                <input type='checkbox' />
                                                 <Label>{dish.Name}</Label>
                                                 <Label align='end'>{dish.Count}</Label>
                                             </Line>
-                                        })
+                                        ))
                                     }
                                 </Section>
-                            })
+                            ))
                         }
-
-                        <Line>     
-                            <Label align='end'>{`共${order.Amount}道菜`}</Label>
-                        </Line>   
-                        <Line>     
-                            <Label >{`收货地址：${order.TrainNumber}`}</Label>
-                        </Line>  
+                        <Line align='end'>
                         {status == 1 ? 
                             <SmallButton label='已取餐' onClick={() => {
                                     shopActions.expressOrder(order, this.state.openId).then(() => {
@@ -135,6 +136,7 @@ export default class MyOrders extends Component {
                                     });                                
                                 }}/>
                         }
+                        </Line>  
                     </Section>); 
                     })  
                 }
