@@ -36,7 +36,7 @@ export default class Container extends Component {
           StationId: 1,
           Name: "郑州东",
           StationCode: "ZAF",
-          MinPrice: 1,
+          MinPrice: 30,
           PicUrl: "/imgs/ZZD_samll.jpg"
         };
         this.state = {
